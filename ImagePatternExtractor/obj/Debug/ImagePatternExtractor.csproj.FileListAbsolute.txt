@@ -1,9 +1,9 @@
-G:\_git\ImagePatternExtractor\ImagePatternExtractor\bin\Debug\WindowsFormsApp3.exe
-G:\_git\ImagePatternExtractor\ImagePatternExtractor\bin\Debug\WindowsFormsApp3.pdb
 G:\_git\ImagePatternExtractor\ImagePatternExtractor\obj\Debug\ImagePatternExtractor.csprojAssemblyReference.cache
 G:\_git\ImagePatternExtractor\ImagePatternExtractor\obj\Debug\WindowsFormsApp3.MainForm.resources
-G:\_git\ImagePatternExtractor\ImagePatternExtractor\obj\Debug\WindowsFormsApp3.Properties.Resources.resources
 G:\_git\ImagePatternExtractor\ImagePatternExtractor\obj\Debug\ImagePatternExtractor.csproj.GenerateResource.cache
 G:\_git\ImagePatternExtractor\ImagePatternExtractor\obj\Debug\ImagePatternExtractor.csproj.CoreCompileInputs.cache
-G:\_git\ImagePatternExtractor\ImagePatternExtractor\obj\Debug\WindowsFormsApp3.exe
-G:\_git\ImagePatternExtractor\ImagePatternExtractor\obj\Debug\WindowsFormsApp3.pdb
+G:\_git\ImagePatternExtractor\ImagePatternExtractor\bin\Debug\WeaveImagePatternExtractor.exe
+G:\_git\ImagePatternExtractor\ImagePatternExtractor\bin\Debug\WeaveImagePatternExtractor.pdb
+G:\_git\ImagePatternExtractor\ImagePatternExtractor\obj\Debug\WeaveImagePatternExtractor.Properties.Resources.resources
+G:\_git\ImagePatternExtractor\ImagePatternExtractor\obj\Debug\WeaveImagePatternExtractor.exe
+G:\_git\ImagePatternExtractor\ImagePatternExtractor\obj\Debug\WeaveImagePatternExtractor.pdb
