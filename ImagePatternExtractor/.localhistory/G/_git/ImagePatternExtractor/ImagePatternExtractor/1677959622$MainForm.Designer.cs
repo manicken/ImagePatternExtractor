@@ -76,8 +76,8 @@
             this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.lblEditColor2 = new System.Windows.Forms.Label();
-            this.lblEditColor1 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -587,8 +587,8 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.button1);
-            this.groupBox3.Controls.Add(this.lblEditColor2);
-            this.groupBox3.Controls.Add(this.lblEditColor1);
+            this.groupBox3.Controls.Add(this.label14);
+            this.groupBox3.Controls.Add(this.label15);
             this.groupBox3.Location = new System.Drawing.Point(246, 28);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(135, 55);
@@ -606,28 +606,28 @@
             this.button1.Text = "<-\r\n->";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // lblEditColor2
+            // label14
             // 
-            this.lblEditColor2.BackColor = System.Drawing.Color.White;
-            this.lblEditColor2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEditColor2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEditColor2.ForeColor = System.Drawing.Color.White;
-            this.lblEditColor2.Location = new System.Drawing.Point(86, 17);
-            this.lblEditColor2.Name = "lblEditColor2";
-            this.lblEditColor2.Size = new System.Drawing.Size(32, 32);
-            this.lblEditColor2.TabIndex = 23;
-            this.lblEditColor2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label14.BackColor = System.Drawing.Color.White;
+            this.label14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.ForeColor = System.Drawing.Color.White;
+            this.label14.Location = new System.Drawing.Point(86, 17);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(32, 32);
+            this.label14.TabIndex = 23;
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblEditColor1
+            // label15
             // 
-            this.lblEditColor1.BackColor = System.Drawing.Color.Black;
-            this.lblEditColor1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEditColor1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEditColor1.Location = new System.Drawing.Point(6, 17);
-            this.lblEditColor1.Name = "lblEditColor1";
-            this.lblEditColor1.Size = new System.Drawing.Size(32, 32);
-            this.lblEditColor1.TabIndex = 22;
-            this.lblEditColor1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label15.BackColor = System.Drawing.Color.Black;
+            this.label15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(6, 17);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(32, 32);
+            this.label15.TabIndex = 22;
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainForm
             // 
@@ -708,8 +708,8 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label lblEditColor2;
-        private System.Windows.Forms.Label lblEditColor1;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
     }
 }
 

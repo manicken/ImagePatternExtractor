@@ -239,12 +239,12 @@ namespace WindowsFormsApp3
             if (e.Button == MouseButtons.Left)
             {
                 print = true;
-                pc = lblEditColor1.BackColor;
+                pc = lblColor1.BackColor;
             }
             else if (e.Button == MouseButtons.Right)
             {
                 print = true;
-                pc = lblEditColor2.BackColor;
+                pc = lblColor2.BackColor;
             }
             if (print)
             {

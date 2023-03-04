@@ -185,17 +185,14 @@ namespace WindowsFormsApp3
         private Bitmap CropImageSize(Bitmap img, int newWidth, int newHeight)
         {
             Bitmap newImg = new Bitmap(newWidth, newHeight);
-            //if (img.Width < newWidth) newWidth = img.Width;
-            //if (img.Height < newHeight) newHeight = img.Height;
+            if (img.Width < newWidth) newWidth = img.Width;
+            if (img.Height < newHeight) newHeight = img.Height;
 
             for (int x=0;x<newWidth;x++)
             {
                 for (int y=0;y<newHeight;y++)
                 {
-                    if (x < img.Width && y < img.Height)
-                        newImg.SetPixel(x, y, img.GetPixel(x, y));
-                    else
-                        newImg.SetPixel(x, y, lblEditColor2.BackColor);
+                    newImg.SetPixel(x, y, img.GetPixel(x, y));
                 }
             }
             return newImg;
@@ -239,12 +236,12 @@ namespace WindowsFormsApp3
             if (e.Button == MouseButtons.Left)
             {
                 print = true;
-                pc = lblEditColor1.BackColor;
+                pc = lblColor1.BackColor;
             }
             else if (e.Button == MouseButtons.Right)
             {
                 print = true;
-                pc = lblEditColor2.BackColor;
+                pc = lblColor2.BackColor;
             }
             if (print)
             {

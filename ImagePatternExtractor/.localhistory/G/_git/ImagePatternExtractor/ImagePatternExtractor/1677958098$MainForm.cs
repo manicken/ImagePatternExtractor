@@ -12,7 +12,7 @@ namespace WindowsFormsApp3
     public partial class MainForm : Form
     {
         Bitmap imgIn; // source image
-        Bitmap imgPattern; // extracted pattern image
+        Bitmap imgOut; // extracted pattern image
         Bitmap imgEditor; // editor image (with zoomed pixels)
         Bitmap imgPreview; // preview of the repetive pattern
 
@@ -42,7 +42,7 @@ namespace WindowsFormsApp3
             int gth = Int32.Parse(txtGthreshold.Text);
             int bth = Int32.Parse(txtBthreshold.Text);
             int threshold = rth * 256 * 256 + gth * 256 + bth;
-            imgPattern = new Bitmap(xParts, yParts);
+            imgOut = new Bitmap(xParts, yParts);
             Color color1 = lblColor1.BackColor;
             Color color2 = lblColor2.BackColor;
 
@@ -57,9 +57,9 @@ namespace WindowsFormsApp3
                     int nr = c.R * 256 * 256 + c.G * 256 + c.B;
 
                     if (nr > threshold)
-                        imgPattern.SetPixel(x, y, color1);
+                        imgOut.SetPixel(x, y, color1);
                     else
-                        imgPattern.SetPixel(x, y, color2);
+                        imgOut.SetPixel(x, y, color2);
                 }
             }
         }
@@ -68,15 +68,15 @@ namespace WindowsFormsApp3
         {
             int pixelSize = Int32.Parse(txtEditorPixelSize.Text);
             int pixelSpacing = Int32.Parse(txtEditorPixelSpacing.Text);
-            imgEditor = new Bitmap(imgPattern.Width * (pixelSize + pixelSpacing), imgPattern.Height * (pixelSize + pixelSpacing));
+            imgEditor = new Bitmap(imgOut.Width * (pixelSize + pixelSpacing), imgOut.Height * (pixelSize + pixelSpacing));
             Graphics graphics = Graphics.FromImage(imgEditor);
-            for (int y = 0; y < imgPattern.Height; y++)
+            for (int y = 0; y < imgOut.Height; y++)
             {
-                for (int x = 0; x < imgPattern.Width; x++)
+                for (int x = 0; x < imgOut.Width; x++)
                 {
                     int x2 = x * (pixelSize + pixelSpacing);
                     int y2 = y * (pixelSize + pixelSpacing);
-                    graphics.FillRectangle(new SolidBrush(imgPattern.GetPixel(x, y)), x2, y2, pixelSize, pixelSize);
+                    graphics.FillRectangle(new SolidBrush(imgOut.GetPixel(x, y)), x2, y2, pixelSize, pixelSize);
                 }
             }
             //picEditor.Image = null;
@@ -90,19 +90,19 @@ namespace WindowsFormsApp3
             int pixelTotalSize = (pixelSize + pixelSpacing);
             imgPreview = new Bitmap(picPreview.ClientRectangle.Width, picPreview.ClientRectangle.Height);
             Graphics graphics = Graphics.FromImage(imgPreview);
-            int xCopies = imgPreview.Width / imgPattern.Width;
-            int yCopies = imgPreview.Height / imgPattern.Height;
+            int xCopies = imgPreview.Width / imgOut.Width;
+            int yCopies = imgPreview.Height / imgOut.Height;
             for (int xc=0;xc<xCopies;xc++)
             {
                 for (int yc=0;yc<yCopies;yc++)
                 {
-                    for (int y = 0; y < imgPattern.Height; y++)
+                    for (int y = 0; y < imgOut.Height; y++)
                     {
-                        for (int x = 0; x < imgPattern.Width; x++)
+                        for (int x = 0; x < imgOut.Width; x++)
                         {
-                            int x2 = x * pixelTotalSize + xc*imgPattern.Width*pixelTotalSize;
-                            int y2 = y * pixelTotalSize + yc*imgPattern.Height*pixelTotalSize;
-                            graphics.FillRectangle(new SolidBrush(imgPattern.GetPixel(x, y)), x2, y2, pixelSize, pixelSize);
+                            int x2 = x * pixelTotalSize + xc*imgOut.Width*pixelTotalSize;
+                            int y2 = y * pixelTotalSize + yc*imgOut.Height*pixelTotalSize;
+                            graphics.FillRectangle(new SolidBrush(imgOut.GetPixel(x, y)), x2, y2, pixelSize, pixelSize);
                         }
                     }
                 }
@@ -181,34 +181,9 @@ namespace WindowsFormsApp3
             txtBthreshold.Text = colour.B.ToString();
             bmp.Dispose();
         }
-        
-        private Bitmap CropImageSize(Bitmap img, int newWidth, int newHeight)
-        {
-            Bitmap newImg = new Bitmap(newWidth, newHeight);
-            //if (img.Width < newWidth) newWidth = img.Width;
-            //if (img.Height < newHeight) newHeight = img.Height;
-
-            for (int x=0;x<newWidth;x++)
-            {
-                for (int y=0;y<newHeight;y++)
-                {
-                    if (x < img.Width && y < img.Height)
-                        newImg.SetPixel(x, y, img.GetPixel(x, y));
-                    else
-                        newImg.SetPixel(x, y, lblEditColor2.BackColor);
-                }
-            }
-            return newImg;
-        }
 
         private void btnUpdateEditor_Click(object sender, EventArgs e)
         {
-            int height = Int32.Parse(txtEditorImageHeight.Text);
-            int width = Int32.Parse(txtEditorImageWidth.Text);
-            if (height != imgPattern.Height || width != imgPattern.Width) {
-                imgPattern = CropImageSize(imgPattern, width, height);
-                PrintPreviewPatternImage();
-            }
             PrintZoomedPatternImage();
         }
 
@@ -239,19 +214,19 @@ namespace WindowsFormsApp3
             if (e.Button == MouseButtons.Left)
             {
                 print = true;
-                pc = lblEditColor1.BackColor;
+                pc = lblColor1.BackColor;
             }
             else if (e.Button == MouseButtons.Right)
             {
                 print = true;
-                pc = lblEditColor2.BackColor;
+                pc = lblColor2.BackColor;
             }
             if (print)
             {
                 int x = editorXpixel, y = editorYpixel;
                 int pixelSize = Int32.Parse(txtEditorPixelSize.Text);
                 int pixelSpacing = Int32.Parse(txtEditorPixelSpacing.Text);
-                imgPattern.SetPixel(x, y, pc);
+                imgOut.SetPixel(x, y, pc);
                 Graphics graphics = Graphics.FromImage(imgEditor);
                 int x2 = x * (pixelSize + pixelSpacing);
                 int y2 = y * (pixelSize + pixelSpacing);
@@ -272,9 +247,8 @@ namespace WindowsFormsApp3
             OpenFileDialog ofd = new OpenFileDialog();
             if (ofd.ShowDialog() != DialogResult.OK) return;
 
-            imgPattern = new Bitmap(ofd.FileName);
-            txtEditorImageHeight.Text = imgPattern.Height.ToString();
-            txtEditorImageWidth.Text = imgPattern.Width.ToString();
+            imgOut = new Bitmap(ofd.FileName);
+           
             patternFileName = ofd.FileName;
             PrintZoomedPatternImage();
             PrintPreviewPatternImage();
@@ -297,7 +271,7 @@ namespace WindowsFormsApp3
             {
                 if (SelectNewFileName(ref patternFileName) == false) return;
             }
-            imgPattern.Save(patternFileName);
+            imgOut.Save(patternFileName);
         }
 
         private void btnSavePatternAs_Click(object sender, EventArgs e)
@@ -305,7 +279,7 @@ namespace WindowsFormsApp3
             string newName = "";
             if (SelectNewFileName(ref newName) == false) return;
             patternFileName = newName;
-            imgPattern.Save(patternFileName);
+            imgOut.Save(patternFileName);
         }
     }
 }
