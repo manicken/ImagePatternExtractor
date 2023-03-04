@@ -231,7 +231,6 @@ namespace WindowsFormsApp3
                 int x2 = x * (pixelSize + pixelSpacing);
                 int y2 = y * (pixelSize + pixelSpacing);
                 graphics.FillRectangle(new SolidBrush(pc), x2, y2, pixelSize, pixelSize);
-                picEditor.Invalidate(new Rectangle(x2, y2, pixelSize, pixelSize));
             }
 
         }

@@ -209,31 +209,16 @@ namespace WindowsFormsApp3
 
         private void picEditor_MouseDown(object sender, MouseEventArgs e)
         {
-            bool print = false;
-            Color pc = Color.Black;
             if (e.Button == MouseButtons.Left)
             {
-                print = true;
-                pc = lblColor1.BackColor;
+                imgOut.SetPixel(editorXpixel, editorYpixel, lblColor1.BackColor);
+                PrintZoomedPatternImage();
             }
             else if (e.Button == MouseButtons.Right)
             {
-                print = true;
-                pc = lblColor2.BackColor;
+                imgOut.SetPixel(editorXpixel, editorYpixel, lblColor2.BackColor);
+                PrintZoomedPatternImage();
             }
-            if (print)
-            {
-                int x = editorXpixel, y = editorYpixel;
-                int pixelSize = Int32.Parse(txtEditorPixelSize.Text);
-                int pixelSpacing = Int32.Parse(txtEditorPixelSpacing.Text);
-                imgOut.SetPixel(x, y, pc);
-                Graphics graphics = Graphics.FromImage(imgEditor);
-                int x2 = x * (pixelSize + pixelSpacing);
-                int y2 = y * (pixelSize + pixelSpacing);
-                graphics.FillRectangle(new SolidBrush(pc), x2, y2, pixelSize, pixelSize);
-                picEditor.Invalidate(new Rectangle(x2, y2, pixelSize, pixelSize));
-            }
-
         }
 
         private void picEditor_MouseUp(object sender, MouseEventArgs e)
