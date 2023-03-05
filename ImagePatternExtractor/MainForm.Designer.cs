@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApp3
+﻿namespace WeaveImagePatternExtractor
 {
     partial class MainForm
     {
@@ -28,30 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnOpenFile = new System.Windows.Forms.Button();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.txtXoffset = new System.Windows.Forms.TextBox();
-            this.txtYparts = new System.Windows.Forms.TextBox();
-            this.txtXparts = new System.Windows.Forms.TextBox();
-            this.txtYoffset = new System.Windows.Forms.TextBox();
-            this.picBox = new System.Windows.Forms.PictureBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnSwitchColors = new System.Windows.Forms.Button();
-            this.lblColor2 = new System.Windows.Forms.Label();
-            this.lblColor1 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.txtBthreshold = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtGthreshold = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtRthreshold = new System.Windows.Forms.TextBox();
-            this.btnExtract = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.lblEditColor2 = new System.Windows.Forms.Label();
+            this.lblEditColor1 = new System.Windows.Forms.Label();
             this.txtEditorImageHeight = new System.Windows.Forms.TextBox();
             this.txtEditorImageWidth = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
@@ -74,285 +55,25 @@
             this.label11 = new System.Windows.Forms.Label();
             this.txtPreviewPixelSize = new System.Windows.Forms.TextBox();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.lblEditColor2 = new System.Windows.Forms.Label();
-            this.lblEditColor1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picBox)).BeginInit();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.tsmiOpenExtractForm = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picEditor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPreview)).BeginInit();
-            this.groupBox3.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btnOpenFile
-            // 
-            this.btnOpenFile.Location = new System.Drawing.Point(3, 3);
-            this.btnOpenFile.Name = "btnOpenFile";
-            this.btnOpenFile.Size = new System.Drawing.Size(75, 23);
-            this.btnOpenFile.TabIndex = 1;
-            this.btnOpenFile.Text = "open file";
-            this.btnOpenFile.UseVisualStyleBackColor = true;
-            this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(3, 1);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.txtXoffset);
-            this.splitContainer1.Panel1.Controls.Add(this.txtYparts);
-            this.splitContainer1.Panel1.Controls.Add(this.txtXparts);
-            this.splitContainer1.Panel1.Controls.Add(this.txtYoffset);
-            this.splitContainer1.Panel1.Controls.Add(this.picBox);
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox2);
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
-            this.splitContainer1.Panel1.Controls.Add(this.btnExtract);
-            this.splitContainer1.Panel1.Controls.Add(this.label4);
-            this.splitContainer1.Panel1.Controls.Add(this.label1);
-            this.splitContainer1.Panel1.Controls.Add(this.label2);
-            this.splitContainer1.Panel1.Controls.Add(this.label3);
-            this.splitContainer1.Panel1.Controls.Add(this.btnOpenFile);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1210, 663);
-            this.splitContainer1.SplitterDistance = 402;
-            this.splitContainer1.SplitterWidth = 8;
-            this.splitContainer1.TabIndex = 2;
-            // 
-            // txtXoffset
-            // 
-            this.txtXoffset.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtXoffset.Location = new System.Drawing.Point(124, 4);
-            this.txtXoffset.Name = "txtXoffset";
-            this.txtXoffset.Size = new System.Drawing.Size(40, 22);
-            this.txtXoffset.TabIndex = 4;
-            this.txtXoffset.Text = "3";
-            // 
-            // txtYparts
-            // 
-            this.txtYparts.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtYparts.Location = new System.Drawing.Point(365, 4);
-            this.txtYparts.Name = "txtYparts";
-            this.txtYparts.Size = new System.Drawing.Size(32, 22);
-            this.txtYparts.TabIndex = 10;
-            this.txtYparts.Text = "34";
-            // 
-            // txtXparts
-            // 
-            this.txtXparts.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtXparts.Location = new System.Drawing.Point(291, 4);
-            this.txtXparts.Name = "txtXparts";
-            this.txtXparts.Size = new System.Drawing.Size(32, 22);
-            this.txtXparts.TabIndex = 8;
-            this.txtXparts.Text = "24";
-            // 
-            // txtYoffset
-            // 
-            this.txtYoffset.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtYoffset.Location = new System.Drawing.Point(208, 4);
-            this.txtYoffset.Name = "txtYoffset";
-            this.txtYoffset.Size = new System.Drawing.Size(40, 22);
-            this.txtYoffset.TabIndex = 6;
-            this.txtYoffset.Text = "10";
-            // 
-            // picBox
-            // 
-            this.picBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.picBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picBox.Location = new System.Drawing.Point(0, 89);
-            this.picBox.Name = "picBox";
-            this.picBox.Size = new System.Drawing.Size(402, 574);
-            this.picBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picBox.TabIndex = 1;
-            this.picBox.TabStop = false;
-            this.picBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picBox_MouseDown);
-            this.picBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picBox_MouseMove);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.btnSwitchColors);
-            this.groupBox2.Controls.Add(this.lblColor2);
-            this.groupBox2.Controls.Add(this.lblColor1);
-            this.groupBox2.Location = new System.Drawing.Point(186, 28);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(135, 55);
-            this.groupBox2.TabIndex = 19;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "output colors";
-            // 
-            // btnSwitchColors
-            // 
-            this.btnSwitchColors.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSwitchColors.Location = new System.Drawing.Point(44, 17);
-            this.btnSwitchColors.Name = "btnSwitchColors";
-            this.btnSwitchColors.Size = new System.Drawing.Size(36, 32);
-            this.btnSwitchColors.TabIndex = 24;
-            this.btnSwitchColors.Text = "<-\r\n->";
-            this.btnSwitchColors.UseVisualStyleBackColor = true;
-            this.btnSwitchColors.Click += new System.EventHandler(this.btnSwitchColors_Click);
-            // 
-            // lblColor2
-            // 
-            this.lblColor2.BackColor = System.Drawing.Color.Black;
-            this.lblColor2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblColor2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblColor2.ForeColor = System.Drawing.Color.White;
-            this.lblColor2.Location = new System.Drawing.Point(86, 17);
-            this.lblColor2.Name = "lblColor2";
-            this.lblColor2.Size = new System.Drawing.Size(32, 32);
-            this.lblColor2.TabIndex = 23;
-            this.lblColor2.Text = "<";
-            this.lblColor2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblColor2.Click += new System.EventHandler(this.lblColor2_Click);
-            // 
-            // lblColor1
-            // 
-            this.lblColor1.BackColor = System.Drawing.Color.White;
-            this.lblColor1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblColor1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblColor1.Location = new System.Drawing.Point(6, 17);
-            this.lblColor1.Name = "lblColor1";
-            this.lblColor1.Size = new System.Drawing.Size(32, 32);
-            this.lblColor1.TabIndex = 22;
-            this.lblColor1.Text = ">";
-            this.lblColor1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblColor1.Click += new System.EventHandler(this.lblColor1_Click);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.txtBthreshold);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.txtGthreshold);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.txtRthreshold);
-            this.groupBox1.Location = new System.Drawing.Point(2, 28);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(178, 55);
-            this.groupBox1.TabIndex = 18;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "thresholds";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(118, 20);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(17, 13);
-            this.label7.TabIndex = 16;
-            this.label7.Text = "B:";
-            // 
-            // txtBthreshold
-            // 
-            this.txtBthreshold.Location = new System.Drawing.Point(136, 17);
-            this.txtBthreshold.Name = "txtBthreshold";
-            this.txtBthreshold.Size = new System.Drawing.Size(32, 20);
-            this.txtBthreshold.TabIndex = 17;
-            this.txtBthreshold.Text = "128";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(62, 20);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(18, 13);
-            this.label6.TabIndex = 14;
-            this.label6.Text = "G:";
-            // 
-            // txtGthreshold
-            // 
-            this.txtGthreshold.Location = new System.Drawing.Point(80, 17);
-            this.txtGthreshold.Name = "txtGthreshold";
-            this.txtGthreshold.Size = new System.Drawing.Size(32, 20);
-            this.txtGthreshold.TabIndex = 15;
-            this.txtGthreshold.Text = "128";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 20);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(18, 13);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "R:";
-            // 
-            // txtRthreshold
-            // 
-            this.txtRthreshold.Location = new System.Drawing.Point(24, 17);
-            this.txtRthreshold.Name = "txtRthreshold";
-            this.txtRthreshold.Size = new System.Drawing.Size(32, 20);
-            this.txtRthreshold.TabIndex = 13;
-            this.txtRthreshold.Text = "128";
-            // 
-            // btnExtract
-            // 
-            this.btnExtract.Location = new System.Drawing.Point(327, 48);
-            this.btnExtract.Name = "btnExtract";
-            this.btnExtract.Size = new System.Drawing.Size(65, 32);
-            this.btnExtract.TabIndex = 11;
-            this.btnExtract.Text = "extract";
-            this.btnExtract.UseVisualStyleBackColor = true;
-            this.btnExtract.Click += new System.EventHandler(this.btnExtract_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(326, 8);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(41, 13);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "y parts:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(83, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(43, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "xOffset:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(166, 8);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(43, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "yOffset:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(250, 8);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 13);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "x parts:";
             // 
             // splitContainer2
             // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer2.Location = new System.Drawing.Point(3, 27);
             this.splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
@@ -383,10 +104,55 @@
             this.splitContainer2.Panel2.Controls.Add(this.label10);
             this.splitContainer2.Panel2.Controls.Add(this.label11);
             this.splitContainer2.Panel2.Controls.Add(this.txtPreviewPixelSize);
-            this.splitContainer2.Size = new System.Drawing.Size(800, 663);
-            this.splitContainer2.SplitterDistance = 403;
+            this.splitContainer2.Size = new System.Drawing.Size(867, 603);
+            this.splitContainer2.SplitterDistance = 387;
             this.splitContainer2.SplitterWidth = 8;
             this.splitContainer2.TabIndex = 2;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.button1);
+            this.groupBox3.Controls.Add(this.lblEditColor2);
+            this.groupBox3.Controls.Add(this.lblEditColor1);
+            this.groupBox3.Location = new System.Drawing.Point(246, 28);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(135, 55);
+            this.groupBox3.TabIndex = 39;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "edit colors";
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(44, 17);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(36, 32);
+            this.button1.TabIndex = 24;
+            this.button1.Text = "<-\r\n->";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // lblEditColor2
+            // 
+            this.lblEditColor2.BackColor = System.Drawing.Color.White;
+            this.lblEditColor2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblEditColor2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEditColor2.ForeColor = System.Drawing.Color.White;
+            this.lblEditColor2.Location = new System.Drawing.Point(86, 17);
+            this.lblEditColor2.Name = "lblEditColor2";
+            this.lblEditColor2.Size = new System.Drawing.Size(32, 32);
+            this.lblEditColor2.TabIndex = 23;
+            this.lblEditColor2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblEditColor1
+            // 
+            this.lblEditColor1.BackColor = System.Drawing.Color.Black;
+            this.lblEditColor1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblEditColor1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEditColor1.Location = new System.Drawing.Point(6, 17);
+            this.lblEditColor1.Name = "lblEditColor1";
+            this.lblEditColor1.Size = new System.Drawing.Size(32, 32);
+            this.lblEditColor1.TabIndex = 22;
+            this.lblEditColor1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // txtEditorImageHeight
             // 
@@ -450,6 +216,7 @@
             // 
             // picEditor
             // 
+            this.picEditor.BackColor = System.Drawing.Color.Gray;
             this.picEditor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.picEditor.Location = new System.Drawing.Point(3, 89);
             this.picEditor.Name = "picEditor";
@@ -526,6 +293,11 @@
             this.txtEditorPixelSize.Size = new System.Drawing.Size(41, 22);
             this.txtEditorPixelSize.TabIndex = 21;
             this.txtEditorPixelSize.Text = "10";
+            this.txtEditorPixelSize.TextChanged += new System.EventHandler(this.txtEditorPixelSize_TextChanged);
+            this.txtEditorPixelSize.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEditorPixelSize_KeyPress);
+            this.txtEditorPixelSize.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtEditorPixelSize_KeyUp);
+            this.txtEditorPixelSize.Validating += new System.ComponentModel.CancelEventHandler(this.txtEditorPixelSize_Validating);
+            this.txtEditorPixelSize.Validated += new System.EventHandler(this.txtEditorPixelSize_Validated);
             // 
             // btnUpdatePreview
             // 
@@ -553,7 +325,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.picPreview.Location = new System.Drawing.Point(0, 89);
             this.picPreview.Name = "picPreview";
-            this.picPreview.Size = new System.Drawing.Size(385, 574);
+            this.picPreview.Size = new System.Drawing.Size(469, 514);
             this.picPreview.TabIndex = 0;
             this.picPreview.TabStop = false;
             // 
@@ -584,108 +356,64 @@
             this.txtPreviewPixelSize.TabIndex = 25;
             this.txtPreviewPixelSize.Text = "2";
             // 
-            // groupBox3
+            // textBox1
             // 
-            this.groupBox3.Controls.Add(this.button1);
-            this.groupBox3.Controls.Add(this.lblEditColor2);
-            this.groupBox3.Controls.Add(this.lblEditColor1);
-            this.groupBox3.Location = new System.Drawing.Point(246, 28);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(135, 55);
-            this.groupBox3.TabIndex = 39;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "edit colors";
+            this.textBox1.Location = new System.Drawing.Point(413, 636);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(400, 20);
+            this.textBox1.TabIndex = 3;
             // 
-            // button1
+            // menuStrip1
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(44, 17);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(36, 32);
-            this.button1.TabIndex = 24;
-            this.button1.Text = "<-\r\n->";
-            this.button1.UseVisualStyleBackColor = true;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiOpenExtractForm});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(870, 24);
+            this.menuStrip1.TabIndex = 4;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // lblEditColor2
+            // tsmiOpenExtractForm
             // 
-            this.lblEditColor2.BackColor = System.Drawing.Color.White;
-            this.lblEditColor2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEditColor2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEditColor2.ForeColor = System.Drawing.Color.White;
-            this.lblEditColor2.Location = new System.Drawing.Point(86, 17);
-            this.lblEditColor2.Name = "lblEditColor2";
-            this.lblEditColor2.Size = new System.Drawing.Size(32, 32);
-            this.lblEditColor2.TabIndex = 23;
-            this.lblEditColor2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblEditColor1
-            // 
-            this.lblEditColor1.BackColor = System.Drawing.Color.Black;
-            this.lblEditColor1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEditColor1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEditColor1.Location = new System.Drawing.Point(6, 17);
-            this.lblEditColor1.Name = "lblEditColor1";
-            this.lblEditColor1.Size = new System.Drawing.Size(32, 32);
-            this.lblEditColor1.TabIndex = 22;
-            this.lblEditColor1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tsmiOpenExtractForm.Name = "tsmiOpenExtractForm";
+            this.tsmiOpenExtractForm.Size = new System.Drawing.Size(107, 20);
+            this.tsmiOpenExtractForm.Text = "Pattern Extractor";
+            this.tsmiOpenExtractForm.Click += new System.EventHandler(this.tsmiOpenExtractForm_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1216, 666);
-            this.Controls.Add(this.splitContainer1);
+            this.ClientSize = new System.Drawing.Size(870, 666);
+            this.Controls.Add(this.splitContainer2);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Image Pattern Extractor";
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.PerformLayout();
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picBox)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Move += new System.EventHandler(this.MainForm_Move);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
             this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picEditor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPreview)).EndInit();
-            this.groupBox3.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Button btnOpenFile;
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.PictureBox picBox;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtXoffset;
-        private System.Windows.Forms.TextBox txtYoffset;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtXparts;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtYparts;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button btnExtract;
-        private System.Windows.Forms.TextBox txtRthreshold;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtBthreshold;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtGthreshold;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.PictureBox picEditor;
         private System.Windows.Forms.ColorDialog colorDialog;
-        private System.Windows.Forms.Label lblColor1;
-        private System.Windows.Forms.Label lblColor2;
-        private System.Windows.Forms.Button btnSwitchColors;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtEditorPixelSize;
         private System.Windows.Forms.TextBox txtEditorPixelSpacing;
@@ -710,6 +438,9 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label lblEditColor2;
         private System.Windows.Forms.Label lblEditColor1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem tsmiOpenExtractForm;
     }
 }
 
