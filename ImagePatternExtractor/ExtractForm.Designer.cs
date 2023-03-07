@@ -28,22 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtXoffset = new System.Windows.Forms.TextBox();
-            this.txtYparts = new System.Windows.Forms.TextBox();
-            this.txtXparts = new System.Windows.Forms.TextBox();
-            this.txtYoffset = new System.Windows.Forms.TextBox();
+            this.txtXoffset = new WeaveImagePatternExtractor.IntegerValueTextBox();
+            this.txtYparts = new WeaveImagePatternExtractor.IntegerValueTextBox();
+            this.txtXparts = new WeaveImagePatternExtractor.IntegerValueTextBox();
+            this.txtYoffset = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.picBox = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnSwitchColors = new System.Windows.Forms.Button();
             this.lblColor2 = new System.Windows.Forms.Label();
             this.lblColor1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.txtBthreshold = new System.Windows.Forms.TextBox();
+            this.txtBthreshold = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.txtGthreshold = new System.Windows.Forms.TextBox();
+            this.txtGthreshold = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.txtRthreshold = new System.Windows.Forms.TextBox();
+            this.txtRthreshold = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.btnExtract = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -52,7 +53,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.picBox)).BeginInit();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -61,39 +62,53 @@
             // 
             // txtXoffset
             // 
+            this.txtXoffset.DefaultValue = 0;
             this.txtXoffset.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtXoffset.Location = new System.Drawing.Point(24, 16);
             this.txtXoffset.Name = "txtXoffset";
             this.txtXoffset.Size = new System.Drawing.Size(40, 22);
             this.txtXoffset.TabIndex = 23;
             this.txtXoffset.Text = "3";
+            this.txtXoffset.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtXoffset.Value = 3;
             // 
             // txtYparts
             // 
+            this.txtYparts.DefaultValue = 1;
             this.txtYparts.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtYparts.Location = new System.Drawing.Point(77, 16);
             this.txtYparts.Name = "txtYparts";
             this.txtYparts.Size = new System.Drawing.Size(32, 22);
             this.txtYparts.TabIndex = 29;
             this.txtYparts.Text = "34";
+            this.txtYparts.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtYparts.Value = 34;
+            this.txtYparts.TextChanged += new System.EventHandler(this.txtXorYparts_TextChanged);
             // 
             // txtXparts
             // 
+            this.txtXparts.DefaultValue = 1;
             this.txtXparts.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtXparts.Location = new System.Drawing.Point(25, 16);
             this.txtXparts.Name = "txtXparts";
             this.txtXparts.Size = new System.Drawing.Size(32, 22);
             this.txtXparts.TabIndex = 27;
             this.txtXparts.Text = "24";
+            this.txtXparts.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtXparts.Value = 24;
+            this.txtXparts.TextChanged += new System.EventHandler(this.txtXorYparts_TextChanged);
             // 
             // txtYoffset
             // 
+            this.txtYoffset.DefaultValue = 0;
             this.txtYoffset.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtYoffset.Location = new System.Drawing.Point(88, 16);
             this.txtYoffset.Name = "txtYoffset";
             this.txtYoffset.Size = new System.Drawing.Size(40, 22);
             this.txtYoffset.TabIndex = 25;
             this.txtYoffset.Text = "10";
+            this.txtYoffset.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtYoffset.Value = 10;
             // 
             // picBox
             // 
@@ -120,7 +135,7 @@
             this.groupBox2.Size = new System.Drawing.Size(135, 55);
             this.groupBox2.TabIndex = 32;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "output colors";
+            this.groupBox2.Text = "output colors:";
             // 
             // btnSwitchColors
             // 
@@ -131,6 +146,7 @@
             this.btnSwitchColors.TabIndex = 24;
             this.btnSwitchColors.Text = "<-\r\n->";
             this.btnSwitchColors.UseVisualStyleBackColor = true;
+            this.btnSwitchColors.Click += new System.EventHandler(this.btnSwitchColors_Click);
             // 
             // lblColor2
             // 
@@ -144,6 +160,7 @@
             this.lblColor2.TabIndex = 23;
             this.lblColor2.Text = "<";
             this.lblColor2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblColor2.Click += new System.EventHandler(this.lblColor2_Click);
             // 
             // lblColor1
             // 
@@ -156,9 +173,11 @@
             this.lblColor1.TabIndex = 22;
             this.lblColor1.Text = ">";
             this.lblColor1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblColor1.Click += new System.EventHandler(this.lblColor1_Click);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.txtBthreshold);
             this.groupBox1.Controls.Add(this.label6);
@@ -170,7 +189,16 @@
             this.groupBox1.Size = new System.Drawing.Size(178, 55);
             this.groupBox1.TabIndex = 31;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "thresholds";
+            this.groupBox1.Text = "threshold:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(1, 39);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(176, 13);
+            this.label3.TabIndex = 18;
+            this.label3.Text = "click in picture to set color threshold";
             // 
             // label7
             // 
@@ -183,11 +211,14 @@
             // 
             // txtBthreshold
             // 
+            this.txtBthreshold.DefaultValue = 0;
             this.txtBthreshold.Location = new System.Drawing.Point(136, 17);
             this.txtBthreshold.Name = "txtBthreshold";
             this.txtBthreshold.Size = new System.Drawing.Size(32, 20);
             this.txtBthreshold.TabIndex = 17;
             this.txtBthreshold.Text = "128";
+            this.txtBthreshold.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtBthreshold.Value = 128;
             // 
             // label6
             // 
@@ -200,11 +231,14 @@
             // 
             // txtGthreshold
             // 
+            this.txtGthreshold.DefaultValue = 0;
             this.txtGthreshold.Location = new System.Drawing.Point(80, 17);
             this.txtGthreshold.Name = "txtGthreshold";
             this.txtGthreshold.Size = new System.Drawing.Size(32, 20);
             this.txtGthreshold.TabIndex = 15;
             this.txtGthreshold.Text = "128";
+            this.txtGthreshold.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtGthreshold.Value = 128;
             // 
             // label5
             // 
@@ -217,11 +251,14 @@
             // 
             // txtRthreshold
             // 
+            this.txtRthreshold.DefaultValue = 0;
             this.txtRthreshold.Location = new System.Drawing.Point(24, 17);
             this.txtRthreshold.Name = "txtRthreshold";
             this.txtRthreshold.Size = new System.Drawing.Size(32, 20);
             this.txtRthreshold.TabIndex = 13;
             this.txtRthreshold.Text = "128";
+            this.txtRthreshold.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtRthreshold.Value = 128;
             // 
             // btnExtract
             // 
@@ -285,7 +322,7 @@
             this.groupBox4.Size = new System.Drawing.Size(132, 44);
             this.groupBox4.TabIndex = 34;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Parts:";
+            this.groupBox4.Text = "parts:";
             // 
             // label8
             // 
@@ -305,11 +342,22 @@
             this.label9.TabIndex = 25;
             this.label9.Text = "X:";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(171, 10);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 35;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // ExtractForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(337, 661);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.picBox);
@@ -321,7 +369,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Extract Pattern";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ExtractForm_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.picBox)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -334,11 +381,11 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox txtXoffset;
-        private System.Windows.Forms.TextBox txtYparts;
-        private System.Windows.Forms.TextBox txtXparts;
-        private System.Windows.Forms.TextBox txtYoffset;
+        
+        private IntegerValueTextBox txtXoffset;
+        private IntegerValueTextBox txtYparts;
+        private IntegerValueTextBox txtXparts;
+        private IntegerValueTextBox txtYoffset;
         private System.Windows.Forms.PictureBox picBox;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnSwitchColors;
@@ -346,11 +393,11 @@
         private System.Windows.Forms.Label lblColor1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox txtBthreshold;
+        private IntegerValueTextBox txtBthreshold;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtGthreshold;
+        private IntegerValueTextBox txtGthreshold;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtRthreshold;
+        private IntegerValueTextBox txtRthreshold;
         private System.Windows.Forms.Button btnExtract;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -359,5 +406,7 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button1;
     }
 }

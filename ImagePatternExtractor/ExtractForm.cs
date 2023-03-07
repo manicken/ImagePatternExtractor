@@ -15,11 +15,15 @@ namespace WeaveImagePatternExtractor
         public Action<Bitmap> ExtractPatternCompleted;
         private Bitmap imgSrc;
         private Bitmap imgPattern;
+        private ColorDialog cd;
 
         public ExtractForm()
         {
             InitializeComponent();
+            cd = new ColorDialog();
+            
         }
+
 
         private void ExtractForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -50,15 +54,15 @@ namespace WeaveImagePatternExtractor
 
         private void ExtractPatternFromSource()
         {
-            int xOffset = Int32.Parse(txtXoffset.Text);
-            int yOffset = Int32.Parse(txtYoffset.Text);
-            int xParts = Int32.Parse(txtXparts.Text);
-            int yParts = Int32.Parse(txtYparts.Text);
-            double xMult = (double)imgSrc.Width / Double.Parse(txtXparts.Text);
-            double yMult = (double)imgSrc.Height / Double.Parse(txtYparts.Text);
-            int rth = Int32.Parse(txtRthreshold.Text);
-            int gth = Int32.Parse(txtGthreshold.Text);
-            int bth = Int32.Parse(txtBthreshold.Text);
+            int xOffset = txtXoffset.Value;
+            int yOffset = txtYoffset.Value;
+            int xParts = txtXparts.Value;
+            int yParts = txtYparts.Value;
+            double xMult = (double)imgSrc.Width / (double)xParts;
+            double yMult = (double)imgSrc.Height / (double)yParts;
+            int rth = txtRthreshold.Value;
+            int gth = txtGthreshold.Value;
+            int bth = txtBthreshold.Value;
             int threshold = rth * 256 * 256 + gth * 256 + bth;
             imgPattern = new Bitmap(xParts, yParts);
             Color color1 = lblColor1.BackColor;
@@ -115,10 +119,61 @@ namespace WeaveImagePatternExtractor
 
             Bitmap bmp = new Bitmap(picBox.Image);
             Color colour = bmp.GetPixel(realX, realY);
-            txtRthreshold.Text = colour.R.ToString();
-            txtGthreshold.Text = colour.G.ToString();
-            txtBthreshold.Text = colour.B.ToString();
+            txtRthreshold.Value = colour.R;
+            txtGthreshold.Value = colour.G;
+            txtBthreshold.Value = colour.B;
             bmp.Dispose();
+        }
+
+        private void btnSwitchColors_Click(object sender, EventArgs e)
+        {
+            Color c = lblColor1.BackColor;
+            lblColor1.BackColor = lblColor2.BackColor;
+            lblColor2.BackColor = c;
+        }
+
+        private void lblColor1_Click(object sender, EventArgs e)
+        {
+            cd.Color = lblColor1.BackColor;
+            if (cd.ShowDialog() != DialogResult.OK) return;
+            lblColor1.BackColor = cd.Color;
+        }
+
+        private void lblColor2_Click(object sender, EventArgs e)
+        {
+            cd.Color = lblColor2.BackColor;
+            if (cd.ShowDialog() != DialogResult.OK) return;
+            lblColor2.BackColor = cd.Color;
+        }
+
+        private void DrawExtractGrid()
+        {
+            int xParts = txtXparts.Value;
+            int yParts = txtYparts.Value;
+            double xMult = (double)imgSrc.Width / (double)xParts;
+            double yMult = (double)imgSrc.Height / (double)yParts;
+            Bitmap imgSrcWithGrid = new Bitmap(imgSrc);
+            Graphics g = Graphics.FromImage(imgSrcWithGrid);
+            for (int x = 0; x < xParts; x++)
+            {
+                g.DrawLine(new Pen(Color.Red), (int)(x * xMult), 0, (int)(x * xMult), (imgSrcWithGrid.Height - 1));
+            }
+            for (int y = 0; y < yParts; y++)
+            {
+                g.DrawLine(new Pen(Color.Red), 0, (int)(y * yMult), (imgSrcWithGrid.Width - 1), (int)(y * yMult));
+            }
+            picBox.Image = imgSrcWithGrid;
+            //picBox.Invalidate();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DrawExtractGrid();
+        }
+
+        private void txtXorYparts_TextChanged(object sender, EventArgs e)
+        {
+            DrawExtractGrid();
         }
     }
 }

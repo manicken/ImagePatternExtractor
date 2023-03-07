@@ -9,6 +9,14 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
+public static class Control_Ext
+{
+    public static Point PointToScreen(this Control thisCtrl, int x, int y)
+    {
+        return thisCtrl.PointToScreen(new Point(x, y));
+    }
+}
+
 namespace UserRectDemo
 {
     public class UserRect 
@@ -29,12 +37,12 @@ namespace UserRectDemo
         private int oldX;
         private int oldY;
         private int sizeNodeRect= 3;
-        private Bitmap mBmp=null;
+        //private Bitmap mBmp=null;
         private PosSizableRect nodeSelected = PosSizableRect.None;
-        private int angle = 30;
+        //private int angle = 30;
 
-        public delegate void SizeChanged(Rectangle rect);
-        public SizeChanged sizeChanged;
+        //public delegate void SizeChanged(Rectangle rect);
+        public Action<Rectangle> SizeChanged;
 
         private enum PosSizableRect
         {            
@@ -66,7 +74,7 @@ namespace UserRectDemo
               g.DrawRectangle(new Pen(Color.Red),GetRect(pos));
             }                       
         }
-
+        /*
         public void SetBitmapFile(string filename)
         {
             this.mBmp = new Bitmap(filename);
@@ -76,7 +84,7 @@ namespace UserRectDemo
         {
             this.mBmp = bmp;
         }
-
+        */
         public void SetPictureBox(PictureBox p)
         {
             this.mPictureBox = p;
@@ -123,21 +131,27 @@ namespace UserRectDemo
 
         private void mPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            int x = e.X, y = e.Y;
-            int dx = x - oldX;
-            int dy = y - oldY;
-            oldX = x;
-            oldY = y;
-
-
             ChangeCursor(e.Location);
             if (mIsClick == false)
             {
                 return;
             }
 
-            Rectangle backupRect = rect;
+            int x = e.X, y = e.Y;
+            if (x < 0) { x = 0; Cursor.Position = mPictureBox.PointToScreen(x, y); }
+            if (y < 0) { y = 0; Cursor.Position = mPictureBox.PointToScreen(x, y); }
+            if (x > mPictureBox.Width) { x = mPictureBox.Width - 1; Cursor.Position = mPictureBox.PointToScreen(x, y); }
+            if (y > mPictureBox.Height) { y = mPictureBox.Height - 1; Cursor.Position = mPictureBox.PointToScreen(x, y); }
+            int dx = x - oldX;
+            int dy = y - oldY;
+            oldX = x;
+            oldY = y;
 
+
+            
+
+            Rectangle backupRect = rect;
+            bool sizeChanged = true;
             switch (nodeSelected)
             {
                 case PosSizableRect.LeftUp:
@@ -177,6 +191,7 @@ namespace UserRectDemo
                     break;
 
                 default:
+                    sizeChanged = false;
                     if (mMove)
                     {
                             rect.X = rect.X + dx;
@@ -184,26 +199,24 @@ namespace UserRectDemo
                     }
                     break;
             }
-            
 
-            
-
-            if (rect.Width < 5 || rect.Height < 5)
+            if (rect.Width < Math.Max(5,xSnapSize) || rect.Height < Math.Max(5,ySnapSize))
             {
                 rect = backupRect;
             }
 
-            TestIfRectInsideArea();
+            //TestIfRectInsideArea();
 
-            if (sizeChanged != null)
+            if (SizeChanged != null)
             {
-                sizeChanged(new Rectangle(
+                SizeChanged(new Rectangle(
                     (rect.X / xSnapSize) * xSnapSize,
                     (rect.Y / ySnapSize) * ySnapSize,
                     (rect.Width / xSnapSize) * xSnapSize,
                     (rect.Height / ySnapSize) * ySnapSize));
             }
             SnapRectangle();
+
             mPictureBox.Invalidate();
         }
 
@@ -245,6 +258,10 @@ namespace UserRectDemo
         {
             return new Rectangle(x - sizeNodeRect / 2, y - sizeNodeRect / 2, sizeNodeRect, sizeNodeRect);   
         }
+        private Rectangle CreateRectSizableNode(int x, int y, int width, int height)
+        {
+            return new Rectangle(x - width / 2, y - height / 2, width, height);
+        }
 
         private Rectangle GetRect(PosSizableRect p)
         {
@@ -254,13 +271,13 @@ namespace UserRectDemo
                     return CreateRectSizableNode(rectDraw.X, rectDraw.Y);
                  
                 case PosSizableRect.LeftMiddle:
-                    return CreateRectSizableNode(rectDraw.X, rectDraw.Y + +rectDraw.Height / 2);                    
+                    return CreateRectSizableNode(rectDraw.X, rectDraw.Y + rectDraw.Height / 2, sizeNodeRect, rectDraw.Height - rectDraw.Height/2);                    
 
                 case PosSizableRect.LeftBottom:
                     return CreateRectSizableNode(rectDraw.X, rectDraw.Y + rectDraw.Height);                                   
 
                 case PosSizableRect.BottomMiddle:
-                    return CreateRectSizableNode(rectDraw.X  + rectDraw.Width / 2, rectDraw.Y + rectDraw.Height);
+                    return CreateRectSizableNode(rectDraw.X  + rectDraw.Width / 2, rectDraw.Y + rectDraw.Height, rectDraw.Width - rectDraw.Width/2, sizeNodeRect);
 
                 case PosSizableRect.RightUp:
                     return CreateRectSizableNode(rectDraw.X + rectDraw.Width, rectDraw.Y );
@@ -269,10 +286,10 @@ namespace UserRectDemo
                     return CreateRectSizableNode(rectDraw.X  + rectDraw.Width, rectDraw.Y  + rectDraw.Height);
 
                 case PosSizableRect.RightMiddle:
-                    return CreateRectSizableNode(rectDraw.X  + rectDraw.Width, rectDraw.Y  + rectDraw.Height / 2);
+                    return CreateRectSizableNode(rectDraw.X  + rectDraw.Width, rectDraw.Y  + rectDraw.Height / 2, sizeNodeRect, rectDraw.Height - rectDraw.Height/2);
 
                 case PosSizableRect.UpMiddle:
-                    return CreateRectSizableNode(rectDraw.X + rectDraw.Width/2, rectDraw.Y);
+                    return CreateRectSizableNode(rectDraw.X + rectDraw.Width/2, rectDraw.Y, rectDraw.Width - rectDraw.Width/2, sizeNodeRect);
                 default :
                     return new Rectangle();
             }

@@ -14,49 +14,59 @@ namespace WeaveImagePatternExtractor
     public partial class MainForm : Form
     {
         ExtractForm extractForm;
+        ColorDialog cd;
 
-        Bitmap imgIn; // source image
         Bitmap imgPattern; // extracted pattern image
         Bitmap imgEditor; // editor image (with zoomed pixels)
         Bitmap imgPreview; // preview of the repetive pattern
-
-        Rectangle selection;
 
         UserRect selRect;
 
         public MainForm()
         {
             InitializeComponent();
+            cd = new ColorDialog();
             extractForm = new ExtractForm();
             extractForm.ExtractPatternCompleted = ExtractPatternCompleted;
 
             selRect = new UserRect(new Rectangle(0, 0, 21, 21));
             selRect.allowDeformingDuringMovement = false;
-            selRect.sizeChanged = sizeChanged;
-            selRect.xSnapSize = 11;
-            selRect.ySnapSize = 11;
+            selRect.SizeChanged = SizeChanged;
+            selRect.SnapSize = txtEditorPixelSize.Value + txtEditorPixelSpacing.Value;
             selRect.SetPictureBox(this.picEditor);
+            cmbSelectionMode.SelectedIndex = 2;
+            CreateNewPattern();
         }
 
-        private void sizeChanged(Rectangle rect)
+        private void CreateNewPattern()
         {
-            textBox1.Text = rect.ToString();
+            imgPattern = new Bitmap(txtEditorImageWidth.Value, txtEditorImageHeight.Value);
+            for (int x = 0; x < imgPattern.Width; x++)
+                for (int y = 0; y < imgPattern.Height; y++)
+                    imgPattern.SetPixel(x, y, lblEditColor2.BackColor);
+            PrintZoomedPatternImage();
+            PrintPreviewPatternImage();
+        }
+
+        private void SizeChanged(Rectangle rect)
+        {
+            textBox1.Text = "Selection: " + rect.ToString();
         }
 
         private void ExtractPatternCompleted(Bitmap imgPattern)
         {
             this.imgPattern = imgPattern;
-            txtEditorImageHeight.Text = imgPattern.Height.ToString();
-            txtEditorImageWidth.Text = imgPattern.Width.ToString();
+            txtEditorImageHeight.Value = imgPattern.Height;
+            txtEditorImageWidth.Value = imgPattern.Width;
             PrintZoomedPatternImage();
             PrintPreviewPatternImage();
         }
 
         private void PrintZoomedPatternImage()
         {
-            int pixelSize = Int32.Parse(txtEditorPixelSize.Text);
-            int pixelSpacing = Int32.Parse(txtEditorPixelSpacing.Text);
-            imgEditor = new Bitmap(imgPattern.Width * (pixelSize + pixelSpacing)+1, imgPattern.Height * (pixelSize + pixelSpacing)+1);
+            int pixelSize = txtEditorPixelSize.Value;
+            int pixelSpacing = txtEditorPixelSpacing.Value;
+            imgEditor = new Bitmap(imgPattern.Width * (pixelSize + pixelSpacing)+2, imgPattern.Height * (pixelSize + pixelSpacing)+1);
             Graphics graphics = Graphics.FromImage(imgEditor);
             for (int y = 0; y < imgPattern.Height; y++)
             {
@@ -67,43 +77,46 @@ namespace WeaveImagePatternExtractor
                     graphics.FillRectangle(new SolidBrush(imgPattern.GetPixel(x, y)), x2, y2, pixelSize, pixelSize);
                 }
             }
-            //picEditor.Image = null;
             picEditor.Image = imgEditor;
         }
 
         private void PrintPreviewPatternImage()
         {
-            int pixelSize = Int32.Parse(txtPreviewPixelSize.Text);
-            int pixelSpacing = Int32.Parse(txtPreviewPixelSpacing.Text);
+            int pixelSize = txtPreviewPixelSize.Value;
+            int pixelSpacing = txtPreviewPixelSpacing.Value;
             int pixelTotalSize = (pixelSize + pixelSpacing);
-            imgPreview = new Bitmap(picPreview.ClientRectangle.Width, picPreview.ClientRectangle.Height);
+            imgPreview = new Bitmap(picPreview.Width, picPreview.Height);
             Graphics graphics = Graphics.FromImage(imgPreview);
-            int xCopies = imgPreview.Width / imgPattern.Width;
-            int yCopies = imgPreview.Height / imgPattern.Height;
+            int xCopies = imgPreview.Width / (imgPattern.Width*pixelTotalSize);
+            int yCopies = imgPreview.Height / (imgPattern.Height*pixelTotalSize);
+            integerValueTextBox1.Value = xCopies;
+            integerValueTextBox2.Value = yCopies;
+            int imgPatternWidth = imgPattern.Width - 1;
+            int imgPatternWidth2 = imgPatternWidth;
             for (int xc=0;xc<xCopies;xc++)
             {
+                if (xc == (xCopies - 1)) imgPatternWidth = imgPattern.Width;
+
                 for (int yc=0;yc<yCopies;yc++)
                 {
+
                     for (int y = 0; y < imgPattern.Height; y++)
                     {
-                        for (int x = 0; x < imgPattern.Width; x++)
+                        for (int x = 0; x < imgPatternWidth; x++)
                         {
-                            int x2 = x * pixelTotalSize + xc*imgPattern.Width*pixelTotalSize;
+                            int x2 = x * pixelTotalSize + xc* imgPatternWidth2 * pixelTotalSize;
                             int y2 = y * pixelTotalSize + yc*imgPattern.Height*pixelTotalSize;
                             graphics.FillRectangle(new SolidBrush(imgPattern.GetPixel(x, y)), x2, y2, pixelSize, pixelSize);
                         }
                     }
                 }
             }
-            //picPreview.Image = null;
             picPreview.Image = imgPreview;
         }
 
         private Bitmap CropImageSize(Bitmap img, int newWidth, int newHeight)
         {
             Bitmap newImg = new Bitmap(newWidth, newHeight);
-            //if (img.Width < newWidth) newWidth = img.Width;
-            //if (img.Height < newHeight) newHeight = img.Height;
 
             for (int x=0;x<newWidth;x++)
             {
@@ -120,13 +133,13 @@ namespace WeaveImagePatternExtractor
 
         private void btnUpdateEditor_Click(object sender, EventArgs e)
         {
-            int height = Int32.Parse(txtEditorImageHeight.Text);
-            int width = Int32.Parse(txtEditorImageWidth.Text);
+            int height = txtEditorImageHeight.Value;
+            int width = txtEditorImageWidth.Value;
             if (height != imgPattern.Height || width != imgPattern.Width) {
                 imgPattern = CropImageSize(imgPattern, width, height);
                 PrintPreviewPatternImage();
             }
-            selRect.SnapSize = Int32.Parse(txtEditorPixelSize.Text) + Int32.Parse(txtEditorPixelSpacing.Text);
+            selRect.SnapSize = txtEditorPixelSize.Value + txtEditorPixelSpacing.Value;
             PrintZoomedPatternImage();
         }
 
@@ -140,14 +153,14 @@ namespace WeaveImagePatternExtractor
 
         private void picEditor_MouseMove(object sender, MouseEventArgs e)
         {
-            int pixelSize = Int32.Parse(txtEditorPixelSize.Text);
-            int pixelSpacing = Int32.Parse(txtEditorPixelSpacing.Text);
+            int pixelSize = txtEditorPixelSize.Value;
+            int pixelSpacing = txtEditorPixelSpacing.Value;
             int pixelTotalSize = (pixelSize + pixelSpacing);
             editorXpixel = e.X / pixelTotalSize;
             editorYpixel = e.Y / pixelTotalSize;
 
-            txtX.Text = editorXpixel.ToString();
-            txtY.Text = editorYpixel.ToString();
+            txtX.Value = editorXpixel;
+            txtY.Value = editorYpixel;
         }
 
         private void picEditor_MouseDown(object sender, MouseEventArgs e)
@@ -167,8 +180,10 @@ namespace WeaveImagePatternExtractor
             if (print)
             {
                 int x = editorXpixel, y = editorYpixel;
-                int pixelSize = Int32.Parse(txtEditorPixelSize.Text);
-                int pixelSpacing = Int32.Parse(txtEditorPixelSpacing.Text);
+                int pixelSize = txtEditorPixelSize.Value;
+                int pixelSpacing = txtEditorPixelSpacing.Value;
+                if (x >= imgPattern.Width) return;
+                if (y >= imgPattern.Height) return;
                 imgPattern.SetPixel(x, y, pc);
                 Graphics graphics = Graphics.FromImage(imgEditor);
                 int x2 = x * (pixelSize + pixelSpacing);
@@ -184,51 +199,16 @@ namespace WeaveImagePatternExtractor
                 PrintPreviewPatternImage();
         }
 
-        private void btnOpenPattern_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath);
-            if (ofd.ShowDialog() != DialogResult.OK) return;
-
-            imgPattern = new Bitmap(ofd.FileName);
-            txtEditorImageHeight.Text = imgPattern.Height.ToString();
-            txtEditorImageWidth.Text = imgPattern.Width.ToString();
-            patternFileName = ofd.FileName;
-            PrintZoomedPatternImage();
-            PrintPreviewPatternImage();
-        }
-
         string patternFileName = "";
 
         private bool SelectNewFileName(ref string filepath)
         {
             filepath = "";
             SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "PNG File|*.png";
             if (sfd.ShowDialog() != DialogResult.OK) return false;
             filepath = sfd.FileName;
             return true;
-        }
-
-        private void btnSavePattern_Click(object sender, EventArgs e)
-        {
-            if (patternFileName == "")
-            {
-                if (SelectNewFileName(ref patternFileName) == false) return;
-            }
-            imgPattern.Save(patternFileName);
-        }
-
-        private void btnSavePatternAs_Click(object sender, EventArgs e)
-        {
-            string newName = "";
-            if (SelectNewFileName(ref newName) == false) return;
-            patternFileName = newName;
-            imgPattern.Save(patternFileName);
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void tsmiOpenExtractForm_Click(object sender, EventArgs e)
@@ -245,32 +225,63 @@ namespace WeaveImagePatternExtractor
             extractForm.Top = this.Top;
         }
 
-        private void txtEditorPixelSize_TextChanged(object sender, EventArgs e)
+        private void tsmiOpenPatternFile_Click(object sender, EventArgs e)
         {
-            //int pixelSize = 0;
-            //if (Int32.TryParse(txtEditorPixelSize.Text, out pixelSize) == false) { return; }
-            //selRect.SnapSize = pixelSize + Int32.Parse(txtEditorPixelSpacing.Text);
-            //MessageBox.Show("TextChanged");
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Pattern Files|*.png;*bmp";
+            ofd.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath);
+            if (ofd.ShowDialog() != DialogResult.OK) return;
+
+            imgPattern = new Bitmap(ofd.FileName);
+            txtEditorImageHeight.Value = imgPattern.Height;
+            txtEditorImageWidth.Value = imgPattern.Width;
+            patternFileName = ofd.FileName;
+            PrintZoomedPatternImage();
+            PrintPreviewPatternImage();
         }
 
-        private void txtEditorPixelSize_Validated(object sender, EventArgs e)
+        private void tsmiSavePatternFile_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show("validated");
+            if (patternFileName == "")
+            {
+                if (SelectNewFileName(ref patternFileName) == false) return;
+            }
+            imgPattern.Save(patternFileName);
         }
 
-        private void txtEditorPixelSize_Validating(object sender, CancelEventArgs e)
+        private void tsmiSavePatternFileAs_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show("validating");
+            string newName = "";
+            if (SelectNewFileName(ref newName) == false) return;
+            patternFileName = newName;
+            imgPattern.Save(patternFileName);
         }
 
-        private void txtEditorPixelSize_KeyUp(object sender, KeyEventArgs e)
+        private void tsmiNewPatternConfirm_Click(object sender, EventArgs e)
         {
-            e.Handled = false;
+            CreateNewPattern();
+            patternFileName = "";
         }
 
-        private void txtEditorPixelSize_KeyPress(object sender, KeyPressEventArgs e)
+        private void lblColor1_Click(object sender, EventArgs e)
         {
-            //e.Handled = false;
+            cd.Color = lblEditColor1.BackColor;
+            if (cd.ShowDialog() != DialogResult.OK) return;
+            lblEditColor1.BackColor = cd.Color;
+        }
+
+        private void lblColor2_Click(object sender, EventArgs e)
+        {
+            cd.Color = lblEditColor2.BackColor;
+            if (cd.ShowDialog() != DialogResult.OK) return;
+            lblEditColor2.BackColor = cd.Color;
+        }
+
+        private void btnSwitchColors_Click(object sender, EventArgs e)
+        {
+            Color c = lblEditColor1.BackColor;
+            lblEditColor1.BackColor = lblEditColor2.BackColor;
+            lblEditColor2.BackColor = c;
         }
     }
 }
