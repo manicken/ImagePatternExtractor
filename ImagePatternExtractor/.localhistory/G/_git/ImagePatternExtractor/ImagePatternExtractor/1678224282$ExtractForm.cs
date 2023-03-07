@@ -65,7 +65,6 @@ namespace WeaveImagePatternExtractor
             ExtractPatternFromSource();
             if (ExtractPatternCompleted != null)
                 ExtractPatternCompleted(imgPattern);
-            grpThresholds.Enabled = true;
         }
 
         private void ExtractPatternFromSource()

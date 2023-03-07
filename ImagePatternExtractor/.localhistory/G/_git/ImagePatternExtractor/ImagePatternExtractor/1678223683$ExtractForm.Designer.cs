@@ -33,7 +33,7 @@
             this.btnSwitchColors = new System.Windows.Forms.Button();
             this.lblColor2 = new System.Windows.Forms.Label();
             this.lblColor1 = new System.Windows.Forms.Label();
-            this.grpThresholds = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtBthreshold = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -42,7 +42,7 @@
             this.txtRthreshold = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.btnExtract = new System.Windows.Forms.Button();
             this.btnOpenFile = new System.Windows.Forms.Button();
-            this.grpParts = new System.Windows.Forms.GroupBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.txtYparts = new WeaveImagePatternExtractor.IntegerValueTextBox();
@@ -55,18 +55,13 @@
             this.txtGreenContrastValue = new System.Windows.Forms.TextBox();
             this.txtBlueContrastValue = new System.Windows.Forms.TextBox();
             this.btnReopen = new System.Windows.Forms.Button();
-            this.grpContrastAdj = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picBox)).BeginInit();
             this.groupBox2.SuspendLayout();
-            this.grpThresholds.SuspendLayout();
-            this.grpParts.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbRedContrast)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbGreenContrast)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbBlueContrast)).BeginInit();
-            this.grpContrastAdj.SuspendLayout();
             this.SuspendLayout();
             // 
             // picBox
@@ -75,9 +70,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.picBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picBox.Location = new System.Drawing.Point(1, 122);
+            this.picBox.Location = new System.Drawing.Point(1, 137);
             this.picBox.Name = "picBox";
-            this.picBox.Size = new System.Drawing.Size(282, 538);
+            this.picBox.Size = new System.Drawing.Size(282, 518);
             this.picBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picBox.TabIndex = 20;
             this.picBox.TabStop = false;
@@ -136,21 +131,20 @@
             this.lblColor1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblColor1.Click += new System.EventHandler(this.lblColor1_Click);
             // 
-            // grpThresholds
+            // groupBox1
             // 
-            this.grpThresholds.Controls.Add(this.label7);
-            this.grpThresholds.Controls.Add(this.txtBthreshold);
-            this.grpThresholds.Controls.Add(this.label6);
-            this.grpThresholds.Controls.Add(this.txtGthreshold);
-            this.grpThresholds.Controls.Add(this.label5);
-            this.grpThresholds.Controls.Add(this.txtRthreshold);
-            this.grpThresholds.Enabled = false;
-            this.grpThresholds.Location = new System.Drawing.Point(11, 79);
-            this.grpThresholds.Name = "grpThresholds";
-            this.grpThresholds.Size = new System.Drawing.Size(178, 42);
-            this.grpThresholds.TabIndex = 31;
-            this.grpThresholds.TabStop = false;
-            this.grpThresholds.Text = "calculated thresholds:";
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.txtBthreshold);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.txtGthreshold);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.txtRthreshold);
+            this.groupBox1.Location = new System.Drawing.Point(11, 79);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(178, 42);
+            this.groupBox1.TabIndex = 31;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "calculated thresholds:";
             // 
             // label7
             // 
@@ -214,8 +208,7 @@
             // 
             // btnExtract
             // 
-            this.btnExtract.Enabled = false;
-            this.btnExtract.Location = new System.Drawing.Point(195, 79);
+            this.btnExtract.Location = new System.Drawing.Point(195, 85);
             this.btnExtract.Name = "btnExtract";
             this.btnExtract.Size = new System.Drawing.Size(88, 43);
             this.btnExtract.TabIndex = 30;
@@ -233,19 +226,18 @@
             this.btnOpenFile.UseVisualStyleBackColor = true;
             this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
             // 
-            // grpParts
+            // groupBox4
             // 
-            this.grpParts.Controls.Add(this.label8);
-            this.grpParts.Controls.Add(this.label9);
-            this.grpParts.Controls.Add(this.txtYparts);
-            this.grpParts.Controls.Add(this.txtXparts);
-            this.grpParts.Enabled = false;
-            this.grpParts.Location = new System.Drawing.Point(12, 32);
-            this.grpParts.Name = "grpParts";
-            this.grpParts.Size = new System.Drawing.Size(132, 44);
-            this.grpParts.TabIndex = 34;
-            this.grpParts.TabStop = false;
-            this.grpParts.Text = "parts:";
+            this.groupBox4.Controls.Add(this.label8);
+            this.groupBox4.Controls.Add(this.label9);
+            this.groupBox4.Controls.Add(this.txtYparts);
+            this.groupBox4.Controls.Add(this.txtXparts);
+            this.groupBox4.Location = new System.Drawing.Point(12, 32);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(132, 44);
+            this.groupBox4.TabIndex = 34;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "parts:";
             // 
             // label8
             // 
@@ -295,22 +287,23 @@
             // 
             this.tbRedContrast.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbRedContrast.Location = new System.Drawing.Point(6, 37);
+            this.tbRedContrast.Location = new System.Drawing.Point(289, 137);
             this.tbRedContrast.Maximum = 100;
             this.tbRedContrast.Minimum = -100;
             this.tbRedContrast.Name = "tbRedContrast";
             this.tbRedContrast.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.tbRedContrast.Size = new System.Drawing.Size(45, 440);
+            this.tbRedContrast.Size = new System.Drawing.Size(45, 469);
             this.tbRedContrast.TabIndex = 36;
             this.tbRedContrast.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.tbRedContrast.Scroll += new System.EventHandler(this.tbContrast_Scroll);
             // 
             // btnApplyContrast
             // 
-            this.btnApplyContrast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnApplyContrast.Location = new System.Drawing.Point(6, 503);
+            this.btnApplyContrast.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnApplyContrast.Location = new System.Drawing.Point(288, 629);
             this.btnApplyContrast.Name = "btnApplyContrast";
-            this.btnApplyContrast.Size = new System.Drawing.Size(45, 29);
+            this.btnApplyContrast.Size = new System.Drawing.Size(45, 23);
             this.btnApplyContrast.TabIndex = 37;
             this.btnApplyContrast.Text = "apply";
             this.btnApplyContrast.UseVisualStyleBackColor = true;
@@ -318,22 +311,23 @@
             // 
             // txtRedContrastValue
             // 
-            this.txtRedContrastValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtRedContrastValue.Location = new System.Drawing.Point(9, 479);
+            this.txtRedContrastValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtRedContrastValue.Location = new System.Drawing.Point(288, 603);
             this.txtRedContrastValue.Name = "txtRedContrastValue";
-            this.txtRedContrastValue.Size = new System.Drawing.Size(39, 20);
+            this.txtRedContrastValue.Size = new System.Drawing.Size(46, 20);
             this.txtRedContrastValue.TabIndex = 38;
             // 
             // tbGreenContrast
             // 
             this.tbGreenContrast.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbGreenContrast.Location = new System.Drawing.Point(53, 37);
+            this.tbGreenContrast.Location = new System.Drawing.Point(340, 137);
             this.tbGreenContrast.Maximum = 100;
             this.tbGreenContrast.Minimum = -100;
             this.tbGreenContrast.Name = "tbGreenContrast";
             this.tbGreenContrast.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.tbGreenContrast.Size = new System.Drawing.Size(45, 440);
+            this.tbGreenContrast.Size = new System.Drawing.Size(45, 469);
             this.tbGreenContrast.TabIndex = 39;
             this.tbGreenContrast.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.tbGreenContrast.Scroll += new System.EventHandler(this.tbContrast_Scroll);
@@ -342,104 +336,60 @@
             // 
             this.tbBlueContrast.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbBlueContrast.Location = new System.Drawing.Point(98, 37);
+            this.tbBlueContrast.Location = new System.Drawing.Point(391, 137);
             this.tbBlueContrast.Maximum = 100;
             this.tbBlueContrast.Minimum = -100;
             this.tbBlueContrast.Name = "tbBlueContrast";
             this.tbBlueContrast.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.tbBlueContrast.Size = new System.Drawing.Size(45, 440);
+            this.tbBlueContrast.Size = new System.Drawing.Size(45, 469);
             this.tbBlueContrast.TabIndex = 40;
             this.tbBlueContrast.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.tbBlueContrast.Scroll += new System.EventHandler(this.tbContrast_Scroll);
             // 
             // txtGreenContrastValue
             // 
-            this.txtGreenContrastValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtGreenContrastValue.Location = new System.Drawing.Point(54, 479);
+            this.txtGreenContrastValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtGreenContrastValue.Location = new System.Drawing.Point(340, 603);
             this.txtGreenContrastValue.Name = "txtGreenContrastValue";
-            this.txtGreenContrastValue.Size = new System.Drawing.Size(39, 20);
+            this.txtGreenContrastValue.Size = new System.Drawing.Size(46, 20);
             this.txtGreenContrastValue.TabIndex = 42;
             // 
             // txtBlueContrastValue
             // 
-            this.txtBlueContrastValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtBlueContrastValue.Location = new System.Drawing.Point(99, 479);
+            this.txtBlueContrastValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtBlueContrastValue.Location = new System.Drawing.Point(392, 603);
             this.txtBlueContrastValue.Name = "txtBlueContrastValue";
-            this.txtBlueContrastValue.Size = new System.Drawing.Size(39, 20);
+            this.txtBlueContrastValue.Size = new System.Drawing.Size(46, 20);
             this.txtBlueContrastValue.TabIndex = 44;
             // 
             // btnReopen
             // 
-            this.btnReopen.Enabled = false;
             this.btnReopen.Location = new System.Drawing.Point(104, 7);
             this.btnReopen.Name = "btnReopen";
             this.btnReopen.Size = new System.Drawing.Size(75, 23);
             this.btnReopen.TabIndex = 45;
             this.btnReopen.Text = "Restore";
             this.btnReopen.UseVisualStyleBackColor = true;
-            this.btnReopen.Click += new System.EventHandler(this.btnReopen_Click);
-            // 
-            // grpContrastAdj
-            // 
-            this.grpContrastAdj.Controls.Add(this.label3);
-            this.grpContrastAdj.Controls.Add(this.label2);
-            this.grpContrastAdj.Controls.Add(this.label1);
-            this.grpContrastAdj.Controls.Add(this.tbRedContrast);
-            this.grpContrastAdj.Controls.Add(this.tbGreenContrast);
-            this.grpContrastAdj.Controls.Add(this.txtBlueContrastValue);
-            this.grpContrastAdj.Controls.Add(this.tbBlueContrast);
-            this.grpContrastAdj.Controls.Add(this.btnApplyContrast);
-            this.grpContrastAdj.Controls.Add(this.txtGreenContrastValue);
-            this.grpContrastAdj.Controls.Add(this.txtRedContrastValue);
-            this.grpContrastAdj.Enabled = false;
-            this.grpContrastAdj.Location = new System.Drawing.Point(289, 122);
-            this.grpContrastAdj.Name = "grpContrastAdj";
-            this.grpContrastAdj.Size = new System.Drawing.Size(149, 538);
-            this.grpContrastAdj.TabIndex = 46;
-            this.grpContrastAdj.TabStop = false;
-            this.grpContrastAdj.Text = "Contrast Adjustment:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(19, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(18, 16);
-            this.label1.TabIndex = 47;
-            this.label1.Text = "R";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(65, 18);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(18, 16);
-            this.label2.TabIndex = 48;
-            this.label2.Text = "G";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(109, 18);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(17, 16);
-            this.label3.TabIndex = 49;
-            this.label3.Text = "B";
             // 
             // ExtractForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(442, 661);
-            this.Controls.Add(this.grpContrastAdj);
             this.Controls.Add(this.btnReopen);
-            this.Controls.Add(this.grpParts);
+            this.Controls.Add(this.txtBlueContrastValue);
+            this.Controls.Add(this.txtGreenContrastValue);
+            this.Controls.Add(this.tbBlueContrast);
+            this.Controls.Add(this.tbGreenContrast);
+            this.Controls.Add(this.txtRedContrastValue);
+            this.Controls.Add(this.btnApplyContrast);
+            this.Controls.Add(this.tbRedContrast);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.picBox);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.grpThresholds);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnExtract);
             this.Controls.Add(this.btnOpenFile);
             this.Name = "ExtractForm";
@@ -448,16 +398,15 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ExtractForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.picBox)).EndInit();
             this.groupBox2.ResumeLayout(false);
-            this.grpThresholds.ResumeLayout(false);
-            this.grpThresholds.PerformLayout();
-            this.grpParts.ResumeLayout(false);
-            this.grpParts.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbRedContrast)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbGreenContrast)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbBlueContrast)).EndInit();
-            this.grpContrastAdj.ResumeLayout(false);
-            this.grpContrastAdj.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -469,7 +418,7 @@
         private System.Windows.Forms.Button btnSwitchColors;
         private System.Windows.Forms.Label lblColor2;
         private System.Windows.Forms.Label lblColor1;
-        private System.Windows.Forms.GroupBox grpThresholds;
+        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label7;
         private IntegerValueTextBox txtBthreshold;
         private System.Windows.Forms.Label label6;
@@ -478,7 +427,7 @@
         private IntegerValueTextBox txtRthreshold;
         private System.Windows.Forms.Button btnExtract;
         private System.Windows.Forms.Button btnOpenFile;
-        private System.Windows.Forms.GroupBox grpParts;
+        private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TrackBar tbRedContrast;
@@ -489,9 +438,5 @@
         private System.Windows.Forms.TextBox txtGreenContrastValue;
         private System.Windows.Forms.TextBox txtBlueContrastValue;
         private System.Windows.Forms.Button btnReopen;
-        private System.Windows.Forms.GroupBox grpContrastAdj;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
     }
 }

@@ -45,19 +45,15 @@ namespace WeaveImagePatternExtractor
             ofd.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath);
             if (ofd.ShowDialog() != DialogResult.OK) return;
             srcImgPath = ofd.FileName;
-            imgSrc = new Bitmap(srcImgPath);
+            imgSrc = new Bitmap(ofd.FileName);
+            //picBox.Image = imgSrc;
             DrawExtractGrid();
-            btnReopen.Enabled = true;
-            grpContrastAdj.Enabled = true;
-            grpParts.Enabled = true;
-            btnExtract.Enabled = true;
         }
 
         private void btnReopen_Click(object sender, EventArgs e)
         {
             if (srcImgPath == "") return;
-            imgSrc = new Bitmap(srcImgPath);
-            DrawExtractGrid();
+
         }
 
         private void btnExtract_Click(object sender, EventArgs e)
@@ -65,7 +61,6 @@ namespace WeaveImagePatternExtractor
             ExtractPatternFromSource();
             if (ExtractPatternCompleted != null)
                 ExtractPatternCompleted(imgPattern);
-            grpThresholds.Enabled = true;
         }
 
         private void ExtractPatternFromSource()

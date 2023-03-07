@@ -48,9 +48,6 @@ namespace WeaveImagePatternExtractor
             imgSrc = new Bitmap(srcImgPath);
             DrawExtractGrid();
             btnReopen.Enabled = true;
-            grpContrastAdj.Enabled = true;
-            grpParts.Enabled = true;
-            btnExtract.Enabled = true;
         }
 
         private void btnReopen_Click(object sender, EventArgs e)
@@ -65,7 +62,6 @@ namespace WeaveImagePatternExtractor
             ExtractPatternFromSource();
             if (ExtractPatternCompleted != null)
                 ExtractPatternCompleted(imgPattern);
-            grpThresholds.Enabled = true;
         }
 
         private void ExtractPatternFromSource()

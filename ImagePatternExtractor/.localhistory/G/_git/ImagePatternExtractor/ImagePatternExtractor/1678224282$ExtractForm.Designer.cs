@@ -33,7 +33,7 @@
             this.btnSwitchColors = new System.Windows.Forms.Button();
             this.lblColor2 = new System.Windows.Forms.Label();
             this.lblColor1 = new System.Windows.Forms.Label();
-            this.grpThresholds = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtBthreshold = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -61,7 +61,7 @@
             this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picBox)).BeginInit();
             this.groupBox2.SuspendLayout();
-            this.grpThresholds.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.grpParts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbRedContrast)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbGreenContrast)).BeginInit();
@@ -136,21 +136,20 @@
             this.lblColor1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblColor1.Click += new System.EventHandler(this.lblColor1_Click);
             // 
-            // grpThresholds
+            // groupBox1
             // 
-            this.grpThresholds.Controls.Add(this.label7);
-            this.grpThresholds.Controls.Add(this.txtBthreshold);
-            this.grpThresholds.Controls.Add(this.label6);
-            this.grpThresholds.Controls.Add(this.txtGthreshold);
-            this.grpThresholds.Controls.Add(this.label5);
-            this.grpThresholds.Controls.Add(this.txtRthreshold);
-            this.grpThresholds.Enabled = false;
-            this.grpThresholds.Location = new System.Drawing.Point(11, 79);
-            this.grpThresholds.Name = "grpThresholds";
-            this.grpThresholds.Size = new System.Drawing.Size(178, 42);
-            this.grpThresholds.TabIndex = 31;
-            this.grpThresholds.TabStop = false;
-            this.grpThresholds.Text = "calculated thresholds:";
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.txtBthreshold);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.txtGthreshold);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.txtRthreshold);
+            this.groupBox1.Location = new System.Drawing.Point(11, 79);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(178, 42);
+            this.groupBox1.TabIndex = 31;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "calculated thresholds:";
             // 
             // label7
             // 
@@ -439,7 +438,7 @@
             this.Controls.Add(this.grpParts);
             this.Controls.Add(this.picBox);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.grpThresholds);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnExtract);
             this.Controls.Add(this.btnOpenFile);
             this.Name = "ExtractForm";
@@ -448,8 +447,8 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ExtractForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.picBox)).EndInit();
             this.groupBox2.ResumeLayout(false);
-            this.grpThresholds.ResumeLayout(false);
-            this.grpThresholds.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.grpParts.ResumeLayout(false);
             this.grpParts.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tbRedContrast)).EndInit();
@@ -469,7 +468,7 @@
         private System.Windows.Forms.Button btnSwitchColors;
         private System.Windows.Forms.Label lblColor2;
         private System.Windows.Forms.Label lblColor1;
-        private System.Windows.Forms.GroupBox grpThresholds;
+        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label7;
         private IntegerValueTextBox txtBthreshold;
         private System.Windows.Forms.Label label6;
