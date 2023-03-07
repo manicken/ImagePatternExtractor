@@ -89,13 +89,15 @@ namespace WeaveImagePatternExtractor
             }
         }
 
-        
+        int maxColorValue = 0;
+        int minColorValue = 0xFFFFFF;
+
+        Color maxColor = new Color();
+        Color minColor = new Color();
 
         private void ExtractPatternFromSourceByMeanValue()
         {
-            long globalMeanR = 0;
-            long globalMeanG = 0;
-            long globalMeanB = 0;
+            
             imgPattern = new Bitmap(xParts, yParts);
             
             for (int y = 0; y < yParts; y++)
@@ -103,30 +105,15 @@ namespace WeaveImagePatternExtractor
                 for (int x = 0; x < xParts; x++)
                 {
                     Color cm = GetMean(x, y);
-                    globalMeanR += cm.R;
-                    globalMeanG += cm.G;
-                    globalMeanB += cm.B;
+                    int cVal = cm.R * 256 * 256 + cm.G * 256 + cm.B;
+                    if (cVal > maxColorValue) { maxColorValue = cVal; maxColor = cm; }
+                    if (cVal < minColorValue) { minColorValue = cVal; minColor = cm; }
                     imgPattern.SetPixel(x, y, cm);
                 }
             }
-            globalMeanR /= (xParts * yParts);
-            globalMeanG /= (xParts * yParts);
-            globalMeanB /= (xParts * yParts);
-            txtRthreshold.Value = (int)globalMeanR;
-            txtGthreshold.Value = (int)globalMeanG;
-            txtBthreshold.Value = (int)globalMeanB;
-            for (int y = 0; y < yParts; y++)
-            {
-                for (int x = 0; x < xParts; x++)
-                {
-                    Color c = imgPattern.GetPixel(x, y);
-                    if (c.R > globalMeanR && c.G > globalMeanG && c.B > globalMeanB)
-                        imgPattern.SetPixel(x, y, lblColor1.BackColor);
-                    else
-                        imgPattern.SetPixel(x, y, lblColor2.BackColor);
-                }
-            }
-            
+            txtRthreshold.Value = (maxColor.R - minColor.R) / 2;
+            txtGthreshold.Value = (maxColor.G - minColor.G) / 2;
+            txtBthreshold.Value = (maxColor.B - minColor.B) / 2;
         }
         private Color GetMean(int x, int y)
         {
@@ -243,18 +230,14 @@ namespace WeaveImagePatternExtractor
 
         private void btnApplyContrast_Click(object sender, EventArgs e)
         {
-            imgSrc = imgSrc.SetContrast(tbRedContrast.Value, tbGreenContrast.Value, tbBlueContrast.Value);
+            imgSrc = imgSrc.SetContrast(tbRedContrast.Value);
             tbRedContrast.Value = 0;
-            tbGreenContrast.Value = 0;
-            tbBlueContrast.Value = 0;
         }
 
         private void tbContrast_Scroll(object sender, EventArgs e)
         {
-            picBox.Image = imgSrc.SetContrast(tbRedContrast.Value, tbGreenContrast.Value, tbBlueContrast.Value);
+            picBox.Image = imgSrc.SetContrast(tbRedContrast.Value);
             txtRedContrastValue.Text = tbRedContrast.Value.ToString();
-            txtGreenContrastValue.Text = tbGreenContrast.Value.ToString();
-            txtBlueContrastValue.Text = tbBlueContrast.Value.ToString();
         }
 
         

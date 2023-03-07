@@ -89,44 +89,18 @@ namespace WeaveImagePatternExtractor
             }
         }
 
-        
-
         private void ExtractPatternFromSourceByMeanValue()
         {
-            long globalMeanR = 0;
-            long globalMeanG = 0;
-            long globalMeanB = 0;
+            
             imgPattern = new Bitmap(xParts, yParts);
             
             for (int y = 0; y < yParts; y++)
             {
                 for (int x = 0; x < xParts; x++)
                 {
-                    Color cm = GetMean(x, y);
-                    globalMeanR += cm.R;
-                    globalMeanG += cm.G;
-                    globalMeanB += cm.B;
-                    imgPattern.SetPixel(x, y, cm);
+                    imgPattern.SetPixel(x, y, GetMean(x, y));
                 }
             }
-            globalMeanR /= (xParts * yParts);
-            globalMeanG /= (xParts * yParts);
-            globalMeanB /= (xParts * yParts);
-            txtRthreshold.Value = (int)globalMeanR;
-            txtGthreshold.Value = (int)globalMeanG;
-            txtBthreshold.Value = (int)globalMeanB;
-            for (int y = 0; y < yParts; y++)
-            {
-                for (int x = 0; x < xParts; x++)
-                {
-                    Color c = imgPattern.GetPixel(x, y);
-                    if (c.R > globalMeanR && c.G > globalMeanG && c.B > globalMeanB)
-                        imgPattern.SetPixel(x, y, lblColor1.BackColor);
-                    else
-                        imgPattern.SetPixel(x, y, lblColor2.BackColor);
-                }
-            }
-            
         }
         private Color GetMean(int x, int y)
         {
@@ -141,7 +115,6 @@ namespace WeaveImagePatternExtractor
                 for (int yp = 0; yp < (int)yMult; yp++)
                 {
                     Color c = imgSrc.GetPixel(xp + xPos, yp + yPos);
-                    
                     R += c.R;
                     G += c.G;
                     B += c.B;
@@ -241,38 +214,17 @@ namespace WeaveImagePatternExtractor
             DrawExtractGrid();
         }
 
-        private void btnApplyContrast_Click(object sender, EventArgs e)
+        private static void SetContrast(Bitmap bmp, int threshold)
         {
-            imgSrc = imgSrc.SetContrast(tbRedContrast.Value, tbGreenContrast.Value, tbBlueContrast.Value);
-            tbRedContrast.Value = 0;
-            tbGreenContrast.Value = 0;
-            tbBlueContrast.Value = 0;
-        }
-
-        private void tbContrast_Scroll(object sender, EventArgs e)
-        {
-            picBox.Image = imgSrc.SetContrast(tbRedContrast.Value, tbGreenContrast.Value, tbBlueContrast.Value);
-            txtRedContrastValue.Text = tbRedContrast.Value.ToString();
-            txtGreenContrastValue.Text = tbGreenContrast.Value.ToString();
-            txtBlueContrastValue.Text = tbBlueContrast.Value.ToString();
-        }
-
-        
-    }
-
-    public static class BitmapExt
-    {
-        public static Bitmap SetContrast(this Bitmap thisBmp, int threshold)
-        {
-            var cBmp = new Bitmap(thisBmp);
-
+            var lockedBitmap = new Bitmap(bmp);
+            
             var contrast = Math.Pow((100.0 + threshold) / 100.0, 2);
 
-            for (int y = 0; y < thisBmp.Height; y++)
+            for (int y = 0; y < lockedBitmap.Height; y++)
             {
-                for (int x = 0; x < thisBmp.Width; x++)
+                for (int x = 0; x < lockedBitmap.Width; x++)
                 {
-                    var oldColor = thisBmp.GetPixel(x, y);
+                    var oldColor = lockedBitmap.GetPixel(x, y);
                     var red = ((((oldColor.R / 255.0) - 0.5) * contrast) + 0.5) * 255.0;
                     var green = ((((oldColor.G / 255.0) - 0.5) * contrast) + 0.5) * 255.0;
                     var blue = ((((oldColor.B / 255.0) - 0.5) * contrast) + 0.5) * 255.0;
@@ -290,45 +242,9 @@ namespace WeaveImagePatternExtractor
                         blue = 0;
 
                     var newColor = Color.FromArgb(oldColor.A, (int)red, (int)green, (int)blue);
-                    cBmp.SetPixel(x, y, newColor);
+                    lockedBitmap.SetPixel(x, y, newColor);
                 }
             }
-            return cBmp;
-        }
-        public static Bitmap SetContrast(this Bitmap thisBmp, int redThreshold, int greenThreshold, int blueThreshold)
-        {
-            var cBmp = new Bitmap(thisBmp);
-
-            var redContrast = Math.Pow((100.0 + redThreshold) / 100.0, 2);
-            var greenContrast = Math.Pow((100.0 + greenThreshold) / 100.0, 2);
-            var blueContrast = Math.Pow((100.0 + blueThreshold) / 100.0, 2);
-
-            for (int y = 0; y < thisBmp.Height; y++)
-            {
-                for (int x = 0; x < thisBmp.Width; x++)
-                {
-                    var oldColor = thisBmp.GetPixel(x, y);
-                    var red = ((((oldColor.R / 255.0) - 0.5) * redContrast) + 0.5) * 255.0;
-                    var green = ((((oldColor.G / 255.0) - 0.5) * greenContrast) + 0.5) * 255.0;
-                    var blue = ((((oldColor.B / 255.0) - 0.5) * blueContrast) + 0.5) * 255.0;
-                    if (red > 255)
-                        red = 255;
-                    if (red < 0)
-                        red = 0;
-                    if (green > 255)
-                        green = 255;
-                    if (green < 0)
-                        green = 0;
-                    if (blue > 255)
-                        blue = 255;
-                    if (blue < 0)
-                        blue = 0;
-
-                    var newColor = Color.FromArgb(oldColor.A, (int)red, (int)green, (int)blue);
-                    cBmp.SetPixel(x, y, newColor);
-                }
-            }
-            return cBmp;
         }
     }
 }

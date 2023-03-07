@@ -47,9 +47,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.tbRedContrast = new System.Windows.Forms.TrackBar();
+            this.tbContrast = new System.Windows.Forms.TrackBar();
             this.btnApplyContrast = new System.Windows.Forms.Button();
-            this.txtRedContrastValue = new System.Windows.Forms.TextBox();
             this.txtYparts = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.txtXparts = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.txtXoffset = new WeaveImagePatternExtractor.IntegerValueTextBox();
@@ -57,28 +56,24 @@
             this.txtBthreshold = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.txtGthreshold = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.txtRthreshold = new WeaveImagePatternExtractor.IntegerValueTextBox();
-            this.tbGreenContrast = new System.Windows.Forms.TrackBar();
-            this.tbBlueContrast = new System.Windows.Forms.TrackBar();
-            this.txtGreenContrastValue = new System.Windows.Forms.TextBox();
-            this.txtBlueContrastValue = new System.Windows.Forms.TextBox();
+            this.intValTxtContrast = new WeaveImagePatternExtractor.IntegerValueTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.picBox)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tbRedContrast)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbGreenContrast)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbBlueContrast)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbContrast)).BeginInit();
             this.SuspendLayout();
             // 
             // picBox
             // 
-            this.picBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.picBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.picBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picBox.Location = new System.Drawing.Point(1, 137);
+            this.picBox.Location = new System.Drawing.Point(1, 140);
             this.picBox.Name = "picBox";
-            this.picBox.Size = new System.Drawing.Size(332, 518);
+            this.picBox.Size = new System.Drawing.Size(279, 518);
             this.picBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picBox.TabIndex = 20;
             this.picBox.TabStop = false;
@@ -279,34 +274,27 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // tbRedContrast
+            // tbContrast
             // 
-            this.tbRedContrast.Location = new System.Drawing.Point(339, 137);
-            this.tbRedContrast.Maximum = 100;
-            this.tbRedContrast.Minimum = -100;
-            this.tbRedContrast.Name = "tbRedContrast";
-            this.tbRedContrast.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.tbRedContrast.Size = new System.Drawing.Size(45, 469);
-            this.tbRedContrast.TabIndex = 36;
-            this.tbRedContrast.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.tbRedContrast.Scroll += new System.EventHandler(this.tbContrast_Scroll);
+            this.tbContrast.Location = new System.Drawing.Point(286, 140);
+            this.tbContrast.Maximum = 100;
+            this.tbContrast.Minimum = -100;
+            this.tbContrast.Name = "tbContrast";
+            this.tbContrast.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.tbContrast.Size = new System.Drawing.Size(45, 469);
+            this.tbContrast.TabIndex = 36;
+            this.tbContrast.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.tbContrast.Scroll += new System.EventHandler(this.tbContrast_Scroll);
             // 
             // btnApplyContrast
             // 
-            this.btnApplyContrast.Location = new System.Drawing.Point(338, 629);
+            this.btnApplyContrast.Location = new System.Drawing.Point(285, 632);
             this.btnApplyContrast.Name = "btnApplyContrast";
             this.btnApplyContrast.Size = new System.Drawing.Size(45, 23);
             this.btnApplyContrast.TabIndex = 37;
             this.btnApplyContrast.Text = "apply";
             this.btnApplyContrast.UseVisualStyleBackColor = true;
             this.btnApplyContrast.Click += new System.EventHandler(this.btnApplyContrast_Click);
-            // 
-            // txtRedContrastValue
-            // 
-            this.txtRedContrastValue.Location = new System.Drawing.Point(338, 603);
-            this.txtRedContrastValue.Name = "txtRedContrastValue";
-            this.txtRedContrastValue.Size = new System.Drawing.Size(46, 20);
-            this.txtRedContrastValue.TabIndex = 38;
             // 
             // txtYparts
             // 
@@ -391,56 +379,25 @@
             this.txtRthreshold.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtRthreshold.Value = 128;
             // 
-            // tbGreenContrast
+            // intValTxtContrast
             // 
-            this.tbGreenContrast.Location = new System.Drawing.Point(390, 137);
-            this.tbGreenContrast.Maximum = 100;
-            this.tbGreenContrast.Minimum = -100;
-            this.tbGreenContrast.Name = "tbGreenContrast";
-            this.tbGreenContrast.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.tbGreenContrast.Size = new System.Drawing.Size(45, 469);
-            this.tbGreenContrast.TabIndex = 39;
-            this.tbGreenContrast.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.tbGreenContrast.Scroll += new System.EventHandler(this.tbContrast_Scroll);
-            // 
-            // tbBlueContrast
-            // 
-            this.tbBlueContrast.Location = new System.Drawing.Point(441, 137);
-            this.tbBlueContrast.Maximum = 100;
-            this.tbBlueContrast.Minimum = -100;
-            this.tbBlueContrast.Name = "tbBlueContrast";
-            this.tbBlueContrast.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.tbBlueContrast.Size = new System.Drawing.Size(45, 469);
-            this.tbBlueContrast.TabIndex = 40;
-            this.tbBlueContrast.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.tbBlueContrast.Scroll += new System.EventHandler(this.tbContrast_Scroll);
-            // 
-            // txtGreenContrastValue
-            // 
-            this.txtGreenContrastValue.Location = new System.Drawing.Point(390, 603);
-            this.txtGreenContrastValue.Name = "txtGreenContrastValue";
-            this.txtGreenContrastValue.Size = new System.Drawing.Size(46, 20);
-            this.txtGreenContrastValue.TabIndex = 42;
-            // 
-            // txtBlueContrastValue
-            // 
-            this.txtBlueContrastValue.Location = new System.Drawing.Point(442, 603);
-            this.txtBlueContrastValue.Name = "txtBlueContrastValue";
-            this.txtBlueContrastValue.Size = new System.Drawing.Size(46, 20);
-            this.txtBlueContrastValue.TabIndex = 44;
+            this.intValTxtContrast.DefaultValue = 0;
+            this.intValTxtContrast.Location = new System.Drawing.Point(287, 610);
+            this.intValTxtContrast.Name = "intValTxtContrast";
+            this.intValTxtContrast.Size = new System.Drawing.Size(44, 20);
+            this.intValTxtContrast.TabIndex = 38;
+            this.intValTxtContrast.Text = "0";
+            this.intValTxtContrast.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.intValTxtContrast.Value = 0;
             // 
             // ExtractForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(538, 661);
-            this.Controls.Add(this.txtBlueContrastValue);
-            this.Controls.Add(this.txtGreenContrastValue);
-            this.Controls.Add(this.tbBlueContrast);
-            this.Controls.Add(this.tbGreenContrast);
-            this.Controls.Add(this.txtRedContrastValue);
+            this.ClientSize = new System.Drawing.Size(337, 661);
+            this.Controls.Add(this.intValTxtContrast);
             this.Controls.Add(this.btnApplyContrast);
-            this.Controls.Add(this.tbRedContrast);
+            this.Controls.Add(this.tbContrast);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -461,9 +418,7 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tbRedContrast)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbGreenContrast)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbBlueContrast)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbContrast)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -497,12 +452,8 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TrackBar tbRedContrast;
+        private System.Windows.Forms.TrackBar tbContrast;
         private System.Windows.Forms.Button btnApplyContrast;
-        private System.Windows.Forms.TextBox txtRedContrastValue;
-        private System.Windows.Forms.TrackBar tbGreenContrast;
-        private System.Windows.Forms.TrackBar tbBlueContrast;
-        private System.Windows.Forms.TextBox txtGreenContrastValue;
-        private System.Windows.Forms.TextBox txtBlueContrastValue;
+        private IntegerValueTextBox intValTxtContrast;
     }
 }

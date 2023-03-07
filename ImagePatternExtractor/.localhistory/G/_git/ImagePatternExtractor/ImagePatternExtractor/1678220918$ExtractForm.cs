@@ -245,8 +245,6 @@ namespace WeaveImagePatternExtractor
         {
             imgSrc = imgSrc.SetContrast(tbRedContrast.Value, tbGreenContrast.Value, tbBlueContrast.Value);
             tbRedContrast.Value = 0;
-            tbGreenContrast.Value = 0;
-            tbBlueContrast.Value = 0;
         }
 
         private void tbContrast_Scroll(object sender, EventArgs e)

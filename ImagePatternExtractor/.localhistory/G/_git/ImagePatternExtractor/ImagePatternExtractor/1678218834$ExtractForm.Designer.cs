@@ -401,7 +401,6 @@
             this.tbGreenContrast.Size = new System.Drawing.Size(45, 469);
             this.tbGreenContrast.TabIndex = 39;
             this.tbGreenContrast.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.tbGreenContrast.Scroll += new System.EventHandler(this.tbContrast_Scroll);
             // 
             // tbBlueContrast
             // 
@@ -413,7 +412,6 @@
             this.tbBlueContrast.Size = new System.Drawing.Size(45, 469);
             this.tbBlueContrast.TabIndex = 40;
             this.tbBlueContrast.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.tbBlueContrast.Scroll += new System.EventHandler(this.tbContrast_Scroll);
             // 
             // txtGreenContrastValue
             // 

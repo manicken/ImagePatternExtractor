@@ -119,11 +119,6 @@ namespace WeaveImagePatternExtractor
             {
                 for (int x = 0; x < xParts; x++)
                 {
-                    Color c = imgPattern.GetPixel(x, y);
-                    if (c.R > globalMeanR && c.G > globalMeanG && c.B > globalMeanB)
-                        imgPattern.SetPixel(x, y, lblColor1.BackColor);
-                    else
-                        imgPattern.SetPixel(x, y, lblColor2.BackColor);
                 }
             }
             
@@ -245,8 +240,6 @@ namespace WeaveImagePatternExtractor
         {
             imgSrc = imgSrc.SetContrast(tbRedContrast.Value, tbGreenContrast.Value, tbBlueContrast.Value);
             tbRedContrast.Value = 0;
-            tbGreenContrast.Value = 0;
-            tbBlueContrast.Value = 0;
         }
 
         private void tbContrast_Scroll(object sender, EventArgs e)
