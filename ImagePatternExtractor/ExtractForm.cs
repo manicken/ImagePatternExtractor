@@ -28,7 +28,6 @@ namespace WeaveImagePatternExtractor
             txtYparts.ValueChanged = delegate (int val) { yParts = val; };
         }
 
-
         private void ExtractForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
@@ -46,52 +45,18 @@ namespace WeaveImagePatternExtractor
             if (ofd.ShowDialog() != DialogResult.OK) return;
 
             imgSrc = new Bitmap(ofd.FileName);
-            picBox.Image = imgSrc;
+            //picBox.Image = imgSrc;
+            DrawExtractGrid();
         }
 
         private void btnExtract_Click(object sender, EventArgs e)
         {
-            //ExtractPatternFromSource();
-            ExtractPatternFromSourceByMeanValue();
+            ExtractPatternFromSource();
             if (ExtractPatternCompleted != null)
                 ExtractPatternCompleted(imgPattern);
         }
 
         private void ExtractPatternFromSource()
-        {
-            int xOffset = txtXoffset.Value;
-            int yOffset = txtYoffset.Value;
-            double xMult = (double)imgSrc.Width / (double)xParts;
-            double yMult = (double)imgSrc.Height / (double)yParts;
-            int rth = txtRthreshold.Value;
-            int gth = txtGthreshold.Value;
-            int bth = txtBthreshold.Value;
-            int threshold = rth * 256 * 256 + gth * 256 + bth;
-            imgPattern = new Bitmap(xParts, yParts);
-            Color color1 = lblColor1.BackColor;
-            Color color2 = lblColor2.BackColor;
-
-            for (int y = 0; y < yParts; y++)
-            {
-                for (int x = 0; x < xParts; x++)
-                {
-                    int xPos = (int)(x * xMult) + xOffset;
-                    int yPos = (int)(y * yMult) + yOffset;
-                    Color c = imgSrc.GetPixel(xPos, yPos);
-
-                    int nr = c.R * 256 * 256 + c.G * 256 + c.B;
-
-                    if (nr > threshold)
-                        imgPattern.SetPixel(x, y, color1);
-                    else
-                        imgPattern.SetPixel(x, y, color2);
-                }
-            }
-        }
-
-        
-
-        private void ExtractPatternFromSourceByMeanValue()
         {
             long globalMeanR = 0;
             long globalMeanG = 0;
@@ -128,6 +93,7 @@ namespace WeaveImagePatternExtractor
             }
             
         }
+
         private Color GetMean(int x, int y)
         {
             int R = 0, G = 0, B = 0;
@@ -149,45 +115,6 @@ namespace WeaveImagePatternExtractor
             }
             R = R / pixelsInPart; G = G / pixelsInPart; B = B / pixelsInPart;
             return Color.FromArgb(R, G, B);
-        }
-
-        private void picBox_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (picBox.Image == null) return;
-            if (e.Button == MouseButtons.Left)
-                GetColor(e.X, e.Y);
-        }
-
-        private void picBox_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (picBox.Image == null) return;
-            if (e.Button == MouseButtons.Left)
-                GetColor(e.X, e.Y);
-        }
-
-        private void GetColor(Int32 mouseX, Int32 mouseY)
-        {
-            Int32 realW = picBox.Image.Width;
-            Int32 realH = picBox.Image.Height;
-            Int32 currentW = picBox.ClientRectangle.Width;
-            Int32 currentH = picBox.ClientRectangle.Height;
-            Double zoomW = (currentW / (Double)realW);
-            Double zoomH = (currentH / (Double)realH);
-            Double zoomActual = Math.Min(zoomW, zoomH);
-            Double padX = zoomActual == zoomW ? 0 : (currentW - (zoomActual * realW)) / 2;
-            Double padY = zoomActual == zoomH ? 0 : (currentH - (zoomActual * realH)) / 2;
-
-            Int32 realX = (Int32)((mouseX - padX) / zoomActual);
-            Int32 realY = (Int32)((mouseY - padY) / zoomActual);
-            //lblPosXval.Text = realX < 0 || realX > realW ? "-" : realX.ToString();
-            //lblPosYVal.Text = realY < 0 || realY > realH ? "-" : realY.ToString();
-
-            Bitmap bmp = new Bitmap(picBox.Image);
-            Color colour = bmp.GetPixel(realX, realY);
-            txtRthreshold.Value = colour.R;
-            txtGthreshold.Value = colour.G;
-            txtBthreshold.Value = colour.B;
-            bmp.Dispose();
         }
 
         private void btnSwitchColors_Click(object sender, EventArgs e)
@@ -231,11 +158,6 @@ namespace WeaveImagePatternExtractor
             //picBox.Invalidate();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            DrawExtractGrid();
-        }
-
         private void txtXorYparts_TextChanged(object sender, EventArgs e)
         {
             DrawExtractGrid();
@@ -256,8 +178,6 @@ namespace WeaveImagePatternExtractor
             txtGreenContrastValue.Text = tbGreenContrast.Value.ToString();
             txtBlueContrastValue.Text = tbBlueContrast.Value.ToString();
         }
-
-        
     }
 
     public static class BitmapExt
@@ -332,3 +252,43 @@ namespace WeaveImagePatternExtractor
         }
     }
 }
+
+/* good functions to have
+private void picBox_MouseDown(object sender, MouseEventArgs e)
+{
+    if (picBox.Image == null) return;
+    if (e.Button == MouseButtons.Left)
+        GetColor(e.X, e.Y);
+}
+
+private void picBox_MouseMove(object sender, MouseEventArgs e)
+{
+    if (picBox.Image == null) return;
+    if (e.Button == MouseButtons.Left)
+        GetColor(e.X, e.Y);
+}
+
+private void GetColor(Int32 mouseX, Int32 mouseY)
+{
+    Int32 realW = picBox.Image.Width;
+    Int32 realH = picBox.Image.Height;
+    Int32 currentW = picBox.ClientRectangle.Width;
+    Int32 currentH = picBox.ClientRectangle.Height;
+    Double zoomW = (currentW / (Double)realW);
+    Double zoomH = (currentH / (Double)realH);
+    Double zoomActual = Math.Min(zoomW, zoomH);
+    Double padX = zoomActual == zoomW ? 0 : (currentW - (zoomActual * realW)) / 2;
+    Double padY = zoomActual == zoomH ? 0 : (currentH - (zoomActual * realH)) / 2;
+
+    Int32 realX = (Int32)((mouseX - padX) / zoomActual);
+    Int32 realY = (Int32)((mouseY - padY) / zoomActual);
+    //lblPosXval.Text = realX < 0 || realX > realW ? "-" : realX.ToString();
+    //lblPosYVal.Text = realY < 0 || realY > realH ? "-" : realY.ToString();
+
+    Bitmap bmp = new Bitmap(picBox.Image);
+    Color colour = bmp.GetPixel(realX, realY);
+    txtRthreshold.Value = colour.R;
+    txtGthreshold.Value = colour.G;
+    txtBthreshold.Value = colour.B;
+    bmp.Dispose();
+}*/
