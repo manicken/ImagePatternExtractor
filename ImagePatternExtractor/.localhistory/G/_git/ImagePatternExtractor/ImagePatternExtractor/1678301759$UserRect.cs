@@ -69,10 +69,10 @@ namespace UserRectDemo
         {                     
             g.DrawRectangle(new Pen(Color.Red),rectDraw);
             
-            /*foreach (PosSizableRect pos in Enum.GetValues(typeof(PosSizableRect)))
+            foreach (PosSizableRect pos in Enum.GetValues(typeof(PosSizableRect)))
             {
               g.DrawRectangle(new Pen(Color.Red),GetRect(pos));
-            } */                      
+            }                       
         }
         /*
         public void SetBitmapFile(string filename)
@@ -271,13 +271,13 @@ namespace UserRectDemo
                     return CreateRectSizableNode(rectDraw.X, rectDraw.Y);
                  
                 case PosSizableRect.LeftMiddle:
-                    return CreateRectSizableNode(rectDraw.X, rectDraw.Y + rectDraw.Height / 2, sizeNodeRect, rectDraw.Height - sizeNodeRect*2);                    
+                    return CreateRectSizableNode(rectDraw.X, rectDraw.Y + rectDraw.Height / 2, sizeNodeRect, rectDraw.Height - rectDraw.Height/2);                    
 
                 case PosSizableRect.LeftBottom:
                     return CreateRectSizableNode(rectDraw.X, rectDraw.Y + rectDraw.Height);                                   
 
                 case PosSizableRect.BottomMiddle:
-                    return CreateRectSizableNode(rectDraw.X  + rectDraw.Width / 2, rectDraw.Y + rectDraw.Height, rectDraw.Width - sizeNodeRect*2, sizeNodeRect);
+                    return CreateRectSizableNode(rectDraw.X  + rectDraw.Width / 2, rectDraw.Y + rectDraw.Height, rectDraw.Width - rectDraw.Width/2, sizeNodeRect);
 
                 case PosSizableRect.RightUp:
                     return CreateRectSizableNode(rectDraw.X + rectDraw.Width, rectDraw.Y );
@@ -286,10 +286,10 @@ namespace UserRectDemo
                     return CreateRectSizableNode(rectDraw.X  + rectDraw.Width, rectDraw.Y  + rectDraw.Height);
 
                 case PosSizableRect.RightMiddle:
-                    return CreateRectSizableNode(rectDraw.X  + rectDraw.Width, rectDraw.Y  + rectDraw.Height / 2, sizeNodeRect, rectDraw.Height - sizeNodeRect*2);
+                    return CreateRectSizableNode(rectDraw.X  + rectDraw.Width, rectDraw.Y  + rectDraw.Height / 2, sizeNodeRect, rectDraw.Height - rectDraw.Height/2);
 
                 case PosSizableRect.UpMiddle:
-                    return CreateRectSizableNode(rectDraw.X + rectDraw.Width/2, rectDraw.Y, rectDraw.Width - sizeNodeRect*2, sizeNodeRect);
+                    return CreateRectSizableNode(rectDraw.X + rectDraw.Width/2, rectDraw.Y, rectDraw.Width - rectDraw.Width/2, sizeNodeRect);
                 default :
                     return new Rectangle();
             }

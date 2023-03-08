@@ -86,14 +86,13 @@ namespace WeaveImagePatternExtractor
                     imgPattern.SetPixel(x, y, cm);
                 }
             }
-            
+            //picAfterMean.Image = new Bitmap(imgPattern);
             globalMeanR /= (xParts * yParts);
             globalMeanG /= (xParts * yParts);
             globalMeanB /= (xParts * yParts);
             txtRthreshold.Value = (int)globalMeanR;
             txtGthreshold.Value = (int)globalMeanG;
             txtBthreshold.Value = (int)globalMeanB;
-            if (chkProcessStep2.Checked == false) return;
             for (int y = 0; y < yParts; y++)
             {
                 for (int x = 0; x < xParts; x++)

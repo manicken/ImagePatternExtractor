@@ -86,14 +86,12 @@ namespace WeaveImagePatternExtractor
                     imgPattern.SetPixel(x, y, cm);
                 }
             }
-            
             globalMeanR /= (xParts * yParts);
             globalMeanG /= (xParts * yParts);
             globalMeanB /= (xParts * yParts);
             txtRthreshold.Value = (int)globalMeanR;
             txtGthreshold.Value = (int)globalMeanG;
             txtBthreshold.Value = (int)globalMeanB;
-            if (chkProcessStep2.Checked == false) return;
             for (int y = 0; y < yParts; y++)
             {
                 for (int x = 0; x < xParts; x++)
@@ -185,16 +183,7 @@ namespace WeaveImagePatternExtractor
             tbBlueContrast.Value = 0;
         }
 
-        private void btnResetContrast_Click(object sender, EventArgs e)
-        {
-            tbRedContrast.Value = 0;
-            tbGreenContrast.Value = 0;
-            tbBlueContrast.Value = 0;
-            picBox.Image = imgSrc.SetContrast(tbRedContrast.Value, tbGreenContrast.Value, tbBlueContrast.Value);
-            txtRedContrastValue.Text = "0";
-            txtGreenContrastValue.Text = "0";
-            txtBlueContrastValue.Text = "0";
-        }
+        
 
         private void tbContrast_Scroll(object sender, EventArgs e)
         {
