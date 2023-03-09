@@ -38,16 +38,6 @@ namespace WeaveImagePatternExtractor
             CreateNewPattern();
         }
 
-        private Bitmap OpenAndReadImage(string path)
-        {
-            Bitmap bm;
-            using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                bm = new Bitmap(stream);
-            }
-            return bm;
-        }
-
         private void CreateNewPattern()
         {
             imgPattern = new Bitmap(txtEditorImageWidth.Value, txtEditorImageHeight.Value);
@@ -216,6 +206,7 @@ namespace WeaveImagePatternExtractor
         {
             filepath = "";
             SaveFileDialog sfd = new SaveFileDialog();
+            sfd.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\ExamplePatterns";
             sfd.Filter = "PNG File|*.png";
             if (sfd.ShowDialog() != DialogResult.OK) return false;
             filepath = sfd.FileName;
@@ -244,7 +235,7 @@ namespace WeaveImagePatternExtractor
             ofd.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\ExamplePatterns";
             if (ofd.ShowDialog() != DialogResult.OK) return;
 
-            imgPattern = OpenAndReadImage(ofd.FileName);
+            imgPattern = BitmapExt.OpenAndReadImage(ofd.FileName);
             txtEditorImageHeight.Value = imgPattern.Height;
             txtEditorImageWidth.Value = imgPattern.Width;
             patternFileName = ofd.FileName;

@@ -60,6 +60,8 @@
     <Compile Include="ExtractForm.Designer.cs">
       <DependentUpon>ExtractForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="JsonNode.cs" />
+    <Compile Include="JsonUtility.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

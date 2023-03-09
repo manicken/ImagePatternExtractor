@@ -3,11 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.IO;
 
 namespace WeaveImagePatternExtractor
 {
+    
+
     public static class BitmapExt
     {
+        public static Bitmap OpenAndReadImage(string path)
+        {
+            Bitmap bm;
+            using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                bm = new Bitmap(stream);
+            }
+            return bm;
+        }
+
         public static Bitmap SetContrast(this Bitmap thisBmp, int threshold)
         {
             var cBmp = new Bitmap(thisBmp);

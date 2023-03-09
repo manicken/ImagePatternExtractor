@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Xml;
+using Grimoire; // JSON utility https://www.codeproject.com/Articles/1225851/JsonUtility-A-Fast-Lightweight-Csharp-JSON-Drop-in
+
 //using AForge.Imaging.Filters;
 
 
@@ -15,7 +19,8 @@ namespace WeaveImagePatternExtractor
     public partial class ExtractForm : Form
     {
         public Action<Bitmap> ExtractPatternCompleted;
-        private Bitmap imgSrc;
+        private Bitmap imgSrcOriginal;
+        private Bitmap imgSrc;        
         private Bitmap imgPattern;
         private ColorDialog cd;
         private int xParts = 0, yParts = 0;
@@ -42,14 +47,14 @@ namespace WeaveImagePatternExtractor
             }
         }
 
-        private Bitmap OpenAndReadImage(string path)
+        
+
+        private void FirstTimeOpenFile()
         {
-            Bitmap bm;
-            using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                bm = new Bitmap(stream);
-            }
-            return bm;
+            btnReopen.Enabled = true;
+            grpContrastAdj.Enabled = true;
+            grpParts.Enabled = true;
+            btnExtract.Enabled = true;
         }
 
         private void btnOpenFile_Click(object sender, EventArgs e)
@@ -58,26 +63,83 @@ namespace WeaveImagePatternExtractor
             ofd.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\ExampleImages";
             if (ofd.ShowDialog() != DialogResult.OK) return;
             srcImgPath = ofd.FileName;
-            imgSrc = OpenAndReadImage(srcImgPath);
+            imgSrcOriginal = BitmapExt.OpenAndReadImage(srcImgPath);
+            imgSrc = new Bitmap(imgSrcOriginal);
+
+            ReadXmlMetadata();
+            //PrintMetadata(imgSrcOriginal);
+
             
 
             DrawExtractGrid();
-            btnReopen.Enabled = true;
-            grpContrastAdj.Enabled = true;
-            grpParts.Enabled = true;
-            btnExtract.Enabled = true;
+            FirstTimeOpenFile();
+        }
+
+        private void ReadXmlMetadata()
+        {
+            if (imgSrcOriginal.PropertyIdList.Contains<int>(0x9286) == false) return;
+            PropertyItem pi = imgSrcOriginal.GetPropertyItem(0x9286);
+
+            string xmlStr = new String(System.Text.Encoding.ASCII.GetChars(pi.Value));
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlStr = xmlStr.Substring(0, xmlStr.LastIndexOf(">") + 1);
+            rtxt.AppendText(xmlStr);
+            xmlDoc.LoadXml(xmlStr);
+            XmlNode psn = xmlDoc.SelectSingleNode("patternSizes");
+            txtXparts.Text = psn.Attributes["x"].Value;
+            txtYparts.Text = psn.Attributes["y"].Value;
+        }
+
+        private void PrintMetadata(Bitmap bm)
+        {
+            rtxt.AppendText("Property count: " + bm.PropertyIdList.Length.ToString() + Environment.NewLine);
+            PropertyItem[] pis = bm.PropertyItems;
+            for (int i=0;i< pis.Length;i++)
+            {
+                rtxt.AppendText(Environment.NewLine + pis[i].Id.ToString() + " " + pis[i].Type.ToString() +">>>>"+ new String(System.Text.Encoding.ASCII.GetChars(pis[i].Value)) +"<<<<<<<"+ Environment.NewLine);
+            }
         }
 
         private void btnReopen_Click(object sender, EventArgs e)
         {
-            if (srcImgPath == "") return;
-            imgSrc = OpenAndReadImage(srcImgPath);
-            
+            imgSrc = new Bitmap(imgSrcOriginal);
             DrawExtractGrid();
+        }
+
+        private void SaveMetadata()
+        {
+            using (Bitmap bm = new Bitmap(imgSrcOriginal))
+            {
+                // Create a new PropertyItem object
+                PropertyItem propItem = (PropertyItem)System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(PropertyItem));
+                // Set the PropertyItem ID to a custom value indicating a comment
+                //propItem.Id = 0x010D; // DocumentName
+                //propItem.Id = 0x010E; // ImageDescription
+                propItem.Id = 0x9286; // ExifUserComment
+                // Set the PropertyItem type to indicate the data format (in this case, ASCII string)
+                propItem.Type = 2; // ASCII string type
+
+                propItem.Value = System.Text.Encoding.ASCII.GetBytes(GenerateMetadataString());
+
+                bm.SetPropertyItem(propItem);
+                //if (Path.GetExtension(srcImgPath).ToLower().StartsWith(".jpg"))
+                //    bm.Save(srcImgPath, ImageFormat.Jpeg);
+                //else //if (Path.GetExtension(srcImgPath).ToLower() == ".png")
+                    bm.Save(srcImgPath, ImageFormat.Png);
+            }
+        }
+
+        private string GenerateMetadataString()
+        {
+            
+
+            return "<patternSizes x = \""+ txtXparts.Text+ "\" y = \""+ txtYparts.Text + "\" />";
+            
         }
 
         private void btnExtract_Click(object sender, EventArgs e)
         {
+            SaveMetadata();
             ExtractPatternFromSource();
             if (ExtractPatternCompleted != null)
                 ExtractPatternCompleted(imgPattern);

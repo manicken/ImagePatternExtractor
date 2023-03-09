@@ -73,6 +73,7 @@
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnApplyFilter = new System.Windows.Forms.Button();
+            this.rtxt = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.picBox)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.grpThresholds.SuspendLayout();
@@ -612,11 +613,22 @@
             this.btnApplyFilter.UseVisualStyleBackColor = true;
             this.btnApplyFilter.Click += new System.EventHandler(this.btnApplyFilter_Click);
             // 
+            // rtxt
+            // 
+            this.rtxt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtxt.Location = new System.Drawing.Point(448, 17);
+            this.rtxt.Name = "rtxt";
+            this.rtxt.Size = new System.Drawing.Size(172, 96);
+            this.rtxt.TabIndex = 59;
+            this.rtxt.Text = "";
+            // 
             // ExtractForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 658);
+            this.Controls.Add(this.rtxt);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.grpContrastAdj);
@@ -697,5 +709,6 @@
         private System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button btnApplyFilter;
+        private System.Windows.Forms.RichTextBox rtxt;
     }
 }
