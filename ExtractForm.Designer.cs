@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExtractForm));
             this.picBox = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnSwitchColors = new System.Windows.Forms.Button();
@@ -47,44 +49,37 @@
             this.label9 = new System.Windows.Forms.Label();
             this.txtYparts = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.txtXparts = new WeaveImagePatternExtractor.IntegerValueTextBox();
-            this.tbRedContrast = new System.Windows.Forms.TrackBar();
-            this.btnApplyContrast = new System.Windows.Forms.Button();
-            this.txtRedContrastValue = new System.Windows.Forms.TextBox();
-            this.tbGreenContrast = new System.Windows.Forms.TrackBar();
-            this.tbBlueContrast = new System.Windows.Forms.TrackBar();
-            this.txtGreenContrastValue = new System.Windows.Forms.TextBox();
-            this.txtBlueContrastValue = new System.Windows.Forms.TextBox();
             this.btnReopen = new System.Windows.Forms.Button();
-            this.grpContrastAdj = new System.Windows.Forms.GroupBox();
-            this.btnResetContrast = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkProcessStep2 = new System.Windows.Forms.CheckBox();
             this.chkProcessStep1 = new System.Windows.Forms.CheckBox();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.txtMedianVal = new System.Windows.Forms.TextBox();
             this.btnPreviewFilter = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.chkFilterGrayScale = new System.Windows.Forms.CheckBox();
+            this.chkFilterThreshold = new System.Windows.Forms.CheckBox();
+            this.chkFilterMedian = new System.Windows.Forms.CheckBox();
+            this.chkFilterDilatation = new System.Windows.Forms.CheckBox();
+            this.chkErosion = new System.Windows.Forms.CheckBox();
+            this.grpOCRFilter = new System.Windows.Forms.GroupBox();
+            this.dvtxtFilterAdaptiveSmoothing = new WeaveImagePatternExtractor.DoubleValueTextBox();
+            this.ivtxtFilterMedian = new WeaveImagePatternExtractor.IntegerValueTextBox();
+            this.ivtxtPreDilatationCount = new WeaveImagePatternExtractor.IntegerValueTextBox();
+            this.chkFilterPreDilatation = new System.Windows.Forms.CheckBox();
+            this.ivtxtDilatationCount = new WeaveImagePatternExtractor.IntegerValueTextBox();
+            this.ivtxtErosionCount = new WeaveImagePatternExtractor.IntegerValueTextBox();
+            this.chkFilterAdaptiveSmoothing = new System.Windows.Forms.CheckBox();
             this.btnApplyFilter = new System.Windows.Forms.Button();
             this.rtxt = new System.Windows.Forms.RichTextBox();
+            this.btnOpenAIECF = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.picBox)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.grpThresholds.SuspendLayout();
             this.grpParts.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tbRedContrast)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbGreenContrast)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbBlueContrast)).BeginInit();
-            this.grpContrastAdj.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-            this.groupBox3.SuspendLayout();
+            this.grpOCRFilter.SuspendLayout();
             this.SuspendLayout();
             // 
             // picBox
@@ -95,10 +90,11 @@
             this.picBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.picBox.Location = new System.Drawing.Point(1, 122);
             this.picBox.Name = "picBox";
-            this.picBox.Size = new System.Drawing.Size(322, 535);
+            this.picBox.Size = new System.Drawing.Size(452, 535);
             this.picBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picBox.TabIndex = 20;
             this.picBox.TabStop = false;
+            this.picBox.Paint += new System.Windows.Forms.PaintEventHandler(this.picBox_Paint);
             // 
             // groupBox2
             // 
@@ -309,83 +305,6 @@
             this.txtXparts.Value = 27;
             this.txtXparts.TextChanged += new System.EventHandler(this.txtXorYparts_TextChanged);
             // 
-            // tbRedContrast
-            // 
-            this.tbRedContrast.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbRedContrast.Location = new System.Drawing.Point(6, 37);
-            this.tbRedContrast.Maximum = 100;
-            this.tbRedContrast.Minimum = -100;
-            this.tbRedContrast.Name = "tbRedContrast";
-            this.tbRedContrast.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.tbRedContrast.Size = new System.Drawing.Size(45, 437);
-            this.tbRedContrast.TabIndex = 36;
-            this.tbRedContrast.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.tbRedContrast.Scroll += new System.EventHandler(this.tbContrast_Scroll);
-            // 
-            // btnApplyContrast
-            // 
-            this.btnApplyContrast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnApplyContrast.Location = new System.Drawing.Point(98, 500);
-            this.btnApplyContrast.Name = "btnApplyContrast";
-            this.btnApplyContrast.Size = new System.Drawing.Size(45, 29);
-            this.btnApplyContrast.TabIndex = 37;
-            this.btnApplyContrast.Text = "apply";
-            this.btnApplyContrast.UseVisualStyleBackColor = true;
-            this.btnApplyContrast.Click += new System.EventHandler(this.btnApplyContrast_Click);
-            // 
-            // txtRedContrastValue
-            // 
-            this.txtRedContrastValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtRedContrastValue.Location = new System.Drawing.Point(9, 476);
-            this.txtRedContrastValue.Name = "txtRedContrastValue";
-            this.txtRedContrastValue.Size = new System.Drawing.Size(39, 20);
-            this.txtRedContrastValue.TabIndex = 38;
-            // 
-            // tbGreenContrast
-            // 
-            this.tbGreenContrast.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbGreenContrast.Location = new System.Drawing.Point(53, 37);
-            this.tbGreenContrast.Maximum = 100;
-            this.tbGreenContrast.Minimum = -100;
-            this.tbGreenContrast.Name = "tbGreenContrast";
-            this.tbGreenContrast.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.tbGreenContrast.Size = new System.Drawing.Size(45, 437);
-            this.tbGreenContrast.TabIndex = 39;
-            this.tbGreenContrast.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.tbGreenContrast.Scroll += new System.EventHandler(this.tbContrast_Scroll);
-            // 
-            // tbBlueContrast
-            // 
-            this.tbBlueContrast.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbBlueContrast.Location = new System.Drawing.Point(98, 37);
-            this.tbBlueContrast.Maximum = 100;
-            this.tbBlueContrast.Minimum = -100;
-            this.tbBlueContrast.Name = "tbBlueContrast";
-            this.tbBlueContrast.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.tbBlueContrast.Size = new System.Drawing.Size(45, 437);
-            this.tbBlueContrast.TabIndex = 40;
-            this.tbBlueContrast.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.tbBlueContrast.Scroll += new System.EventHandler(this.tbContrast_Scroll);
-            // 
-            // txtGreenContrastValue
-            // 
-            this.txtGreenContrastValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtGreenContrastValue.Location = new System.Drawing.Point(54, 476);
-            this.txtGreenContrastValue.Name = "txtGreenContrastValue";
-            this.txtGreenContrastValue.Size = new System.Drawing.Size(39, 20);
-            this.txtGreenContrastValue.TabIndex = 42;
-            // 
-            // txtBlueContrastValue
-            // 
-            this.txtBlueContrastValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtBlueContrastValue.Location = new System.Drawing.Point(99, 476);
-            this.txtBlueContrastValue.Name = "txtBlueContrastValue";
-            this.txtBlueContrastValue.Size = new System.Drawing.Size(39, 20);
-            this.txtBlueContrastValue.TabIndex = 44;
-            // 
             // btnReopen
             // 
             this.btnReopen.Enabled = false;
@@ -397,77 +316,13 @@
             this.btnReopen.UseVisualStyleBackColor = true;
             this.btnReopen.Click += new System.EventHandler(this.btnReopen_Click);
             // 
-            // grpContrastAdj
-            // 
-            this.grpContrastAdj.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpContrastAdj.Controls.Add(this.btnResetContrast);
-            this.grpContrastAdj.Controls.Add(this.label3);
-            this.grpContrastAdj.Controls.Add(this.label2);
-            this.grpContrastAdj.Controls.Add(this.label1);
-            this.grpContrastAdj.Controls.Add(this.tbRedContrast);
-            this.grpContrastAdj.Controls.Add(this.tbGreenContrast);
-            this.grpContrastAdj.Controls.Add(this.txtBlueContrastValue);
-            this.grpContrastAdj.Controls.Add(this.tbBlueContrast);
-            this.grpContrastAdj.Controls.Add(this.btnApplyContrast);
-            this.grpContrastAdj.Controls.Add(this.txtGreenContrastValue);
-            this.grpContrastAdj.Controls.Add(this.txtRedContrastValue);
-            this.grpContrastAdj.Enabled = false;
-            this.grpContrastAdj.Location = new System.Drawing.Point(471, 122);
-            this.grpContrastAdj.Name = "grpContrastAdj";
-            this.grpContrastAdj.Size = new System.Drawing.Size(149, 535);
-            this.grpContrastAdj.TabIndex = 46;
-            this.grpContrastAdj.TabStop = false;
-            this.grpContrastAdj.Text = "Contrast Adjustment:";
-            // 
-            // btnResetContrast
-            // 
-            this.btnResetContrast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnResetContrast.Location = new System.Drawing.Point(8, 503);
-            this.btnResetContrast.Name = "btnResetContrast";
-            this.btnResetContrast.Size = new System.Drawing.Size(40, 23);
-            this.btnResetContrast.TabIndex = 50;
-            this.btnResetContrast.Text = "reset";
-            this.btnResetContrast.UseVisualStyleBackColor = true;
-            this.btnResetContrast.Click += new System.EventHandler(this.btnResetContrast_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(109, 18);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(17, 16);
-            this.label3.TabIndex = 49;
-            this.label3.Text = "B";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(65, 18);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(18, 16);
-            this.label2.TabIndex = 48;
-            this.label2.Text = "G";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(19, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(18, 16);
-            this.label1.TabIndex = 47;
-            this.label1.Text = "R";
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.chkProcessStep2);
             this.groupBox1.Controls.Add(this.chkProcessStep1);
-            this.groupBox1.Location = new System.Drawing.Point(290, 10);
+            this.groupBox1.Location = new System.Drawing.Point(290, 43);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(148, 100);
+            this.groupBox1.Size = new System.Drawing.Size(148, 67);
             this.groupBox1.TabIndex = 47;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Process steps";
@@ -501,20 +356,21 @@
             // 
             this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBar1.Location = new System.Drawing.Point(74, 12);
+            this.trackBar1.Location = new System.Drawing.Point(110, 12);
             this.trackBar1.Maximum = 255;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.trackBar1.Size = new System.Drawing.Size(45, 475);
             this.trackBar1.TabIndex = 51;
+            this.trackBar1.TickFrequency = 8;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.trackBar1.Value = 1;
+            this.trackBar1.Value = 63;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // txtMedianVal
             // 
             this.txtMedianVal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMedianVal.Location = new System.Drawing.Point(74, 484);
+            this.txtMedianVal.Location = new System.Drawing.Point(110, 484);
             this.txtMedianVal.Name = "txtMedianVal";
             this.txtMedianVal.Size = new System.Drawing.Size(39, 20);
             this.txtMedianVal.TabIndex = 51;
@@ -522,7 +378,7 @@
             // btnPreviewFilter
             // 
             this.btnPreviewFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPreviewFilter.Location = new System.Drawing.Point(6, 506);
+            this.btnPreviewFilter.Location = new System.Drawing.Point(42, 506);
             this.btnPreviewFilter.Name = "btnPreviewFilter";
             this.btnPreviewFilter.Size = new System.Drawing.Size(53, 23);
             this.btnPreviewFilter.TabIndex = 52;
@@ -530,82 +386,177 @@
             this.btnPreviewFilter.UseVisualStyleBackColor = true;
             this.btnPreviewFilter.Click += new System.EventHandler(this.btnPreviewFilter_Click);
             // 
-            // checkBox1
+            // chkFilterGrayScale
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(6, 57);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(71, 17);
-            this.checkBox1.TabIndex = 53;
-            this.checkBox1.Text = "grayscale";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.chkFilterGrayScale.AutoSize = true;
+            this.chkFilterGrayScale.Checked = true;
+            this.chkFilterGrayScale.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkFilterGrayScale.Enabled = false;
+            this.chkFilterGrayScale.Location = new System.Drawing.Point(5, 57);
+            this.chkFilterGrayScale.Name = "chkFilterGrayScale";
+            this.chkFilterGrayScale.Size = new System.Drawing.Size(71, 17);
+            this.chkFilterGrayScale.TabIndex = 53;
+            this.chkFilterGrayScale.Text = "grayscale";
+            this.toolTip1.SetToolTip(this.chkFilterGrayScale, "Converts the image to 8bit grayscale \"binary\" format that can be used by other fi" +
+        "lters, this is enabled by default and cannot be disabled");
+            this.chkFilterGrayScale.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // chkFilterThreshold
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(5, 80);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(73, 17);
-            this.checkBox2.TabIndex = 54;
-            this.checkBox2.Text = "Threshold";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.chkFilterThreshold.AutoSize = true;
+            this.chkFilterThreshold.Checked = true;
+            this.chkFilterThreshold.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkFilterThreshold.Location = new System.Drawing.Point(5, 80);
+            this.chkFilterThreshold.Name = "chkFilterThreshold";
+            this.chkFilterThreshold.Size = new System.Drawing.Size(73, 17);
+            this.chkFilterThreshold.TabIndex = 54;
+            this.chkFilterThreshold.Text = "Threshold";
+            this.toolTip1.SetToolTip(this.chkFilterThreshold, resources.GetString("chkFilterThreshold.ToolTip"));
+            this.chkFilterThreshold.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // chkFilterMedian
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(5, 103);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(61, 17);
-            this.checkBox3.TabIndex = 55;
-            this.checkBox3.Text = "Median";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.chkFilterMedian.AutoSize = true;
+            this.chkFilterMedian.Location = new System.Drawing.Point(5, 125);
+            this.chkFilterMedian.Name = "chkFilterMedian";
+            this.chkFilterMedian.Size = new System.Drawing.Size(61, 17);
+            this.chkFilterMedian.TabIndex = 55;
+            this.chkFilterMedian.Text = "Median";
+            this.toolTip1.SetToolTip(this.chkFilterMedian, "used to smooth the image and thus removing small specks");
+            this.chkFilterMedian.UseVisualStyleBackColor = true;
             // 
-            // checkBox4
+            // chkFilterDilatation
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(5, 149);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(70, 17);
-            this.checkBox4.TabIndex = 56;
-            this.checkBox4.Text = "Dilatation";
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.chkFilterDilatation.AutoSize = true;
+            this.chkFilterDilatation.Location = new System.Drawing.Point(5, 194);
+            this.chkFilterDilatation.Name = "chkFilterDilatation";
+            this.chkFilterDilatation.Size = new System.Drawing.Size(70, 17);
+            this.chkFilterDilatation.TabIndex = 56;
+            this.chkFilterDilatation.Text = "Dilatation";
+            this.toolTip1.SetToolTip(this.chkFilterDilatation, "dilatation makes white areas bigger");
+            this.chkFilterDilatation.UseVisualStyleBackColor = true;
             // 
-            // checkBox5
+            // chkErosion
             // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(5, 126);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(61, 17);
-            this.checkBox5.TabIndex = 57;
-            this.checkBox5.Text = "Erosion";
-            this.checkBox5.UseVisualStyleBackColor = true;
+            this.chkErosion.AutoSize = true;
+            this.chkErosion.Location = new System.Drawing.Point(5, 171);
+            this.chkErosion.Name = "chkErosion";
+            this.chkErosion.Size = new System.Drawing.Size(61, 17);
+            this.chkErosion.TabIndex = 57;
+            this.chkErosion.Text = "Erosion";
+            this.toolTip1.SetToolTip(this.chkErosion, "erosion makes black areas bigger");
+            this.chkErosion.UseVisualStyleBackColor = true;
             // 
-            // groupBox3
+            // grpOCRFilter
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.grpOCRFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.btnApplyFilter);
-            this.groupBox3.Controls.Add(this.checkBox1);
-            this.groupBox3.Controls.Add(this.btnPreviewFilter);
-            this.groupBox3.Controls.Add(this.checkBox5);
-            this.groupBox3.Controls.Add(this.txtMedianVal);
-            this.groupBox3.Controls.Add(this.checkBox2);
-            this.groupBox3.Controls.Add(this.trackBar1);
-            this.groupBox3.Controls.Add(this.checkBox4);
-            this.groupBox3.Controls.Add(this.checkBox3);
-            this.groupBox3.Location = new System.Drawing.Point(340, 122);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(125, 535);
-            this.groupBox3.TabIndex = 58;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Prefilter";
+            this.grpOCRFilter.Controls.Add(this.dvtxtFilterAdaptiveSmoothing);
+            this.grpOCRFilter.Controls.Add(this.ivtxtFilterMedian);
+            this.grpOCRFilter.Controls.Add(this.ivtxtPreDilatationCount);
+            this.grpOCRFilter.Controls.Add(this.chkFilterPreDilatation);
+            this.grpOCRFilter.Controls.Add(this.ivtxtDilatationCount);
+            this.grpOCRFilter.Controls.Add(this.ivtxtErosionCount);
+            this.grpOCRFilter.Controls.Add(this.chkFilterAdaptiveSmoothing);
+            this.grpOCRFilter.Controls.Add(this.btnApplyFilter);
+            this.grpOCRFilter.Controls.Add(this.chkFilterGrayScale);
+            this.grpOCRFilter.Controls.Add(this.btnPreviewFilter);
+            this.grpOCRFilter.Controls.Add(this.chkErosion);
+            this.grpOCRFilter.Controls.Add(this.txtMedianVal);
+            this.grpOCRFilter.Controls.Add(this.chkFilterThreshold);
+            this.grpOCRFilter.Controls.Add(this.trackBar1);
+            this.grpOCRFilter.Controls.Add(this.chkFilterDilatation);
+            this.grpOCRFilter.Controls.Add(this.chkFilterMedian);
+            this.grpOCRFilter.Enabled = false;
+            this.grpOCRFilter.Location = new System.Drawing.Point(459, 122);
+            this.grpOCRFilter.Name = "grpOCRFilter";
+            this.grpOCRFilter.Size = new System.Drawing.Size(161, 535);
+            this.grpOCRFilter.TabIndex = 58;
+            this.grpOCRFilter.TabStop = false;
+            this.grpOCRFilter.Text = "OCR filter";
+            // 
+            // dvtxtFilterAdaptiveSmoothing
+            // 
+            this.dvtxtFilterAdaptiveSmoothing.DefaultValue = 0D;
+            this.dvtxtFilterAdaptiveSmoothing.Location = new System.Drawing.Point(74, 100);
+            this.dvtxtFilterAdaptiveSmoothing.Name = "dvtxtFilterAdaptiveSmoothing";
+            this.dvtxtFilterAdaptiveSmoothing.Size = new System.Drawing.Size(31, 20);
+            this.dvtxtFilterAdaptiveSmoothing.TabIndex = 64;
+            this.dvtxtFilterAdaptiveSmoothing.Text = "0";
+            this.dvtxtFilterAdaptiveSmoothing.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.dvtxtFilterAdaptiveSmoothing.Value = 0D;
+            // 
+            // ivtxtFilterMedian
+            // 
+            this.ivtxtFilterMedian.DefaultValue = 0;
+            this.ivtxtFilterMedian.Location = new System.Drawing.Point(74, 123);
+            this.ivtxtFilterMedian.Name = "ivtxtFilterMedian";
+            this.ivtxtFilterMedian.Size = new System.Drawing.Size(31, 20);
+            this.ivtxtFilterMedian.TabIndex = 63;
+            this.ivtxtFilterMedian.Text = "1";
+            this.ivtxtFilterMedian.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.ivtxtFilterMedian.Value = 1;
+            // 
+            // ivtxtPreDilatationCount
+            // 
+            this.ivtxtPreDilatationCount.DefaultValue = 1;
+            this.ivtxtPreDilatationCount.Location = new System.Drawing.Point(74, 146);
+            this.ivtxtPreDilatationCount.Name = "ivtxtPreDilatationCount";
+            this.ivtxtPreDilatationCount.Size = new System.Drawing.Size(31, 20);
+            this.ivtxtPreDilatationCount.TabIndex = 63;
+            this.ivtxtPreDilatationCount.Text = "1";
+            this.ivtxtPreDilatationCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.ivtxtPreDilatationCount.Value = 1;
+            // 
+            // chkFilterPreDilatation
+            // 
+            this.chkFilterPreDilatation.AutoSize = true;
+            this.chkFilterPreDilatation.Location = new System.Drawing.Point(5, 148);
+            this.chkFilterPreDilatation.Name = "chkFilterPreDilatation";
+            this.chkFilterPreDilatation.Size = new System.Drawing.Size(70, 17);
+            this.chkFilterPreDilatation.TabIndex = 62;
+            this.chkFilterPreDilatation.Text = "Dilatation";
+            this.toolTip1.SetToolTip(this.chkFilterPreDilatation, "dilatation makes white areas bigger");
+            this.chkFilterPreDilatation.UseVisualStyleBackColor = true;
+            // 
+            // ivtxtDilatationCount
+            // 
+            this.ivtxtDilatationCount.DefaultValue = 1;
+            this.ivtxtDilatationCount.Location = new System.Drawing.Point(74, 192);
+            this.ivtxtDilatationCount.Name = "ivtxtDilatationCount";
+            this.ivtxtDilatationCount.Size = new System.Drawing.Size(31, 20);
+            this.ivtxtDilatationCount.TabIndex = 61;
+            this.ivtxtDilatationCount.Text = "1";
+            this.ivtxtDilatationCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.ivtxtDilatationCount.Value = 1;
+            // 
+            // ivtxtErosionCount
+            // 
+            this.ivtxtErosionCount.DefaultValue = 1;
+            this.ivtxtErosionCount.Location = new System.Drawing.Point(74, 169);
+            this.ivtxtErosionCount.Name = "ivtxtErosionCount";
+            this.ivtxtErosionCount.Size = new System.Drawing.Size(31, 20);
+            this.ivtxtErosionCount.TabIndex = 60;
+            this.ivtxtErosionCount.Text = "1";
+            this.ivtxtErosionCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.ivtxtErosionCount.Value = 1;
+            // 
+            // chkFilterAdaptiveSmoothing
+            // 
+            this.chkFilterAdaptiveSmoothing.AutoSize = true;
+            this.chkFilterAdaptiveSmoothing.Location = new System.Drawing.Point(5, 103);
+            this.chkFilterAdaptiveSmoothing.Name = "chkFilterAdaptiveSmoothing";
+            this.chkFilterAdaptiveSmoothing.Size = new System.Drawing.Size(63, 17);
+            this.chkFilterAdaptiveSmoothing.TabIndex = 59;
+            this.chkFilterAdaptiveSmoothing.Text = "AdpSmt";
+            this.toolTip1.SetToolTip(this.chkFilterAdaptiveSmoothing, " removes all connected components from the input image that are smaller than a sp" +
+        "ecified size.");
+            this.chkFilterAdaptiveSmoothing.UseVisualStyleBackColor = true;
             // 
             // btnApplyFilter
             // 
             this.btnApplyFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnApplyFilter.Location = new System.Drawing.Point(66, 506);
+            this.btnApplyFilter.Location = new System.Drawing.Point(102, 506);
             this.btnApplyFilter.Name = "btnApplyFilter";
             this.btnApplyFilter.Size = new System.Drawing.Size(53, 23);
             this.btnApplyFilter.TabIndex = 58;
@@ -623,15 +574,30 @@
             this.rtxt.TabIndex = 59;
             this.rtxt.Text = "";
             // 
+            // btnOpenAIECF
+            // 
+            this.btnOpenAIECF.Enabled = false;
+            this.btnOpenAIECF.Location = new System.Drawing.Point(346, 7);
+            this.btnOpenAIECF.Name = "btnOpenAIECF";
+            this.btnOpenAIECF.Size = new System.Drawing.Size(92, 23);
+            this.btnOpenAIECF.TabIndex = 60;
+            this.btnOpenAIECF.Text = "adv edit form";
+            this.btnOpenAIECF.UseVisualStyleBackColor = true;
+            this.btnOpenAIECF.Click += new System.EventHandler(this.btnOpenAIECF_Click);
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.ShowAlways = true;
+            // 
             // ExtractForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 658);
+            this.Controls.Add(this.btnOpenAIECF);
             this.Controls.Add(this.rtxt);
-            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.grpOCRFilter);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.grpContrastAdj);
             this.Controls.Add(this.btnReopen);
             this.Controls.Add(this.grpParts);
             this.Controls.Add(this.picBox);
@@ -649,16 +615,11 @@
             this.grpThresholds.PerformLayout();
             this.grpParts.ResumeLayout(false);
             this.grpParts.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tbRedContrast)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbGreenContrast)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tbBlueContrast)).EndInit();
-            this.grpContrastAdj.ResumeLayout(false);
-            this.grpContrastAdj.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.grpOCRFilter.ResumeLayout(false);
+            this.grpOCRFilter.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -683,32 +644,29 @@
         private System.Windows.Forms.GroupBox grpParts;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TrackBar tbRedContrast;
-        private System.Windows.Forms.Button btnApplyContrast;
-        private System.Windows.Forms.TextBox txtRedContrastValue;
-        private System.Windows.Forms.TrackBar tbGreenContrast;
-        private System.Windows.Forms.TrackBar tbBlueContrast;
-        private System.Windows.Forms.TextBox txtGreenContrastValue;
-        private System.Windows.Forms.TextBox txtBlueContrastValue;
         private System.Windows.Forms.Button btnReopen;
-        private System.Windows.Forms.GroupBox grpContrastAdj;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnResetContrast;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox chkProcessStep2;
         private System.Windows.Forms.CheckBox chkProcessStep1;
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.TextBox txtMedianVal;
         private System.Windows.Forms.Button btnPreviewFilter;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.CheckBox checkBox5;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.CheckBox chkFilterGrayScale;
+        private System.Windows.Forms.CheckBox chkFilterThreshold;
+        private System.Windows.Forms.CheckBox chkFilterMedian;
+        private System.Windows.Forms.CheckBox chkFilterDilatation;
+        private System.Windows.Forms.CheckBox chkErosion;
+        private System.Windows.Forms.GroupBox grpOCRFilter;
         private System.Windows.Forms.Button btnApplyFilter;
         private System.Windows.Forms.RichTextBox rtxt;
+        private System.Windows.Forms.Button btnOpenAIECF;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.CheckBox chkFilterAdaptiveSmoothing;
+        private IntegerValueTextBox ivtxtDilatationCount;
+        private IntegerValueTextBox ivtxtErosionCount;
+        private IntegerValueTextBox ivtxtPreDilatationCount;
+        private System.Windows.Forms.CheckBox chkFilterPreDilatation;
+        private IntegerValueTextBox ivtxtFilterMedian;
+        private DoubleValueTextBox dvtxtFilterAdaptiveSmoothing;
     }
 }

@@ -117,4 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="chkFilterThreshold.ToolTip" xml:space="preserve">
+    <value>used together with the right slider
+this filter works by
+comparing the intensity values of each pixel in the grayscale image to a threshold value,
+and setting the output pixel value to white (255) if the input pixel intensity value is greater than or equal to the threshold value, 
+and black (0) if it is less than the threshold value.</value>
+  </data>
 </root>

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using UserRectDemo;
+using LightWeightJsonParser; // from https://github.com/progklb/lightweight-json-parser
 
 namespace WeaveImagePatternExtractor
 {
@@ -36,6 +37,11 @@ namespace WeaveImagePatternExtractor
             selRect.SnapSize = txtEditorPixelSize.Value + txtEditorPixelSpacing.Value;
             cmbSelectionMode.SelectedIndex = 2;
             CreateNewPattern();
+
+            //LWJson obj = LWJson.Parse("{'patternSizes':{'x':24,'y':34}}");
+            //txtX.Value = obj["patternSizes"]["x"].AsInteger();
+            //txtY.Value = obj["patternSizes"]["y"].AsInteger();
+            
         }
 
         private void CreateNewPattern()

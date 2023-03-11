@@ -9,13 +9,15 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml;
-using Grimoire; // JSON utility https://www.codeproject.com/Articles/1225851/JsonUtility-A-Fast-Lightweight-Csharp-JSON-Drop-in
+using LightWeightJsonParser; // from https://github.com/progklb/lightweight-json-parser
+using System.Drawing.Drawing2D;
 
 //using AForge.Imaging.Filters;
 
 
 namespace WeaveImagePatternExtractor
 {
+    
     public partial class ExtractForm : Form
     {
         public Action<Bitmap> ExtractPatternCompleted;
@@ -23,6 +25,7 @@ namespace WeaveImagePatternExtractor
         private Bitmap imgSrc;        
         private Bitmap imgPattern;
         private ColorDialog cd;
+        private AdvancedImageEditControlsForm advImgEditCtrlForm;
         private int xParts = 0, yParts = 0;
         private string srcImgPath = "";
 
@@ -30,31 +33,43 @@ namespace WeaveImagePatternExtractor
         {
             InitializeComponent();
             cd = new ColorDialog();
+            advImgEditCtrlForm = new AdvancedImageEditControlsForm();
+            advImgEditCtrlForm.PreviewContrastChange = advImgEditCtrlForm_PreviewContrastChange;
+            advImgEditCtrlForm.ApplyContrastChange = advImgEditCtrlForm_ApplyContrastChange;
             xParts = txtXparts.Value;
             yParts = txtYparts.Value;
             txtXparts.ValueChanged = delegate (int val) { xParts = val; };
             txtYparts.ValueChanged = delegate (int val) { yParts = val; };
         }
 
-
         private void ExtractForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                this.Visible = false;
-                e.Cancel = true;
-                return;
+                this.Visible = false; e.Cancel = true;
             }
         }
 
-        
+        private void advImgEditCtrlForm_PreviewContrastChange(int rc, int gc, int bc)
+        {
+            picBox.Image = imgSrc.SetContrast(rc, gc, bc);
+            //DrawExtractGrid();
+        }
+
+        private void advImgEditCtrlForm_ApplyContrastChange(int rc, int gc, int bc)
+        {
+            imgSrc = imgSrc.SetContrast(rc, gc, bc);
+            picBox.Image = imgSrc;
+            //DrawExtractGrid();
+        }
 
         private void FirstTimeOpenFile()
         {
             btnReopen.Enabled = true;
-            grpContrastAdj.Enabled = true;
             grpParts.Enabled = true;
             btnExtract.Enabled = true;
+            btnOpenAIECF.Enabled = true;
+            grpOCRFilter.Enabled = true;
         }
 
         private void btnOpenFile_Click(object sender, EventArgs e)
@@ -65,81 +80,46 @@ namespace WeaveImagePatternExtractor
             srcImgPath = ofd.FileName;
             imgSrcOriginal = BitmapExt.OpenAndReadImage(srcImgPath);
             imgSrc = new Bitmap(imgSrcOriginal);
-
+            picBox.Image = imgSrc;
             ReadXmlMetadata();
-            //PrintMetadata(imgSrcOriginal);
+            //rtxt.AppendLine(imgSrcOriginal.PrintMetadata());
 
-            
-
-            DrawExtractGrid();
+            //DrawExtractGrid();
             FirstTimeOpenFile();
         }
 
         private void ReadXmlMetadata()
         {
-            if (imgSrcOriginal.PropertyIdList.Contains<int>(0x9286) == false) return;
-            PropertyItem pi = imgSrcOriginal.GetPropertyItem(0x9286);
+            string data = "";
+            if (imgSrcOriginal.GetMetadata(out data) == false) return;
 
-            string xmlStr = new String(System.Text.Encoding.ASCII.GetChars(pi.Value));
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlStr = xmlStr.Substring(0, xmlStr.LastIndexOf(">") + 1);
-            rtxt.AppendText(xmlStr);
-            xmlDoc.LoadXml(xmlStr);
-            XmlNode psn = xmlDoc.SelectSingleNode("patternSizes");
-            txtXparts.Text = psn.Attributes["x"].Value;
-            txtYparts.Text = psn.Attributes["y"].Value;
+            var xmlDoc = XmlExt.NewXmlDocument(data);
+            if (xmlDoc == null) { rtxt.AppendLine("ERROR could not parse xml metadata:\r\n" + data); return; }
+            var patternSizes = xmlDoc["patternSizes"];
+            if (patternSizes == null) { rtxt.AppendLine("ERROR could not find patternSizes in metadata xmldoc"); return; }
+            var xValAttr = patternSizes.Attributes["x"];
+            var yValAttr = patternSizes.Attributes["y"];
+            if (xValAttr == null || yValAttr == null) { rtxt.AppendLine("ERROR could not find attribute x and/or y"); return; }
+            txtXparts.Text = xValAttr.Value;
+            txtYparts.Text = yValAttr.Value;
         }
 
-        private void PrintMetadata(Bitmap bm)
+        private void SaveMetaData()
         {
-            rtxt.AppendText("Property count: " + bm.PropertyIdList.Length.ToString() + Environment.NewLine);
-            PropertyItem[] pis = bm.PropertyItems;
-            for (int i=0;i< pis.Length;i++)
-            {
-                rtxt.AppendText(Environment.NewLine + pis[i].Id.ToString() + " " + pis[i].Type.ToString() +">>>>"+ new String(System.Text.Encoding.ASCII.GetChars(pis[i].Value)) +"<<<<<<<"+ Environment.NewLine);
-            }
+            string data = "<patternSizes x = \"" + txtXparts.Text + "\" y = \"" + txtYparts.Text + "\" />";
+            imgSrcOriginal.SaveMetadata(srcImgPath, data);
         }
 
         private void btnReopen_Click(object sender, EventArgs e)
         {
             imgSrc = new Bitmap(imgSrcOriginal);
-            DrawExtractGrid();
-        }
-
-        private void SaveMetadata()
-        {
-            using (Bitmap bm = new Bitmap(imgSrcOriginal))
-            {
-                // Create a new PropertyItem object
-                PropertyItem propItem = (PropertyItem)System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(PropertyItem));
-                // Set the PropertyItem ID to a custom value indicating a comment
-                //propItem.Id = 0x010D; // DocumentName
-                //propItem.Id = 0x010E; // ImageDescription
-                propItem.Id = 0x9286; // ExifUserComment
-                // Set the PropertyItem type to indicate the data format (in this case, ASCII string)
-                propItem.Type = 2; // ASCII string type
-
-                propItem.Value = System.Text.Encoding.ASCII.GetBytes(GenerateMetadataString());
-
-                bm.SetPropertyItem(propItem);
-                //if (Path.GetExtension(srcImgPath).ToLower().StartsWith(".jpg"))
-                //    bm.Save(srcImgPath, ImageFormat.Jpeg);
-                //else //if (Path.GetExtension(srcImgPath).ToLower() == ".png")
-                    bm.Save(srcImgPath, ImageFormat.Png);
-            }
-        }
-
-        private string GenerateMetadataString()
-        {
-            
-
-            return "<patternSizes x = \""+ txtXparts.Text+ "\" y = \""+ txtYparts.Text + "\" />";
-            
+            picBox.Image = imgSrc;
+            //DrawExtractGrid();
         }
 
         private void btnExtract_Click(object sender, EventArgs e)
         {
-            SaveMetadata();
+            SaveMetaData();
             ExtractPatternFromSource();
             if (ExtractPatternCompleted != null)
                 ExtractPatternCompleted(imgPattern);
@@ -230,48 +210,66 @@ namespace WeaveImagePatternExtractor
             lblColor2.BackColor = cd.Color;
         }
 
-        private void DrawExtractGrid()
+        private void DrawExtractGrid(Graphics g) // code generated mostly from ChatGPT
         {
+            // Get the size of the image in the picture box
+            int width = picBox.Image.Width;
+            int height = picBox.Image.Height;
+
+            // Get the size of the client area of the picture box
+            int clientWidth = picBox.ClientSize.Width;
+            int clientHeight = picBox.ClientSize.Height;
+
+            // Calculate the scaling factor between image and client sizes
+            double scaleX = (double)clientWidth / width;
+            double scaleY = (double)clientHeight / height;
+            double scale = Math.Min(scaleX, scaleY);
+
+            // Calculate the size of the scaled image
+            int scaledWidth = (int)(width * scale);
+            int scaledHeight = (int)(height * scale);
+
+            // Calculate the offset to center the scaled image
+            int offsetX = (clientWidth - scaledWidth) / 2;
+            int offsetY = (clientHeight - scaledHeight) / 2;
+
             int xParts = txtXparts.Value;
             int yParts = txtYparts.Value;
-            double xMult = (double)imgSrc.Width / (double)xParts;
-            double yMult = (double)imgSrc.Height / (double)yParts;
-            Bitmap imgSrcWithGrid = new Bitmap(imgSrc);
-            Graphics g = Graphics.FromImage(imgSrcWithGrid);
-            for (int x = 0; x < xParts; x++)
+            double xSpacing = (width / (double)xParts * scale);
+            double ySpacing = (height / (double)yParts * scale);
+
+            // Create a pen to draw the grid lines
+            Pen pen = new Pen(Color.FromArgb(64, Color.Red), 2);
+            int y2 = offsetY + scaledHeight;
+            int x2 = offsetX + scaledWidth;
+
+            // Draw the vertical grid lines
+            for (int i = 0; i < (xParts+1); i++)
             {
-                g.DrawLine(new Pen(Color.Red), (int)(x * xMult), 0, (int)(x * xMult), (imgSrcWithGrid.Height - 1));
+                int x = (int)(i * xSpacing) + offsetX;
+                g.DrawLine(pen, x, offsetY, x, y2);
             }
-            for (int y = 0; y < yParts; y++)
+
+            // Draw the horizontal grid lines
+            for (int i = 0; i < (yParts+1); i++)
             {
-                g.DrawLine(new Pen(Color.Red), 0, (int)(y * yMult), (imgSrcWithGrid.Width - 1), (int)(y * yMult));
+                int y = (int)(i * ySpacing) + offsetY;
+                g.DrawLine(pen, offsetX, y, x2, y);
             }
-            picBox.Image = imgSrcWithGrid;
-            //picBox.Invalidate();
+
+            // Dispose of the pen
+            pen.Dispose();
+        }
+
+        private void picBox_Paint(object sender, PaintEventArgs e)
+        {
+            try { DrawExtractGrid(e.Graphics); }
+            catch (Exception exp) { System.Console.WriteLine(exp.Message); }
         }
 
         private void txtXorYparts_TextChanged(object sender, EventArgs e)
         {
-            DrawExtractGrid();
-        }
-
-        private void btnApplyContrast_Click(object sender, EventArgs e)
-        {
-            imgSrc = imgSrc.SetContrast(tbRedContrast.Value, tbGreenContrast.Value, tbBlueContrast.Value);
-            tbRedContrast.Value = 0;
-            tbGreenContrast.Value = 0;
-            tbBlueContrast.Value = 0;
-        }
-
-        private void btnResetContrast_Click(object sender, EventArgs e)
-        {
-            tbRedContrast.Value = 0;
-            tbGreenContrast.Value = 0;
-            tbBlueContrast.Value = 0;
-            picBox.Image = imgSrc.SetContrast(tbRedContrast.Value, tbGreenContrast.Value, tbBlueContrast.Value);
-            txtRedContrastValue.Text = "0";
-            txtGreenContrastValue.Text = "0";
-            txtBlueContrastValue.Text = "0";
+            picBox.Invalidate();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -281,105 +279,82 @@ namespace WeaveImagePatternExtractor
             
         }
 
-        private Bitmap PreFiltering()
+        private Bitmap OCR_Filtering()
         {
             Bitmap imgSrcCopy = new Bitmap(imgSrc);
 
-            if (checkBox1.Checked)
+            if (chkFilterGrayScale.Checked)
             {
                 AForge.Imaging.Filters.Grayscale grayscaleFilter = new AForge.Imaging.Filters.Grayscale(0.2125, 0.7154, 0.0721);
                 imgSrcCopy = grayscaleFilter.Apply(imgSrcCopy);
             }
-            if (checkBox2.Checked)
+            if (chkFilterThreshold.Checked)
             {
                 AForge.Imaging.Filters.Threshold thresholdFilter = new AForge.Imaging.Filters.Threshold(trackBar1.Value);
                 imgSrcCopy = thresholdFilter.Apply(imgSrcCopy);
             }
-            if (checkBox3.Checked)
+            if (chkFilterAdaptiveSmoothing.Checked)
             {
-                AForge.Imaging.Filters.Median medianFilter = new AForge.Imaging.Filters.Median(1);
+                //Accord.Imaging.Filters.AdaptiveSmoothing adaptiveSmoothingFilter = new Accord.Imaging.Filters.AdaptiveSmoothing();
+                AForge.Imaging.Filters.AdaptiveSmoothing adaptiveSmoothingFilter = new AForge.Imaging.Filters.AdaptiveSmoothing(dvtxtFilterAdaptiveSmoothing.Value);
+                adaptiveSmoothingFilter.ApplyInPlace(imgSrcCopy);
+                
+            }
+            if (chkFilterMedian.Checked)
+            {
+                AForge.Imaging.Filters.Median medianFilter = new AForge.Imaging.Filters.Median(ivtxtFilterMedian.Value);
                 medianFilter.ApplyInPlace(imgSrcCopy);
             }
-            if (checkBox5.Checked)
-            {
-                // expand black areas
-                //short[,] se = new short[3, 3] { { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 0 } };
-                AForge.Imaging.Filters.Erosion erosionFilter = new AForge.Imaging.Filters.Erosion();
-                erosionFilter.ApplyInPlace(imgSrcCopy);
-                erosionFilter.ApplyInPlace(imgSrcCopy);
-                erosionFilter.ApplyInPlace(imgSrcCopy);
-            }
-            if (checkBox4.Checked)
+            if (chkFilterPreDilatation.Checked)
             {
                 // expand white areas
-                short[,] se = new short[3, 3] { { 0, 1, 0 }, { 1, 1, 1 }, { 0, 1, 0 } };
-                AForge.Imaging.Filters.Dilatation dilateFilter = new AForge.Imaging.Filters.Dilatation(se);
-                dilateFilter.ApplyInPlace(imgSrcCopy);
-                dilateFilter.ApplyInPlace(imgSrcCopy);
+                AForge.Imaging.Filters.Dilatation dilateFilter = new AForge.Imaging.Filters.Dilatation(FilterPatterns.Cross_3x3);
+                var count = ivtxtPreDilatationCount.Value;
+                for (var i = 0; i < count; i++)
+                    dilateFilter.ApplyInPlace(imgSrcCopy);
             }
-
+            if (chkErosion.Checked)
+            {
+                // expand black areas
+                AForge.Imaging.Filters.Erosion erosionFilter = new AForge.Imaging.Filters.Erosion(FilterPatterns.Cross_3x3);
+                var count = ivtxtErosionCount.Value;
+                for (var i = 0; i < count; i++)
+                    erosionFilter.ApplyInPlace(imgSrcCopy);
+            }
+            if (chkFilterDilatation.Checked)
+            {
+                // expand white areas
+                AForge.Imaging.Filters.Dilatation dilateFilter = new AForge.Imaging.Filters.Dilatation(FilterPatterns.Cross_3x3);
+                var count = ivtxtDilatationCount.Value;
+                for (var i=0;i<count;i++)
+                    dilateFilter.ApplyInPlace(imgSrcCopy);
+            }
             return imgSrcCopy;
-            //ExtractPatternCompleted(imgSrcCopy);
-            //picBox.Image = imgSrcCopy;
         }
     
         private void btnPreviewFilter_Click(object sender, EventArgs e)
         {
-            picBox.Image = PreFiltering();
+            picBox.Image = OCR_Filtering();
+            //DrawExtractGrid();
+        }
+
+        private void btnOpenAIECF_Click(object sender, EventArgs e)
+        {
+            advImgEditCtrlForm.Visible = true;
         }
 
         private void btnApplyFilter_Click(object sender, EventArgs e)
         {
-            imgSrc = PreFiltering();
+            imgSrc = OCR_Filtering();
             picBox.Image = imgSrc;
         }
 
-        private void tbContrast_Scroll(object sender, EventArgs e)
-        {
-            picBox.Image = imgSrc.SetContrast(tbRedContrast.Value, tbGreenContrast.Value, tbBlueContrast.Value);
-            txtRedContrastValue.Text = tbRedContrast.Value.ToString();
-            txtGreenContrastValue.Text = tbGreenContrast.Value.ToString();
-            txtBlueContrastValue.Text = tbBlueContrast.Value.ToString();
-        }
+    }
+    public static class FilterPatterns
+    {
+        public static short[,] Cross_3x3 = new short[3, 3] { { 0, 1, 0 }, { 1, 1, 1 }, { 0, 1, 0 } };
+        public static short[,] Square_3x3 = new short[3, 3] { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } };
+        public static short[,] Vertical_1x3 = new short[3, 3] { { 0, 1, 0 }, { 0, 1, 0 }, { 0, 1, 0 } };
+        public static short[,] Horizontal_1x3 = new short[3, 3] { { 0, 0, 0 }, { 1, 1, 1 }, { 0, 0, 0 } };
     }
 }
-
-/* good functions to have
-private void picBox_MouseDown(object sender, MouseEventArgs e)
-{
-    if (picBox.Image == null) return;
-    if (e.Button == MouseButtons.Left)
-        GetColor(e.X, e.Y);
-}
-
-private void picBox_MouseMove(object sender, MouseEventArgs e)
-{
-    if (picBox.Image == null) return;
-    if (e.Button == MouseButtons.Left)
-        GetColor(e.X, e.Y);
-}
-
-private void GetColor(Int32 mouseX, Int32 mouseY)
-{
-    Int32 realW = picBox.Image.Width;
-    Int32 realH = picBox.Image.Height;
-    Int32 currentW = picBox.ClientRectangle.Width;
-    Int32 currentH = picBox.ClientRectangle.Height;
-    Double zoomW = (currentW / (Double)realW);
-    Double zoomH = (currentH / (Double)realH);
-    Double zoomActual = Math.Min(zoomW, zoomH);
-    Double padX = zoomActual == zoomW ? 0 : (currentW - (zoomActual * realW)) / 2;
-    Double padY = zoomActual == zoomH ? 0 : (currentH - (zoomActual * realH)) / 2;
-
-    Int32 realX = (Int32)((mouseX - padX) / zoomActual);
-    Int32 realY = (Int32)((mouseY - padY) / zoomActual);
-    //lblPosXval.Text = realX < 0 || realX > realW ? "-" : realX.ToString();
-    //lblPosYVal.Text = realY < 0 || realY > realH ? "-" : realY.ToString();
-
-    Bitmap bmp = new Bitmap(picBox.Image);
-    Color colour = bmp.GetPixel(realX, realY);
-    txtRthreshold.Value = colour.R;
-    txtGthreshold.Value = colour.G;
-    txtBthreshold.Value = colour.B;
-    bmp.Dispose();
-}*/
