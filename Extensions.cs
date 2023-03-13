@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Xml;
+using System.Runtime.InteropServices;
 
 namespace WeaveImagePatternExtractor
 {
@@ -41,6 +42,12 @@ namespace WeaveImagePatternExtractor
                 bm = new Bitmap(stream);
             }
             return bm;
+        }
+
+        public static void SaveImageCopy(this Bitmap thisImg, string path, ImageFormat format)
+        {
+            Bitmap bm = new Bitmap(thisImg);
+            bm.Save(path, format);
         }
 
         public static void SaveMetadata(this Bitmap thisImg, string imgFilePath, string metadataValue)
@@ -93,6 +100,158 @@ namespace WeaveImagePatternExtractor
                 data += Environment.NewLine;
             }
             return data;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="binaryImage"></param>
+        /// <param name="minPixelCount"></param>
+        /// <param name="size">setting this to 1 gives 3x3 scanning area, 2=5x5, 3=7x7, 4=9x9 and so on</param>
+        /// <returns></returns>
+        public static Bitmap RemoveIsolatedPixels(this Bitmap binaryImage, int minPixelCount, int size)
+        {
+            // Create new bitmap to store cleaned image
+            Bitmap cleanedImage = new Bitmap(binaryImage);
+            int sizeMin = size * -1;
+            int sizeMax = size;
+
+            // Loop through each pixel in the image
+            for (int x = 0; x < binaryImage.Width; x++)
+            {
+                for (int y = 0; y < binaryImage.Height; y++)
+                {
+                    // Check if pixel is foreground
+                    if (binaryImage.GetPixel(x, y).ToArgb() == Color.Black.ToArgb())
+                    {
+                        int pixelCount = 0;
+
+                        // Count number of foreground pixels in 3x3 neighborhood
+                        for (int i = sizeMin; i <= sizeMax; i++)
+                        {
+                            for (int j = sizeMin; j <= sizeMax; j++)
+                            {
+                                int neighborX = x + i;
+                                int neighborY = y + j;
+
+                                if (neighborX >= 0 && neighborX < binaryImage.Width &&
+                                    neighborY >= 0 && neighborY < binaryImage.Height &&
+                                    binaryImage.GetPixel(neighborX, neighborY).ToArgb() == Color.Black.ToArgb())
+                                {
+                                    pixelCount++;
+                                }
+                            }
+                        }
+
+                        // If number of foreground pixels is less than minPixelCount, set pixel to background
+                        if (pixelCount < minPixelCount)
+                        {
+                            cleanedImage.SetPixel(x, y, Color.White);
+                        }
+                    }
+                }
+            }
+
+            return cleanedImage;
+        }
+        /// <summary>
+        /// Sets a pixel of a grayscale image i.e. Format8bppIndexed
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="color">grayscale color</param>
+        public static void SetPixel(this Bitmap bitmap, int x, int y, byte color)
+        {
+            if (bitmap.PixelFormat != PixelFormat.Format8bppIndexed)
+            {
+                throw new ArgumentException("Bitmap format must be 8bpp grayscale");
+            }
+            // Lock the bitmap data
+            BitmapData bitmapData = bitmap.LockBits(new Rectangle(x, y, 1, 1), ImageLockMode.ReadWrite, bitmap.PixelFormat);
+            try
+            {
+                // Copy the bitmap data to a byte array
+                byte[] pixels = new byte[1];
+                Marshal.Copy(bitmapData.Scan0, pixels, 0, 1);
+                // Set the pixel value
+                pixels[0] = color;
+                // Copy the modified byte array back to the bitmap data
+                Marshal.Copy(pixels, 0, bitmapData.Scan0, 1);
+            }
+            finally
+            {
+                // Unlock the bitmap data
+                bitmap.UnlockBits(bitmapData);
+            }
+        }
+
+        public static byte GetPixel(this Bitmap bitmap, int x, int y)
+        {
+            byte color = 0x00;
+            if (bitmap.PixelFormat != PixelFormat.Format8bppIndexed)
+            {
+                throw new ArgumentException("Bitmap format must be 8bpp grayscale");
+            }
+            // Lock the bitmap data
+            BitmapData bitmapData = bitmap.LockBits(new Rectangle(x, y, 1, 1), ImageLockMode.ReadOnly, bitmap.PixelFormat);
+            try
+            {
+                // Copy the bitmap data to a byte array
+                byte[] pixels = new byte[1];
+                Marshal.Copy(bitmapData.Scan0, pixels, 0, 1);
+                // Set the pixel value
+                color = pixels[0];
+            }
+            finally
+            {
+                // Unlock the bitmap data
+                bitmap.UnlockBits(bitmapData);
+            }
+            return color;
+        }
+
+        public static Bitmap ConvertToBinaryFormat8bppIndexed(this Bitmap bitmap)
+        {
+            //MessageBox.Show(bitmap.PixelFormat.ToString());
+
+            Bitmap bmGrayscale = new Bitmap(bitmap.Width, bitmap.Height, PixelFormat.Format8bppIndexed);
+
+            // Set grayscale color palette for cleanedImage
+            ColorPalette palette = bmGrayscale.Palette;
+            for (int i = 0; i < 256; i++)
+            {
+                palette.Entries[i] = Color.FromArgb(i, i, i);
+            }
+            bmGrayscale.Palette = palette;
+
+            BitmapData bmdBin = bmGrayscale.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.WriteOnly, bmGrayscale.PixelFormat);
+            BitmapData bmdSrc = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, bitmap.PixelFormat);
+            try
+            {
+                byte[] bmdBinRaw = new byte[bmdBin.Height * bmdBin.Stride];
+                byte[] bmdSrcRaw = new byte[bmdSrc.Height * bmdSrc.Stride];
+                Marshal.Copy(bmdSrc.Scan0, bmdSrcRaw, 0, bmdSrcRaw.Length);
+
+                for (int si = 0, di = 0; si < bmdSrcRaw.Length; si += 4, di++)
+                {
+                    byte grayValue = (byte)(((int)bmdSrcRaw[si] + (int)bmdSrcRaw[si + 1] + (int)bmdSrcRaw[si + 2]) / 3);
+                    //byte grayValue = (byte)(((int)bmdSrcRaw[si+1] + (int)bmdSrcRaw[si + 2] + (int)bmdSrcRaw[si + 3]) / 3);
+
+                    //byte grayValue = (byte)((0.299 * bmdSrcRaw[si + 2]) + (0.587 * bmdSrcRaw[si + 1]) + (0.114 * bmdSrcRaw[si]));
+                    //Color color = Color.FromArgb(bmdSrcRaw[si + 3], bmdSrcRaw[si + 2], bmdSrcRaw[si + 1], bmdSrcRaw[si]);
+                    //byte grayValue = (byte)(color.GetBrightness() * 255);
+
+                    bmdBinRaw[di] = grayValue;//(byte)average;
+                }
+                Marshal.Copy(bmdBinRaw, 0, bmdBin.Scan0, bmdBinRaw.Length);
+            }
+            finally
+            {
+                bmGrayscale.UnlockBits(bmdBin);
+                bitmap.UnlockBits(bmdSrc);
+            }
+            
+            return bmGrayscale;
         }
 
         public static Bitmap SetContrast(this Bitmap thisBmp, int threshold)
