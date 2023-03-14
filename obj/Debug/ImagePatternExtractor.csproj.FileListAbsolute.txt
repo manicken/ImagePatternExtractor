@@ -26,3 +26,4 @@ G:\_git\ImagePatternExtractor\bin\Debug\AForge.Imaging.xml
 G:\_git\ImagePatternExtractor\bin\Debug\AForge.xml
 G:\_git\ImagePatternExtractor\bin\Debug\AForge.Math.xml
 G:\_git\ImagePatternExtractor\obj\Debug\ImagePatternExtractor.csproj.CopyComplete
+G:\_git\ImagePatternExtractor\bin\Debug\AForge.Imaging.pdb

@@ -120,10 +120,73 @@ namespace WeaveImagePatternExtractor
         private void btnExtract_Click(object sender, EventArgs e)
         {
             SaveMetaData();
-            ExtractPatternFromSource();
+            //ExtractPatternFromSource();
+            ExtractPatternFromGrayScaleSource();
             if (ExtractPatternCompleted != null)
                 ExtractPatternCompleted(imgPattern);
             grpThresholds.Enabled = true;
+        }
+
+        private void TrimParts(Bitmap bm, int size)
+        {
+            Graphics g = Graphics.FromImage(bm);
+            int xParts = txtXparts.Value;
+            int yParts = txtYparts.Value;
+            double xMult = (double)bm.Width / (double)xParts;
+            double yMult = (double)bm.Height / (double)yParts;
+            Pen pen = new Pen(Color.White, (int)size);
+            for (var xi=0;xi<(xParts+1);xi++)
+            {
+                int x = (int)((double)xi * xMult);
+                g.DrawLine(pen, x, 0, x, bm.Height);
+            }
+            for (var yi = 0; yi < (yParts+1); yi++)
+            {
+                int y = (int)((double)yi * yMult);
+                g.DrawLine(pen, 0, y, bm.Width, y);
+            }
+        }
+
+        private void ExtractPatternFromGrayScaleSource()
+        {
+            int threshold = tbExtractThreshold.Value;
+            imgPattern = new Bitmap(xParts, yParts);
+            bool debug = (chkProcessStep2.Checked == false);
+            for (int y = 0; y < yParts; y++)
+            {
+                for (int x = 0; x < xParts; x++)
+                {
+                    int val = GetMeanFromGrayScale(x, y);
+                    if (debug)
+                        imgPattern.SetPixel(x, y, Color.FromArgb(val, val, val));
+                    else
+                    {
+                        if (val > threshold) imgPattern.SetPixel(x, y, lblColor1.BackColor);
+                        else imgPattern.SetPixel(x, y, lblColor2.BackColor);
+                    }
+                }
+            }
+        }
+
+        private int GetMeanFromGrayScale(int x, int y)
+        {
+            int mv = 0;
+            double xMult = (double)imgSrc.Width / (double)xParts;
+            double yMult = (double)imgSrc.Height / (double)yParts;
+            int pixelsInPart = (int)xMult * (int)yMult;
+            int xPos = (int)(x * xMult);
+            int yPos = (int)(y * yMult);
+            
+            for (int xp = 0; xp < (int)xMult; xp++)
+            {
+                for (int yp = 0; yp < (int)yMult; yp++)
+                {
+                    byte val = imgSrc.GetGrayPixel(xp + xPos, yp + yPos);
+                    if (val > 0x0) mv++;
+                   
+                }
+            }
+            return (int)(((double)mv / (double)pixelsInPart) * (double)255);
         }
 
         private void ExtractPatternFromSource()
@@ -283,14 +346,22 @@ namespace WeaveImagePatternExtractor
         {
             Bitmap imgSrcCopy = new Bitmap(imgSrc);
 
+            //for (int x = 0; x < 20; x++)
+            //    for (int y = 0; y < 20; y++)
+            //        imgSrcCopy.SetPixel(x, y, 0xFF);
+            if (chkTrimParts.Checked)
+            {
+                TrimParts(imgSrcCopy, tvtxtTrimPartsSize.Value);
+            }
+            
             if (chkFilterGrayScale.Checked)
             {
-                /*double r = dvtxtGrayScaleRed.Value;
+                double r = dvtxtGrayScaleRed.Value;
                 double g = dvtxtGrayScaleGreen.Value;
                 double b = dvtxtGrayScaleBlue.Value;
                 AForge.Imaging.Filters.Grayscale grayscaleFilter = new AForge.Imaging.Filters.Grayscale(r, g, b);
-                imgSrcCopy = grayscaleFilter.Apply(imgSrcCopy);*/
-                imgSrcCopy = imgSrcCopy.ConvertToBinaryFormat8bppIndexed();
+                imgSrcCopy = grayscaleFilter.Apply(imgSrcCopy);
+                //imgSrcCopy = imgSrcCopy.ConvertToBinaryFormat8bppIndexed();
             }
             if (chkFilterThreshold.Checked)
             {
@@ -301,22 +372,12 @@ namespace WeaveImagePatternExtractor
             {
                 int pixelCount = ivtxtFilterRemoveIsolatedPixelsP1.Value;
                 int areaSize = ivtxtFilterRemoveIsolatedPixelsP2.Value;
-                
                 imgSrcCopy = imgSrcCopy.RemoveIsolatedPixels(pixelCount, areaSize).ConvertToBinaryFormat8bppIndexed();
-                
-                //AForge.Imaging.Filters.Grayscale grayscaleFilter = new AForge.Imaging.Filters.Grayscale(0.2125, 0.7154, 0.0721);
-                //imgSrcCopy = grayscaleFilter.Apply(imgSrcCopy);
-
-                for (int x = 0; x < 20; x++)
-                    for (int y = 0; y < 20; y++)
-                        imgSrcCopy.SetPixel(x, y, 0xFF);
             }
             if (chkFilterAdaptiveSmoothing.Checked)
             {
-                //Accord.Imaging.Filters.AdaptiveSmoothing adaptiveSmoothingFilter = new Accord.Imaging.Filters.AdaptiveSmoothing();
                 AForge.Imaging.Filters.AdaptiveSmoothing adaptiveSmoothingFilter = new AForge.Imaging.Filters.AdaptiveSmoothing(dvtxtFilterAdaptiveSmoothing.Value);
                 adaptiveSmoothingFilter.ApplyInPlace(imgSrcCopy);
-                
             }
             if (chkFilterMedian.Checked)
             {
@@ -334,10 +395,30 @@ namespace WeaveImagePatternExtractor
             if (chkErosion.Checked)
             {
                 // expand black areas
-                AForge.Imaging.Filters.Erosion erosionFilter = new AForge.Imaging.Filters.Erosion(FilterPatterns.Cross_3x3);
+                AForge.Imaging.Filters.Erosion erosionFilter = new AForge.Imaging.Filters.Erosion(FilterPatterns.Square_3x3);
+
+                BitmapData imgSrcCopyData = imgSrcCopy.LockBits(new Rectangle(0, 0, imgSrcCopy.Width, imgSrcCopy.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+
                 var count = ivtxtErosionCount.Value;
-                for (var i = 0; i < count; i++)
-                    erosionFilter.ApplyInPlace(imgSrcCopy);
+                int xParts = txtXparts.Value;
+                int yParts = txtYparts.Value;
+                double xMult = (double)imgSrc.Width / (double)xParts;
+                double yMult = (double)imgSrc.Height / (double)yParts;
+                Rectangle rect = new Rectangle(0, 0, (int)xMult, (int)yMult);
+                for (var xi = 0; xi < xParts; xi++)
+                {
+                    for (var yi = 0; yi < yParts; yi++)
+                    {
+                        rect.X = (int)((double)xi * xMult);
+                        rect.Y = (int)((double)yi * yMult);
+
+                        for (var i = 0; i < count; i++)
+                            erosionFilter.ApplyInPlace(imgSrcCopyData, rect);
+                    }
+                    
+                }
+
+                imgSrcCopy.UnlockBits(imgSrcCopyData);
             }
             if (chkFilterDilatation.Checked)
             {
@@ -364,6 +445,11 @@ namespace WeaveImagePatternExtractor
         private void tsmiPicBoxSaveAs_Click(object sender, EventArgs e)
         {
             imgSrc.SaveImageCopy(srcImgPath + "_OCR.PNG", ImageFormat.Png);
+        }
+
+        private void tbExtractThreshold_Scroll(object sender, EventArgs e)
+        {
+            txtExtractThreshold.Text = tbExtractThreshold.Value.ToString();
         }
 
         private void btnApplyFilter_Click(object sender, EventArgs e)

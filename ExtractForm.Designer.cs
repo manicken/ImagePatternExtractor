@@ -64,6 +64,9 @@
             this.chkFilterDilatation = new System.Windows.Forms.CheckBox();
             this.chkErosion = new System.Windows.Forms.CheckBox();
             this.grpOCRFilter = new System.Windows.Forms.GroupBox();
+            this.dvtxtGrayScaleBlue = new WeaveImagePatternExtractor.DoubleValueTextBox();
+            this.dvtxtGrayScaleGreen = new WeaveImagePatternExtractor.DoubleValueTextBox();
+            this.dvtxtGrayScaleRed = new WeaveImagePatternExtractor.DoubleValueTextBox();
             this.ivtxtFilterRemoveIsolatedPixelsP2 = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.dvtxtFilterAdaptiveSmoothing = new WeaveImagePatternExtractor.DoubleValueTextBox();
             this.ivtxtFilterRemoveIsolatedPixelsP1 = new WeaveImagePatternExtractor.IntegerValueTextBox();
@@ -78,9 +81,10 @@
             this.rtxt = new System.Windows.Forms.RichTextBox();
             this.btnOpenAIECF = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.dvtxtGrayScaleRed = new WeaveImagePatternExtractor.DoubleValueTextBox();
-            this.dvtxtGrayScaleGreen = new WeaveImagePatternExtractor.DoubleValueTextBox();
-            this.dvtxtGrayScaleBlue = new WeaveImagePatternExtractor.DoubleValueTextBox();
+            this.tbExtractThreshold = new System.Windows.Forms.TrackBar();
+            this.txtExtractThreshold = new System.Windows.Forms.TextBox();
+            this.chkTrimParts = new System.Windows.Forms.CheckBox();
+            this.tvtxtTrimPartsSize = new WeaveImagePatternExtractor.IntegerValueTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.picBox)).BeginInit();
             this.cmsPicBox.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -89,6 +93,7 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.grpOCRFilter.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbExtractThreshold)).BeginInit();
             this.SuspendLayout();
             // 
             // picBox
@@ -394,7 +399,7 @@
             // txtMedianVal
             // 
             this.txtMedianVal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMedianVal.Location = new System.Drawing.Point(145, 484);
+            this.txtMedianVal.Location = new System.Drawing.Point(145, 485);
             this.txtMedianVal.Name = "txtMedianVal";
             this.txtMedianVal.Size = new System.Drawing.Size(39, 20);
             this.txtMedianVal.TabIndex = 51;
@@ -416,7 +421,7 @@
             this.chkFilterGrayScale.Checked = true;
             this.chkFilterGrayScale.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkFilterGrayScale.Enabled = false;
-            this.chkFilterGrayScale.Location = new System.Drawing.Point(5, 19);
+            this.chkFilterGrayScale.Location = new System.Drawing.Point(5, 43);
             this.chkFilterGrayScale.Name = "chkFilterGrayScale";
             this.chkFilterGrayScale.Size = new System.Drawing.Size(71, 17);
             this.chkFilterGrayScale.TabIndex = 53;
@@ -430,7 +435,7 @@
             this.chkFilterThreshold.AutoSize = true;
             this.chkFilterThreshold.Checked = true;
             this.chkFilterThreshold.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFilterThreshold.Location = new System.Drawing.Point(5, 80);
+            this.chkFilterThreshold.Location = new System.Drawing.Point(5, 104);
             this.chkFilterThreshold.Name = "chkFilterThreshold";
             this.chkFilterThreshold.Size = new System.Drawing.Size(73, 17);
             this.chkFilterThreshold.TabIndex = 54;
@@ -441,7 +446,7 @@
             // chkFilterMedian
             // 
             this.chkFilterMedian.AutoSize = true;
-            this.chkFilterMedian.Location = new System.Drawing.Point(5, 146);
+            this.chkFilterMedian.Location = new System.Drawing.Point(5, 170);
             this.chkFilterMedian.Name = "chkFilterMedian";
             this.chkFilterMedian.Size = new System.Drawing.Size(61, 17);
             this.chkFilterMedian.TabIndex = 55;
@@ -452,7 +457,7 @@
             // chkFilterDilatation
             // 
             this.chkFilterDilatation.AutoSize = true;
-            this.chkFilterDilatation.Location = new System.Drawing.Point(5, 215);
+            this.chkFilterDilatation.Location = new System.Drawing.Point(5, 239);
             this.chkFilterDilatation.Name = "chkFilterDilatation";
             this.chkFilterDilatation.Size = new System.Drawing.Size(70, 17);
             this.chkFilterDilatation.TabIndex = 56;
@@ -465,7 +470,7 @@
             this.chkErosion.AutoSize = true;
             this.chkErosion.Checked = true;
             this.chkErosion.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkErosion.Location = new System.Drawing.Point(5, 192);
+            this.chkErosion.Location = new System.Drawing.Point(5, 216);
             this.chkErosion.Name = "chkErosion";
             this.chkErosion.Size = new System.Drawing.Size(61, 17);
             this.chkErosion.TabIndex = 57;
@@ -477,9 +482,11 @@
             // 
             this.grpOCRFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpOCRFilter.Controls.Add(this.chkTrimParts);
             this.grpOCRFilter.Controls.Add(this.dvtxtGrayScaleBlue);
             this.grpOCRFilter.Controls.Add(this.dvtxtGrayScaleGreen);
             this.grpOCRFilter.Controls.Add(this.dvtxtGrayScaleRed);
+            this.grpOCRFilter.Controls.Add(this.tvtxtTrimPartsSize);
             this.grpOCRFilter.Controls.Add(this.ivtxtFilterRemoveIsolatedPixelsP2);
             this.grpOCRFilter.Controls.Add(this.dvtxtFilterAdaptiveSmoothing);
             this.grpOCRFilter.Controls.Add(this.ivtxtFilterRemoveIsolatedPixelsP1);
@@ -490,10 +497,10 @@
             this.grpOCRFilter.Controls.Add(this.ivtxtErosionCount);
             this.grpOCRFilter.Controls.Add(this.chkFilterAdaptiveSmoothing);
             this.grpOCRFilter.Controls.Add(this.btnApplyFilter);
+            this.grpOCRFilter.Controls.Add(this.txtMedianVal);
             this.grpOCRFilter.Controls.Add(this.chkFilterGrayScale);
             this.grpOCRFilter.Controls.Add(this.btnPreviewFilter);
             this.grpOCRFilter.Controls.Add(this.chkErosion);
-            this.grpOCRFilter.Controls.Add(this.txtMedianVal);
             this.grpOCRFilter.Controls.Add(this.chkFilterThreshold);
             this.grpOCRFilter.Controls.Add(this.trackBar1);
             this.grpOCRFilter.Controls.Add(this.chkFilterDilatation);
@@ -507,10 +514,43 @@
             this.grpOCRFilter.TabStop = false;
             this.grpOCRFilter.Text = "OCR filter";
             // 
+            // dvtxtGrayScaleBlue
+            // 
+            this.dvtxtGrayScaleBlue.DefaultValue = 0D;
+            this.dvtxtGrayScaleBlue.Location = new System.Drawing.Point(87, 67);
+            this.dvtxtGrayScaleBlue.Name = "dvtxtGrayScaleBlue";
+            this.dvtxtGrayScaleBlue.Size = new System.Drawing.Size(41, 20);
+            this.dvtxtGrayScaleBlue.TabIndex = 66;
+            this.dvtxtGrayScaleBlue.Text = "0,0721";
+            this.dvtxtGrayScaleBlue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.dvtxtGrayScaleBlue.Value = 0.0721D;
+            // 
+            // dvtxtGrayScaleGreen
+            // 
+            this.dvtxtGrayScaleGreen.DefaultValue = 0D;
+            this.dvtxtGrayScaleGreen.Location = new System.Drawing.Point(46, 67);
+            this.dvtxtGrayScaleGreen.Name = "dvtxtGrayScaleGreen";
+            this.dvtxtGrayScaleGreen.Size = new System.Drawing.Size(41, 20);
+            this.dvtxtGrayScaleGreen.TabIndex = 66;
+            this.dvtxtGrayScaleGreen.Text = "0,7154";
+            this.dvtxtGrayScaleGreen.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.dvtxtGrayScaleGreen.Value = 0.7154D;
+            // 
+            // dvtxtGrayScaleRed
+            // 
+            this.dvtxtGrayScaleRed.DefaultValue = 0D;
+            this.dvtxtGrayScaleRed.Location = new System.Drawing.Point(5, 67);
+            this.dvtxtGrayScaleRed.Name = "dvtxtGrayScaleRed";
+            this.dvtxtGrayScaleRed.Size = new System.Drawing.Size(41, 20);
+            this.dvtxtGrayScaleRed.TabIndex = 66;
+            this.dvtxtGrayScaleRed.Text = "0,2125";
+            this.dvtxtGrayScaleRed.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.dvtxtGrayScaleRed.Value = 0.2125D;
+            // 
             // ivtxtFilterRemoveIsolatedPixelsP2
             // 
             this.ivtxtFilterRemoveIsolatedPixelsP2.DefaultValue = 1;
-            this.ivtxtFilterRemoveIsolatedPixelsP2.Location = new System.Drawing.Point(111, 98);
+            this.ivtxtFilterRemoveIsolatedPixelsP2.Location = new System.Drawing.Point(111, 122);
             this.ivtxtFilterRemoveIsolatedPixelsP2.Name = "ivtxtFilterRemoveIsolatedPixelsP2";
             this.ivtxtFilterRemoveIsolatedPixelsP2.Size = new System.Drawing.Size(24, 20);
             this.ivtxtFilterRemoveIsolatedPixelsP2.TabIndex = 65;
@@ -521,7 +561,7 @@
             // dvtxtFilterAdaptiveSmoothing
             // 
             this.dvtxtFilterAdaptiveSmoothing.DefaultValue = 0D;
-            this.dvtxtFilterAdaptiveSmoothing.Location = new System.Drawing.Point(87, 121);
+            this.dvtxtFilterAdaptiveSmoothing.Location = new System.Drawing.Point(87, 145);
             this.dvtxtFilterAdaptiveSmoothing.Name = "dvtxtFilterAdaptiveSmoothing";
             this.dvtxtFilterAdaptiveSmoothing.Size = new System.Drawing.Size(24, 20);
             this.dvtxtFilterAdaptiveSmoothing.TabIndex = 64;
@@ -532,7 +572,7 @@
             // ivtxtFilterRemoveIsolatedPixelsP1
             // 
             this.ivtxtFilterRemoveIsolatedPixelsP1.DefaultValue = 1;
-            this.ivtxtFilterRemoveIsolatedPixelsP1.Location = new System.Drawing.Point(87, 98);
+            this.ivtxtFilterRemoveIsolatedPixelsP1.Location = new System.Drawing.Point(87, 122);
             this.ivtxtFilterRemoveIsolatedPixelsP1.Name = "ivtxtFilterRemoveIsolatedPixelsP1";
             this.ivtxtFilterRemoveIsolatedPixelsP1.Size = new System.Drawing.Size(24, 20);
             this.ivtxtFilterRemoveIsolatedPixelsP1.TabIndex = 63;
@@ -543,7 +583,7 @@
             // ivtxtFilterMedian
             // 
             this.ivtxtFilterMedian.DefaultValue = 0;
-            this.ivtxtFilterMedian.Location = new System.Drawing.Point(87, 144);
+            this.ivtxtFilterMedian.Location = new System.Drawing.Point(87, 168);
             this.ivtxtFilterMedian.Name = "ivtxtFilterMedian";
             this.ivtxtFilterMedian.Size = new System.Drawing.Size(24, 20);
             this.ivtxtFilterMedian.TabIndex = 63;
@@ -554,7 +594,7 @@
             // ivtxtPreDilatationCount
             // 
             this.ivtxtPreDilatationCount.DefaultValue = 1;
-            this.ivtxtPreDilatationCount.Location = new System.Drawing.Point(87, 167);
+            this.ivtxtPreDilatationCount.Location = new System.Drawing.Point(87, 191);
             this.ivtxtPreDilatationCount.Name = "ivtxtPreDilatationCount";
             this.ivtxtPreDilatationCount.Size = new System.Drawing.Size(24, 20);
             this.ivtxtPreDilatationCount.TabIndex = 63;
@@ -565,7 +605,7 @@
             // chkFilterPreDilatation
             // 
             this.chkFilterPreDilatation.AutoSize = true;
-            this.chkFilterPreDilatation.Location = new System.Drawing.Point(5, 169);
+            this.chkFilterPreDilatation.Location = new System.Drawing.Point(5, 193);
             this.chkFilterPreDilatation.Name = "chkFilterPreDilatation";
             this.chkFilterPreDilatation.Size = new System.Drawing.Size(70, 17);
             this.chkFilterPreDilatation.TabIndex = 62;
@@ -576,7 +616,7 @@
             // ivtxtDilatationCount
             // 
             this.ivtxtDilatationCount.DefaultValue = 1;
-            this.ivtxtDilatationCount.Location = new System.Drawing.Point(87, 213);
+            this.ivtxtDilatationCount.Location = new System.Drawing.Point(87, 237);
             this.ivtxtDilatationCount.Name = "ivtxtDilatationCount";
             this.ivtxtDilatationCount.Size = new System.Drawing.Size(24, 20);
             this.ivtxtDilatationCount.TabIndex = 61;
@@ -587,7 +627,7 @@
             // ivtxtErosionCount
             // 
             this.ivtxtErosionCount.DefaultValue = 1;
-            this.ivtxtErosionCount.Location = new System.Drawing.Point(87, 190);
+            this.ivtxtErosionCount.Location = new System.Drawing.Point(87, 214);
             this.ivtxtErosionCount.Name = "ivtxtErosionCount";
             this.ivtxtErosionCount.Size = new System.Drawing.Size(24, 20);
             this.ivtxtErosionCount.TabIndex = 60;
@@ -598,7 +638,7 @@
             // chkFilterAdaptiveSmoothing
             // 
             this.chkFilterAdaptiveSmoothing.AutoSize = true;
-            this.chkFilterAdaptiveSmoothing.Location = new System.Drawing.Point(5, 124);
+            this.chkFilterAdaptiveSmoothing.Location = new System.Drawing.Point(5, 148);
             this.chkFilterAdaptiveSmoothing.Name = "chkFilterAdaptiveSmoothing";
             this.chkFilterAdaptiveSmoothing.Size = new System.Drawing.Size(63, 17);
             this.chkFilterAdaptiveSmoothing.TabIndex = 59;
@@ -621,7 +661,7 @@
             // chkFilterRemoveIsolatedPixels
             // 
             this.chkFilterRemoveIsolatedPixels.AutoSize = true;
-            this.chkFilterRemoveIsolatedPixels.Location = new System.Drawing.Point(5, 101);
+            this.chkFilterRemoveIsolatedPixels.Location = new System.Drawing.Point(5, 125);
             this.chkFilterRemoveIsolatedPixels.Name = "chkFilterRemoveIsolatedPixels";
             this.chkFilterRemoveIsolatedPixels.Size = new System.Drawing.Size(85, 17);
             this.chkFilterRemoveIsolatedPixels.TabIndex = 55;
@@ -634,7 +674,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtxt.Location = new System.Drawing.Point(448, 17);
             this.rtxt.Name = "rtxt";
-            this.rtxt.Size = new System.Drawing.Size(196, 96);
+            this.rtxt.Size = new System.Drawing.Size(248, 96);
             this.rtxt.TabIndex = 59;
             this.rtxt.Text = "";
             // 
@@ -653,44 +693,56 @@
             // 
             this.toolTip1.ShowAlways = true;
             // 
-            // dvtxtGrayScaleRed
+            // tbExtractThreshold
             // 
-            this.dvtxtGrayScaleRed.DefaultValue = 0D;
-            this.dvtxtGrayScaleRed.Location = new System.Drawing.Point(5, 43);
-            this.dvtxtGrayScaleRed.Name = "dvtxtGrayScaleRed";
-            this.dvtxtGrayScaleRed.Size = new System.Drawing.Size(41, 20);
-            this.dvtxtGrayScaleRed.TabIndex = 66;
-            this.dvtxtGrayScaleRed.Text = "0,2125";
-            this.dvtxtGrayScaleRed.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.dvtxtGrayScaleRed.Value = 0.2125D;
+            this.tbExtractThreshold.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbExtractThreshold.Location = new System.Drawing.Point(651, 134);
+            this.tbExtractThreshold.Maximum = 255;
+            this.tbExtractThreshold.Name = "tbExtractThreshold";
+            this.tbExtractThreshold.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.tbExtractThreshold.Size = new System.Drawing.Size(45, 475);
+            this.tbExtractThreshold.TabIndex = 51;
+            this.tbExtractThreshold.TickFrequency = 8;
+            this.tbExtractThreshold.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.tbExtractThreshold.Value = 63;
+            this.tbExtractThreshold.Scroll += new System.EventHandler(this.tbExtractThreshold_Scroll);
             // 
-            // dvtxtGrayScaleGreen
+            // txtExtractThreshold
             // 
-            this.dvtxtGrayScaleGreen.DefaultValue = 0D;
-            this.dvtxtGrayScaleGreen.Location = new System.Drawing.Point(46, 43);
-            this.dvtxtGrayScaleGreen.Name = "dvtxtGrayScaleGreen";
-            this.dvtxtGrayScaleGreen.Size = new System.Drawing.Size(41, 20);
-            this.dvtxtGrayScaleGreen.TabIndex = 66;
-            this.dvtxtGrayScaleGreen.Text = "0,7154";
-            this.dvtxtGrayScaleGreen.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.dvtxtGrayScaleGreen.Value = 0.7154D;
+            this.txtExtractThreshold.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtExtractThreshold.Location = new System.Drawing.Point(653, 607);
+            this.txtExtractThreshold.Name = "txtExtractThreshold";
+            this.txtExtractThreshold.Size = new System.Drawing.Size(39, 20);
+            this.txtExtractThreshold.TabIndex = 51;
             // 
-            // dvtxtGrayScaleBlue
+            // chkTrimParts
             // 
-            this.dvtxtGrayScaleBlue.DefaultValue = 0D;
-            this.dvtxtGrayScaleBlue.Location = new System.Drawing.Point(87, 43);
-            this.dvtxtGrayScaleBlue.Name = "dvtxtGrayScaleBlue";
-            this.dvtxtGrayScaleBlue.Size = new System.Drawing.Size(41, 20);
-            this.dvtxtGrayScaleBlue.TabIndex = 66;
-            this.dvtxtGrayScaleBlue.Text = "0,0721";
-            this.dvtxtGrayScaleBlue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.dvtxtGrayScaleBlue.Value = 0.0721D;
+            this.chkTrimParts.AutoSize = true;
+            this.chkTrimParts.Location = new System.Drawing.Point(5, 20);
+            this.chkTrimParts.Name = "chkTrimParts";
+            this.chkTrimParts.Size = new System.Drawing.Size(73, 17);
+            this.chkTrimParts.TabIndex = 67;
+            this.chkTrimParts.Text = "Trim Parts";
+            this.chkTrimParts.UseVisualStyleBackColor = true;
+            // 
+            // tvtxtTrimPartsSize
+            // 
+            this.tvtxtTrimPartsSize.DefaultValue = 1;
+            this.tvtxtTrimPartsSize.Location = new System.Drawing.Point(77, 19);
+            this.tvtxtTrimPartsSize.Name = "tvtxtTrimPartsSize";
+            this.tvtxtTrimPartsSize.Size = new System.Drawing.Size(24, 20);
+            this.tvtxtTrimPartsSize.TabIndex = 65;
+            this.tvtxtTrimPartsSize.Text = "1";
+            this.tvtxtTrimPartsSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tvtxtTrimPartsSize.Value = 1;
             // 
             // ExtractForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(648, 658);
+            this.ClientSize = new System.Drawing.Size(700, 658);
+            this.Controls.Add(this.txtExtractThreshold);
             this.Controls.Add(this.btnOpenAIECF);
             this.Controls.Add(this.rtxt);
             this.Controls.Add(this.grpOCRFilter);
@@ -702,6 +754,7 @@
             this.Controls.Add(this.grpThresholds);
             this.Controls.Add(this.btnExtract);
             this.Controls.Add(this.btnOpenFile);
+            this.Controls.Add(this.tbExtractThreshold);
             this.Name = "ExtractForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Extract Pattern";
@@ -718,7 +771,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.grpOCRFilter.ResumeLayout(false);
             this.grpOCRFilter.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbExtractThreshold)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -774,5 +829,9 @@
         private DoubleValueTextBox dvtxtGrayScaleRed;
         private DoubleValueTextBox dvtxtGrayScaleBlue;
         private DoubleValueTextBox dvtxtGrayScaleGreen;
+        private System.Windows.Forms.TrackBar tbExtractThreshold;
+        private System.Windows.Forms.TextBox txtExtractThreshold;
+        private System.Windows.Forms.CheckBox chkTrimParts;
+        private IntegerValueTextBox tvtxtTrimPartsSize;
     }
 }

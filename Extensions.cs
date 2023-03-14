@@ -143,7 +143,7 @@ namespace WeaveImagePatternExtractor
                         }
 
                         // If number of foreground pixels is less than minPixelCount, set pixel to background
-                        if (pixelCount < minPixelCount)
+                        if (pixelCount <= minPixelCount)
                         {
                             cleanedImage.SetPixel(x, y, Color.White);
                         }
@@ -168,6 +168,7 @@ namespace WeaveImagePatternExtractor
             }
             // Lock the bitmap data
             BitmapData bitmapData = bitmap.LockBits(new Rectangle(x, y, 1, 1), ImageLockMode.ReadWrite, bitmap.PixelFormat);
+            //MessageBox.Show(bitmapData.Stride.ToString() + "\n" + bitmapData.Width.ToString() + "\n" + bitmapData.Height.ToString() + "\n");
             try
             {
                 // Copy the bitmap data to a byte array
@@ -185,7 +186,7 @@ namespace WeaveImagePatternExtractor
             }
         }
 
-        public static byte GetPixel(this Bitmap bitmap, int x, int y)
+        public static byte GetGrayPixel(this Bitmap bitmap, int x, int y)
         {
             byte color = 0x00;
             if (bitmap.PixelFormat != PixelFormat.Format8bppIndexed)
@@ -226,23 +227,26 @@ namespace WeaveImagePatternExtractor
 
             BitmapData bmdBin = bmGrayscale.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.WriteOnly, bmGrayscale.PixelFormat);
             BitmapData bmdSrc = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, bitmap.PixelFormat);
+            
             try
             {
                 byte[] bmdBinRaw = new byte[bmdBin.Height * bmdBin.Stride];
                 byte[] bmdSrcRaw = new byte[bmdSrc.Height * bmdSrc.Stride];
                 Marshal.Copy(bmdSrc.Scan0, bmdSrcRaw, 0, bmdSrcRaw.Length);
 
-                for (int si = 0, di = 0; si < bmdSrcRaw.Length; si += 4, di++)
+                ConvertToBinaryFormat8bppIndexed_SimpleAverage(ref bmdSrcRaw, ref bmdBinRaw);
+                //ConvertToBinaryFormat8bppIndexed_Amount(ref bmdSrcRaw, ref bmdBinRaw);
+                //ConvertToBinaryFormat8bppIndexed_UsingGetBrightness(ref bmdSrcRaw, ref bmdBinRaw);
+                /*for (int si = 0, di = 0; si < bmdSrcRaw.Length; si += 4, di++)
                 {
                     byte grayValue = (byte)(((int)bmdSrcRaw[si] + (int)bmdSrcRaw[si + 1] + (int)bmdSrcRaw[si + 2]) / 3);
-                    //byte grayValue = (byte)(((int)bmdSrcRaw[si+1] + (int)bmdSrcRaw[si + 2] + (int)bmdSrcRaw[si + 3]) / 3);
-
+                    
                     //byte grayValue = (byte)((0.299 * bmdSrcRaw[si + 2]) + (0.587 * bmdSrcRaw[si + 1]) + (0.114 * bmdSrcRaw[si]));
                     //Color color = Color.FromArgb(bmdSrcRaw[si + 3], bmdSrcRaw[si + 2], bmdSrcRaw[si + 1], bmdSrcRaw[si]);
                     //byte grayValue = (byte)(color.GetBrightness() * 255);
 
                     bmdBinRaw[di] = grayValue;//(byte)average;
-                }
+                }*/
                 Marshal.Copy(bmdBinRaw, 0, bmdBin.Scan0, bmdBinRaw.Length);
             }
             finally
@@ -252,6 +256,28 @@ namespace WeaveImagePatternExtractor
             }
             
             return bmGrayscale;
+        }
+        private static void ConvertToBinaryFormat8bppIndexed_SimpleAverage(ref byte[] src, ref byte[] dst)
+        {
+            for (int si = 0, di = 0; si < src.Length; si += 4, di++)
+            {
+                dst[di] = (byte)(((int)src[si] + (int)src[si + 1] + (int)src[si + 2]) / 3);
+            }
+        }
+        private static void ConvertToBinaryFormat8bppIndexed_Amount(ref byte[] src, ref byte[] dst, double rc=0.299, double gc=0.587, double bc=0.114)
+        {
+            for (int si = 0, di = 0; si < src.Length; si += 4, di++)
+            {
+                dst[di] = (byte)((rc * src[si + 2]) + (gc * src[si + 1]) + (bc * src[si]));
+            }
+        }
+
+        private static void ConvertToBinaryFormat8bppIndexed_UsingGetBrightness(ref byte[] src, ref byte[] dst)
+        {
+            for (int si = 0, di = 0; si < src.Length; si += 4, di++)
+            {
+                dst[di] = (byte)(Color.FromArgb(src[si + 3], src[si + 2], src[si + 1], src[si]).GetBrightness() * 255);
+            }
         }
 
         public static Bitmap SetContrast(this Bitmap thisBmp, int threshold)
