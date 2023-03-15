@@ -42,6 +42,10 @@ namespace UserRectDemo
         public Pen pen2;
         public Pen penHandles;
 
+        public bool active = false;
+
+        public bool Active { get { return active; } set { active = value; mPictureBox.Invalidate(); } }
+
         private enum PosSizableRect
         {            
             UpMiddle,
@@ -89,6 +93,8 @@ namespace UserRectDemo
 
         private void mPictureBox_Paint(object sender, PaintEventArgs e)
         {
+            if (active == false) return;
+
             try { Draw(e.Graphics); }
             catch (Exception exp) { System.Console.WriteLine(exp.Message); }
         }

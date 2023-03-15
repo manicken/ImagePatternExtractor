@@ -223,13 +223,13 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TrackBar tbRedContrast;
-        private System.Windows.Forms.TrackBar tbGreenContrast;
         private System.Windows.Forms.TextBox txtBlueContrastValue;
-        private System.Windows.Forms.TrackBar tbBlueContrast;
         private System.Windows.Forms.Button btnContrastApply;
         private System.Windows.Forms.TextBox txtGreenContrastValue;
         private System.Windows.Forms.TextBox txtRedContrastValue;
         private System.Windows.Forms.Button btnContrastPreview;
+        public System.Windows.Forms.TrackBar tbRedContrast;
+        public System.Windows.Forms.TrackBar tbGreenContrast;
+        public System.Windows.Forms.TrackBar tbBlueContrast;
     }
 }

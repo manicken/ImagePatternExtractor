@@ -32,10 +32,9 @@ namespace WeaveImagePatternExtractor
         public ExtractForm()
         {
             InitializeComponent();
+            init_perspective_correction_selection_rectangle();
             cd = new ColorDialog();
             advImgEditCtrlForm = new AdvancedImageEditControlsForm();
-            advImgEditCtrlForm.PreviewContrastChange = advImgEditCtrlForm_PreviewContrastChange;
-            advImgEditCtrlForm.ApplyContrastChange = advImgEditCtrlForm_ApplyContrastChange;
             xParts = txtXparts.Value;
             yParts = txtYparts.Value;
             txtXparts.ValueChanged = delegate (int val) { xParts = val; };
@@ -50,22 +49,9 @@ namespace WeaveImagePatternExtractor
             }
         }
 
-        private void advImgEditCtrlForm_PreviewContrastChange(int rc, int gc, int bc)
-        {
-            picBox.Image = imgSrc.SetContrast(rc, gc, bc);
-            //DrawExtractGrid();
-        }
-
-        private void advImgEditCtrlForm_ApplyContrastChange(int rc, int gc, int bc)
-        {
-            imgSrc = imgSrc.SetContrast(rc, gc, bc);
-            picBox.Image = imgSrc;
-            //DrawExtractGrid();
-        }
-
         private void FirstTimeOpenFile()
         {
-            btnReopen.Enabled = true;
+            btnShowOriginal.Enabled = true;
             grpParts.Enabled = true;
             btnExtract.Enabled = true;
             btnOpenAIECF.Enabled = true;
@@ -110,21 +96,20 @@ namespace WeaveImagePatternExtractor
             imgSrcOriginal.SaveMetadata(srcImgPath, data);
         }
 
-        private void btnReopen_Click(object sender, EventArgs e)
+        private void btnShowOriginal_Click(object sender, EventArgs e)
         {
-            imgSrc = new Bitmap(imgSrcOriginal);
-            picBox.Image = imgSrc;
-            //DrawExtractGrid();
+            picBox.Image = imgSrcOriginal;
         }
 
         private void btnExtract_Click(object sender, EventArgs e)
         {
+            //if (haveOCRfilterRun == false)
+            imgSrc = OCR_Filtering();
             SaveMetaData();
             //ExtractPatternFromSource();
             ExtractPatternFromGrayScaleSource();
             if (ExtractPatternCompleted != null)
                 ExtractPatternCompleted(imgPattern);
-            grpThresholds.Enabled = true;
         }
 
         private void TrimParts(Bitmap bm, int size)
@@ -183,73 +168,9 @@ namespace WeaveImagePatternExtractor
                 {
                     byte val = imgSrc.GetGrayPixel(xp + xPos, yp + yPos);
                     if (val > 0x0) mv++;
-                   
                 }
             }
             return (int)(((double)mv / (double)pixelsInPart) * (double)255);
-        }
-
-        private void ExtractPatternFromSource()
-        {
-            long globalMeanR = 0;
-            long globalMeanG = 0;
-            long globalMeanB = 0;
-            imgPattern = new Bitmap(xParts, yParts);
-            
-            for (int y = 0; y < yParts; y++)
-            {
-                for (int x = 0; x < xParts; x++)
-                {
-                    Color cm = GetMean(x, y);
-                    globalMeanR += cm.R;
-                    globalMeanG += cm.G;
-                    globalMeanB += cm.B;
-                    imgPattern.SetPixel(x, y, cm);
-                }
-            }
-            
-            globalMeanR /= (xParts * yParts);
-            globalMeanG /= (xParts * yParts);
-            globalMeanB /= (xParts * yParts);
-            txtRthreshold.Value = (int)globalMeanR;
-            txtGthreshold.Value = (int)globalMeanG;
-            txtBthreshold.Value = (int)globalMeanB;
-            if (chkProcessStep2.Checked == false) return;
-            for (int y = 0; y < yParts; y++)
-            {
-                for (int x = 0; x < xParts; x++)
-                {
-                    Color c = imgPattern.GetPixel(x, y);
-                    if (c.R > globalMeanR && c.G > globalMeanG && c.B > globalMeanB)
-                        imgPattern.SetPixel(x, y, lblColor1.BackColor);
-                    else
-                        imgPattern.SetPixel(x, y, lblColor2.BackColor);
-                }
-            }
-            
-        }
-
-        private Color GetMean(int x, int y)
-        {
-            int R = 0, G = 0, B = 0;
-            double xMult = (double)imgSrc.Width / (double)xParts;
-            double yMult = (double)imgSrc.Height / (double)yParts;
-            int pixelsInPart = (int)xMult * (int)yMult;
-            int xPos = (int)(x * xMult);
-            int yPos = (int)(y * yMult);
-            for (int xp = 0; xp < (int)xMult; xp++)
-            {
-                for (int yp = 0; yp < (int)yMult; yp++)
-                {
-                    Color c = imgSrc.GetPixel(xp + xPos, yp + yPos);
-                    
-                    R += c.R;
-                    G += c.G;
-                    B += c.B;
-                }
-            }
-            R = R / pixelsInPart; G = G / pixelsInPart; B = B / pixelsInPart;
-            return Color.FromArgb(R, G, B);
         }
 
         private void btnSwitchColors_Click(object sender, EventArgs e)
@@ -344,11 +265,22 @@ namespace WeaveImagePatternExtractor
 
         private Bitmap OCR_Filtering()
         {
-            Bitmap imgSrcCopy = new Bitmap(imgSrc);
+            //perspective correction, keep here for ref
+            //AForge.Imaging.Filters.QuadrilateralTransformation sqtf = new AForge.Imaging.Filters.QuadrilateralTransformation
+            // http://www.aforgenet.com/framework/docs/html/7039a71d-a87d-47ef-7907-ad873118e374.htm for details
+
+            Bitmap imgSrcCopy = new Bitmap(imgSrcOriginal);
 
             //for (int x = 0; x < 20; x++)
             //    for (int y = 0; y < 20; y++)
             //        imgSrcCopy.SetPixel(x, y, 0xFF);
+            if (chkFilterContrast.Checked)
+            {
+                imgSrcCopy = imgSrcCopy.SetContrast(advImgEditCtrlForm.ContrastRGBValues);
+                //int factor = 0;
+                //AForge.Imaging.Filters.ContrastCorrection contrastCorrectionFilter = new AForge.Imaging.Filters.ContrastCorrection(factor);
+                //contrastCorrectionFilter.ApplyInPlace(imgSrcCopy);
+            }
             if (chkTrimParts.Checked)
             {
                 TrimParts(imgSrcCopy, tvtxtTrimPartsSize.Value);
@@ -433,8 +365,8 @@ namespace WeaveImagePatternExtractor
     
         private void btnPreviewFilter_Click(object sender, EventArgs e)
         {
-            picBox.Image = OCR_Filtering();
-            //DrawExtractGrid();
+            imgSrc = OCR_Filtering();
+            picBox.Image = imgSrc;
         }
 
         private void btnOpenAIECF_Click(object sender, EventArgs e)
@@ -458,6 +390,71 @@ namespace WeaveImagePatternExtractor
             picBox.Image = imgSrc;
         }
 
+
+        // perspective correction selection rectangle
+        private Point[] selectionCorners; // Array to store the four corners of the selection rectangle
+        private bool isDragging; // Flag to indicate if the user is currently dragging a corner
+        private int dragCornerIndex; // Index of the corner being dragged
+        private Pen pcsrPen;
+        private bool showSelRectangle = false;
+        private void init_perspective_correction_selection_rectangle()
+        {
+            pcsrPen = new Pen(Color.Orange, 2);
+            selectionCorners = new Point[] {
+                new Point(100, 100),
+                new Point(200, 100),
+                new Point(200, 200),
+                new Point(100, 200)
+            };
+
+            // Subscribe to mouse events for the PictureBox control
+            picBox.MouseDown += PictureBox_MouseDown;
+            picBox.MouseUp += PictureBox_MouseUp;
+            picBox.MouseMove += PictureBox_MouseMove;
+            picBox.Paint += pictureBox1_Paint;
+        }
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            if (showSelRectangle)
+            // Draw the selection rectangle on the PictureBox control
+            e.Graphics.DrawPolygon(pcsrPen, selectionCorners);
+        }
+
+        private void PictureBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            // Check if the mouse is inside any of the corners of the selection rectangle
+            for (int i = 0; i < selectionCorners.Length; i++)
+            {
+                Rectangle cornerRect = new Rectangle(selectionCorners[i].X - 5, selectionCorners[i].Y - 5, 10, 10);
+                if (cornerRect.Contains(e.Location))
+                {
+                    isDragging = true;
+                    dragCornerIndex = i;
+                    break;
+                }
+            }
+        }
+
+        private void PictureBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            isDragging = false;
+        }
+
+        private void btnSPCACR_Click(object sender, EventArgs e)
+        {
+            showSelRectangle = !showSelRectangle;
+            picBox.Invalidate();
+        }
+
+        private void PictureBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            // Move the currently dragged corner of the selection rectangle
+            if (isDragging)
+            {
+                selectionCorners[dragCornerIndex] = e.Location;
+                picBox.Invalidate(); // Refresh the PictureBox to redraw the selection rectangle
+            }
+        }
     }
     public static class FilterPatterns
     {

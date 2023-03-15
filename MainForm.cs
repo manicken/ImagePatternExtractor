@@ -35,7 +35,7 @@ namespace WeaveImagePatternExtractor
             selRect.DrawResizeHandles = false;
             selRect.SizeChanged = selRect_SizeChanged;
             selRect.SnapSize = txtEditorPixelSize.Value + txtEditorPixelSpacing.Value;
-            cmbSelectionMode.SelectedIndex = 2;
+            cmbSelectionMode.SelectedIndex = 0;
             CreateNewPattern();
 
             //LWJson obj = LWJson.Parse("{'patternSizes':{'x':24,'y':34}}");
@@ -296,6 +296,14 @@ namespace WeaveImagePatternExtractor
         private void txtPreviewPixelSize_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void cmbSelectionMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbSelectionMode.SelectedIndex == 0)
+                selRect.Active = false;
+            else
+                selRect.Active = true;
         }
     }
 }

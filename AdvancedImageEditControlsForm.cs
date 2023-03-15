@@ -32,6 +32,10 @@ namespace WeaveImagePatternExtractor
             }
         }
 
+        public ContrastAdjRGBValue ContrastRGBValues
+        {
+            get { return new ContrastAdjRGBValue(tbRedContrast.Value, tbGreenContrast.Value, tbBlueContrast.Value); }
+        }
         public AdvancedImageEditControlsForm()
         {
             InitializeComponent();
@@ -88,6 +92,16 @@ namespace WeaveImagePatternExtractor
             {
                 this.Visible = false; e.Cancel = true;
             }
+        }
+    }
+    public class ContrastAdjRGBValue
+    {
+        public int R = 0, G = 0, B = 0;
+        public ContrastAdjRGBValue(int R, int G, int B)
+        {
+            this.R = R;
+            this.G = G;
+            this.B = B;
         }
     }
 }

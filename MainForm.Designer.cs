@@ -36,16 +36,22 @@
             this.btnSwitchEditColors = new System.Windows.Forms.Button();
             this.lblEditColor2 = new System.Windows.Forms.Label();
             this.lblEditColor1 = new System.Windows.Forms.Label();
+            this.txtEditorImageHeight = new WeaveImagePatternExtractor.IntegerValueTextBox();
+            this.txtEditorImageWidth = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.picEditor = new System.Windows.Forms.PictureBox();
             this.btnUpdateEditor = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.txtEditorPixelSpacing = new WeaveImagePatternExtractor.IntegerValueTextBox();
+            this.txtEditorPixelSize = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.btnUpdatePreview = new System.Windows.Forms.Button();
+            this.txtPreviewPixelSpacing = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.picPreview = new System.Windows.Forms.PictureBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.txtPreviewPixelSize = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.cmsPicEditor = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,12 +72,6 @@
             this.tsmiSavePatternFileAs = new System.Windows.Forms.ToolStripMenuItem();
             this.integerValueTextBox2 = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.integerValueTextBox1 = new WeaveImagePatternExtractor.IntegerValueTextBox();
-            this.txtEditorImageHeight = new WeaveImagePatternExtractor.IntegerValueTextBox();
-            this.txtEditorImageWidth = new WeaveImagePatternExtractor.IntegerValueTextBox();
-            this.txtEditorPixelSpacing = new WeaveImagePatternExtractor.IntegerValueTextBox();
-            this.txtEditorPixelSize = new WeaveImagePatternExtractor.IntegerValueTextBox();
-            this.txtPreviewPixelSpacing = new WeaveImagePatternExtractor.IntegerValueTextBox();
-            this.txtPreviewPixelSize = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.txtX = new WeaveImagePatternExtractor.IntegerValueTextBox();
             this.txtY = new WeaveImagePatternExtractor.IntegerValueTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
@@ -146,6 +146,7 @@
             this.cmbSelectionMode.Name = "cmbSelectionMode";
             this.cmbSelectionMode.Size = new System.Drawing.Size(121, 21);
             this.cmbSelectionMode.TabIndex = 40;
+            this.cmbSelectionMode.SelectedIndexChanged += new System.EventHandler(this.cmbSelectionMode_SelectedIndexChanged);
             // 
             // groupBox3
             // 
@@ -194,6 +195,30 @@
             this.lblEditColor1.TabIndex = 22;
             this.lblEditColor1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblEditColor1.Click += new System.EventHandler(this.lblColor1_Click);
+            // 
+            // txtEditorImageHeight
+            // 
+            this.txtEditorImageHeight.DefaultValue = 1;
+            this.txtEditorImageHeight.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEditorImageHeight.Location = new System.Drawing.Point(196, 26);
+            this.txtEditorImageHeight.Name = "txtEditorImageHeight";
+            this.txtEditorImageHeight.Size = new System.Drawing.Size(41, 22);
+            this.txtEditorImageHeight.TabIndex = 38;
+            this.txtEditorImageHeight.Text = "20";
+            this.txtEditorImageHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtEditorImageHeight.Value = 20;
+            // 
+            // txtEditorImageWidth
+            // 
+            this.txtEditorImageWidth.DefaultValue = 1;
+            this.txtEditorImageWidth.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEditorImageWidth.Location = new System.Drawing.Point(196, 4);
+            this.txtEditorImageWidth.Name = "txtEditorImageWidth";
+            this.txtEditorImageWidth.Size = new System.Drawing.Size(41, 22);
+            this.txtEditorImageWidth.TabIndex = 37;
+            this.txtEditorImageWidth.Text = "20";
+            this.txtEditorImageWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtEditorImageWidth.Value = 20;
             // 
             // label13
             // 
@@ -255,6 +280,30 @@
             this.label9.TabIndex = 22;
             this.label9.Text = "Editor Pixel Spacing:";
             // 
+            // txtEditorPixelSpacing
+            // 
+            this.txtEditorPixelSpacing.DefaultValue = 0;
+            this.txtEditorPixelSpacing.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEditorPixelSpacing.Location = new System.Drawing.Point(110, 26);
+            this.txtEditorPixelSpacing.Name = "txtEditorPixelSpacing";
+            this.txtEditorPixelSpacing.Size = new System.Drawing.Size(41, 22);
+            this.txtEditorPixelSpacing.TabIndex = 23;
+            this.txtEditorPixelSpacing.Text = "1";
+            this.txtEditorPixelSpacing.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtEditorPixelSpacing.Value = 1;
+            // 
+            // txtEditorPixelSize
+            // 
+            this.txtEditorPixelSize.DefaultValue = 1;
+            this.txtEditorPixelSize.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEditorPixelSize.Location = new System.Drawing.Point(110, 4);
+            this.txtEditorPixelSize.Name = "txtEditorPixelSize";
+            this.txtEditorPixelSize.Size = new System.Drawing.Size(41, 22);
+            this.txtEditorPixelSize.TabIndex = 21;
+            this.txtEditorPixelSize.Text = "15";
+            this.txtEditorPixelSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtEditorPixelSize.Value = 15;
+            // 
             // btnUpdatePreview
             // 
             this.btnUpdatePreview.Location = new System.Drawing.Point(174, 32);
@@ -265,6 +314,18 @@
             this.btnUpdatePreview.UseVisualStyleBackColor = true;
             this.btnUpdatePreview.Click += new System.EventHandler(this.btnUpdatePreview_Click);
             // 
+            // txtPreviewPixelSpacing
+            // 
+            this.txtPreviewPixelSpacing.DefaultValue = 0;
+            this.txtPreviewPixelSpacing.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPreviewPixelSpacing.Location = new System.Drawing.Point(127, 33);
+            this.txtPreviewPixelSpacing.Name = "txtPreviewPixelSpacing";
+            this.txtPreviewPixelSpacing.Size = new System.Drawing.Size(41, 22);
+            this.txtPreviewPixelSpacing.TabIndex = 27;
+            this.txtPreviewPixelSpacing.Text = "0";
+            this.txtPreviewPixelSpacing.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtPreviewPixelSpacing.Value = 0;
+            // 
             // picPreview
             // 
             this.picPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -272,7 +333,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.picPreview.Location = new System.Drawing.Point(0, 89);
             this.picPreview.Name = "picPreview";
-            this.picPreview.Size = new System.Drawing.Size(445, 514);
+            this.picPreview.Size = new System.Drawing.Size(441, 514);
             this.picPreview.TabIndex = 0;
             this.picPreview.TabStop = false;
             // 
@@ -293,6 +354,19 @@
             this.label11.Size = new System.Drawing.Size(96, 13);
             this.label11.TabIndex = 24;
             this.label11.Text = "Preview Pixel Size:";
+            // 
+            // txtPreviewPixelSize
+            // 
+            this.txtPreviewPixelSize.DefaultValue = 1;
+            this.txtPreviewPixelSize.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPreviewPixelSize.Location = new System.Drawing.Point(126, 5);
+            this.txtPreviewPixelSize.Name = "txtPreviewPixelSize";
+            this.txtPreviewPixelSize.Size = new System.Drawing.Size(41, 22);
+            this.txtPreviewPixelSize.TabIndex = 25;
+            this.txtPreviewPixelSize.Text = "2";
+            this.txtPreviewPixelSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtPreviewPixelSize.Value = 2;
+            this.txtPreviewPixelSize.TextChanged += new System.EventHandler(this.txtPreviewPixelSize_TextChanged);
             // 
             // cmsPicEditor
             // 
@@ -442,79 +516,6 @@
             this.integerValueTextBox1.Text = "0";
             this.integerValueTextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.integerValueTextBox1.Value = 0;
-            // 
-            // txtEditorImageHeight
-            // 
-            this.txtEditorImageHeight.DefaultValue = 1;
-            this.txtEditorImageHeight.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEditorImageHeight.Location = new System.Drawing.Point(196, 26);
-            this.txtEditorImageHeight.Name = "txtEditorImageHeight";
-            this.txtEditorImageHeight.Size = new System.Drawing.Size(41, 22);
-            this.txtEditorImageHeight.TabIndex = 38;
-            this.txtEditorImageHeight.Text = "20";
-            this.txtEditorImageHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.txtEditorImageHeight.Value = 20;
-            // 
-            // txtEditorImageWidth
-            // 
-            this.txtEditorImageWidth.DefaultValue = 1;
-            this.txtEditorImageWidth.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEditorImageWidth.Location = new System.Drawing.Point(196, 4);
-            this.txtEditorImageWidth.Name = "txtEditorImageWidth";
-            this.txtEditorImageWidth.Size = new System.Drawing.Size(41, 22);
-            this.txtEditorImageWidth.TabIndex = 37;
-            this.txtEditorImageWidth.Text = "20";
-            this.txtEditorImageWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.txtEditorImageWidth.Value = 20;
-            // 
-            // txtEditorPixelSpacing
-            // 
-            this.txtEditorPixelSpacing.DefaultValue = 0;
-            this.txtEditorPixelSpacing.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEditorPixelSpacing.Location = new System.Drawing.Point(110, 26);
-            this.txtEditorPixelSpacing.Name = "txtEditorPixelSpacing";
-            this.txtEditorPixelSpacing.Size = new System.Drawing.Size(41, 22);
-            this.txtEditorPixelSpacing.TabIndex = 23;
-            this.txtEditorPixelSpacing.Text = "1";
-            this.txtEditorPixelSpacing.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.txtEditorPixelSpacing.Value = 1;
-            // 
-            // txtEditorPixelSize
-            // 
-            this.txtEditorPixelSize.DefaultValue = 1;
-            this.txtEditorPixelSize.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEditorPixelSize.Location = new System.Drawing.Point(110, 4);
-            this.txtEditorPixelSize.Name = "txtEditorPixelSize";
-            this.txtEditorPixelSize.Size = new System.Drawing.Size(41, 22);
-            this.txtEditorPixelSize.TabIndex = 21;
-            this.txtEditorPixelSize.Text = "15";
-            this.txtEditorPixelSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.txtEditorPixelSize.Value = 15;
-            // 
-            // txtPreviewPixelSpacing
-            // 
-            this.txtPreviewPixelSpacing.DefaultValue = 0;
-            this.txtPreviewPixelSpacing.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPreviewPixelSpacing.Location = new System.Drawing.Point(127, 33);
-            this.txtPreviewPixelSpacing.Name = "txtPreviewPixelSpacing";
-            this.txtPreviewPixelSpacing.Size = new System.Drawing.Size(41, 22);
-            this.txtPreviewPixelSpacing.TabIndex = 27;
-            this.txtPreviewPixelSpacing.Text = "0";
-            this.txtPreviewPixelSpacing.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.txtPreviewPixelSpacing.Value = 0;
-            // 
-            // txtPreviewPixelSize
-            // 
-            this.txtPreviewPixelSize.DefaultValue = 1;
-            this.txtPreviewPixelSize.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPreviewPixelSize.Location = new System.Drawing.Point(126, 5);
-            this.txtPreviewPixelSize.Name = "txtPreviewPixelSize";
-            this.txtPreviewPixelSize.Size = new System.Drawing.Size(41, 22);
-            this.txtPreviewPixelSize.TabIndex = 25;
-            this.txtPreviewPixelSize.Text = "2";
-            this.txtPreviewPixelSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.txtPreviewPixelSize.Value = 2;
-            this.txtPreviewPixelSize.TextChanged += new System.EventHandler(this.txtPreviewPixelSize_TextChanged);
             // 
             // txtX
             // 
